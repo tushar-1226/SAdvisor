@@ -1,0 +1,219 @@
+/* AnalyticsDashboard.css */
+
+.analytics-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.metric-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.metric-card:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-icon-wrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metric-icon--total {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
+.metric-icon--recruiting {
+  background: #dcfce7;
+  color: var(--color-success);
+}
+
+.metric-icon--terminated {
+  background: #fee2e2;
+  color: var(--color-danger);
+}
+
+.metric-icon--enrollment {
+  background: #eff6ff;
+  color: var(--color-info);
+}
+
+.metric-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.chart-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.chart-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: var(--space-xs);
+}
+
+.phase-bars,
+.sponsor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phase-bar-item,
+.sponsor-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.phase-bar-header,
+.sponsor-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+}
+
+.phase-bar-name {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.phase-bar-stats {
+  color: var(--color-text-muted);
+}
+
+.phase-bar-track,
+.sponsor-track {
+  height: 6px;
+  background: var(--color-bg);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.phase-bar-fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sponsor-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sponsor-rank {
+  font-weight: 700;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.sponsor-name {
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.sponsor-count {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  flex-shrink: 0;
+}
+
+.sponsor-fill {
+  height: 100%;
+  background: var(--color-info);
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.analytics-empty-state {
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.no-data-text {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-charts {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,315 @@
+/* ── TrialModal Overlay ── */
+.trial-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: fadeIn 0.2s ease-out;
+  padding: 1.5rem;
+}
+
+/* ── Modal Card ── */
+.trial-modal {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 85vh;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.25s ease-out;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.trial-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.5rem 1.75rem 1rem;
+  border-bottom: 1px solid #e8ecf1;
+  gap: 1rem;
+}
+
+.trial-modal-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.trial-modal-nct {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2563eb;
+  letter-spacing: 0.02em;
+}
+
+.trial-modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.trial-modal-close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.15s ease;
+}
+
+.trial-modal-close:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+/* ── Scrollable Body ── */
+.trial-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.75rem 1.75rem;
+  scroll-behavior: smooth;
+}
+
+.trial-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.trial-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.trial-modal-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 99px;
+}
+
+/* ── Section ── */
+.trial-modal-section {
+  margin-bottom: 1.25rem;
+}
+
+.trial-modal-section:last-child {
+  margin-bottom: 0;
+}
+
+.trial-modal-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  margin-bottom: 0.6rem;
+}
+
+.trial-modal-section-title svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 2.2;
+}
+
+/* ── Key–Value Grid ── */
+.trial-modal-kv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.5rem 1.25rem;
+}
+
+.trial-modal-kv {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.trial-modal-kv-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+}
+
+.trial-modal-kv-value {
+  font-size: 0.88rem;
+  color: #334155;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+/* ── Description / text blocks ── */
+.trial-modal-text {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+/* ── Status Badge ── */
+.trial-modal-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  margin-top: 0.2rem;
+  width: fit-content;
+}
+
+.trial-modal-status--recruiting {
+  background: #dcfce7;
+  color: #15803d;
+}
+.trial-modal-status--completed {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+.trial-modal-status--active {
+  background: #fef3c7;
+  color: #92400e;
+}
+.trial-modal-status--terminated {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.trial-modal-status--other {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* ── Loading / Error inside modal ── */
+.trial-modal-loading,
+.trial-modal-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.trial-modal-loading p {
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+.trial-modal-error p {
+  font-size: 0.88rem;
+  color: #dc2626;
+}
+
+.trial-modal-retry {
+  padding: 0.45rem 1.1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.trial-modal-retry:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* ── Skeleton ── */
+.trial-modal-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trial-modal-skeleton-line {
+  height: 14px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.trial-modal-skeleton-line:nth-child(1) { width: 70%; }
+.trial-modal-skeleton-line:nth-child(2) { width: 55%; }
+.trial-modal-skeleton-line:nth-child(3) { width: 85%; }
+.trial-modal-skeleton-line:nth-child(4) { width: 40%; }
+.trial-modal-skeleton-line:nth-child(5) { width: 65%; }
+
+/* ── Eligibility list ── */
+.trial-modal-eligibility {
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.6;
+  white-space: pre-line;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .trial-modal {
+    max-height: 92vh;
+    border-radius: 12px;
+  }
+  .trial-modal-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+  }
+  .trial-modal-body {
+    padding: 1rem 1.25rem 1.25rem;
+  }
+  .trial-modal-kv-grid {
+    grid-template-columns: 1fr;
+  }
+}

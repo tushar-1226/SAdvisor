@@ -1,0 +1,87 @@
+/* DrugCard.css */
+
+.drug-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.drug-card:hover {
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.drug-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.drug-name {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.drug-cid {
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--duration-fast);
+}
+
+.drug-cid:hover {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+}
+
+.drug-info-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px var(--space-md);
+  font-size: var(--text-xs);
+  margin-bottom: var(--space-md);
+}
+
+.drug-info-label {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.drug-info-value {
+  color: var(--color-text-secondary);
+  word-break: break-all;
+}
+
+.drug-synonyms {
+  border-top: 1px solid var(--color-border-light);
+  padding-top: var(--space-sm);
+}
+
+.drug-synonyms-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.drug-synonym-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.drug-synonym-tag {
+  font-size: 0.6875rem;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-light);
+}

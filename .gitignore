@@ -1,0 +1,51 @@
+# Root .gitignore for SAdvisory project
+
+# Python virtual environment
+venv/
+.venv/
+backend/venv/
+backend/.venv/
+
+# Python cache & compiles
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node/Frontend dependencies and builds
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/package-lock.json
+
+# Environment variables (Secrets)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# IDEs/Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+
+# Local query response cache files in backend (optional, but keeps repo clean)
+backend/*_results.json
+backend/*_response.json
+backend/*_details.json
+backend/*_data.json
+backend/*.csv

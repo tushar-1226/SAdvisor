@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Worksheet ss:Name="Trials Analysis">
+  <Table>
+   <Row>
+    <Cell><Data ss:Type="String">NCT ID</Data></Cell>
+    <Cell><Data ss:Type="String">Brief Title</Data></Cell>
+    <Cell><Data ss:Type="String">Overall Status</Data></Cell>
+    <Cell><Data ss:Type="String">Phase</Data></Cell>
+    <Cell><Data ss:Type="String">Start Date</Data></Cell>
+    <Cell><Data ss:Type="String">Completion Date</Data></Cell>
+    <Cell><Data ss:Type="String">Sponsor</Data></Cell>
+    <Cell><Data ss:Type="String">Study Type</Data></Cell>
+    <Cell><Data ss:Type="String">Enrollment</Data></Cell>
+    <Cell><Data ss:Type="String">Interventions</Data></Cell>
+    <Cell><Data ss:Type="String">Brief Summary</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04578236</Data></Cell>
+    <Cell><Data ss:Type="String">Efficacy of Aerosol Combination Therapy of 13 Cis Retinoic Acid and Captopril for Treating Covid-19 Patients Via Indirect Inhibition of Transmembrane Protease, Serine 2 (TMPRSS2)</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">Phase 2</Data></Cell>
+    <Cell><Data ss:Type="String">2020-11</Data></Cell>
+    <Cell><Data ss:Type="String">2021-01</Data></Cell>
+    <Cell><Data ss:Type="String">Kafrelsheikh University</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">360</Data></Cell>
+    <Cell><Data ss:Type="String">COMBINATION_PRODUCT: Aerosolized 13 cis retinoic acid plus Inhalation administration by nebulization captopril 25mg; DRUG: Drug: Standard treatment Standard treatment</Data></Cell>
+    <Cell><Data ss:Type="String">Efficacy of Aerosol Combination Therapy of 13 Cis Retinoic Acid and Captopril for Treating Covid-19 Patients Via Indirect Inhibition of Transmembrane Protease, Serine 2 (TMPRSS2)
+
+Severe acute respiratory syndrome coronavirus 2 (SARS-COV-2) has infected over 20,000,000 people causing over 700,000 deaths. It has no currently approved treatments.Airborne SARS-CoV-2 infections in humans initiate from the virus entering nasal and airway epithelial cells through binding to angiotensin-converting enzyme 2 (ACE2). Transmembrane protease, serine 2 (TMPRSS2), a cellular protease that activates the SARS-CoV-2 spike protein, colocalizes with ACE2 and can prime SARS-CoV-2 fusion directly at the plasma membrane. Transmembrane protease, serine 2 (TMPRSS2) is an androgen receptor signaling target gene and an androgen-regulated cell-surface serine protease expressed predominantly in prostate and lung epithelial cell. TMPRSS2 is normally expressed several folds higher in the prostate relative to any other human tissue, though the normal physiological function(s) remains unknown. A study found that dihydrotestosterone (DHT) s a potent activator of TMPRSS2.On the other hand, Feily et al noted that low-dose isotretinoin (0.5 mg/kg/day for 15-20 weeks) in PCO patients with moderate to severe nodulocystic acne resulted in significant decreases in levels of serum total testosterone, prolactin, and dihydrotestosterone A study demonstrated that 13- cis -Retinoic acid competitively and reversibly inhibits dihydrotestosterone. Therefore, we suggest that 13- cis -Retinoic acid will downregulate TMPRSS2 expression thorough temporary preventing the effect of dihydrotestosterone (DHT) on the activation of TMPRSS2 gene expression. ACE inhibitors and ARBs are commonly taken by heart patients to reduce blood pressure and to treat heart failure.Earlier studies had cautioned that this class of drugs could possibly increase the risk for the novel coronavirus, SARS-CoV-2, infection and elevate COVID-19 severity. There is conflicting observational evidence about the potential clinical impact of ACE inhibitors and ARBs on patients with COVID-19. Select preclinical investigations have raised concerns about their safety in patients with COVID-19. On the other hand, Preliminary data hypothesise that angiotensin-converting enzyme (ACE) inhibitors and renin-angiotensin- aldosterone system (RAAS) inhibitors could benefit patients with COVID-19 by decreasing acute lung damage and preventing angiotensin-II-mediated pulmonary inflammation. Here in our review, we use established and emerging evidence based on the findings of previous studies and researches to propose that ACE inhibitors may benefit patients with COVID-19 via attenuating and abolishing the effect of androgenic hormones on inducing the expression of Transmembrane protease, serine 2 (TMPRSS2), even though, at the same time, ACE inhibitors cause an increase in the human cell surface receptor protein ACE2 which the novel coronavirus uses to enter and infect cells. A study on hypertensive rats demonstrated that using ACE inhibitors(captopril) abolished and attenuated the effect of dihydrotestosterone (DHT). In this study RAS inhibition exhibited beneficial effects on androgen-induced obesity and abolished the androgen-mediated increase in blood pressure (BP) observed in this model of PCOS. (83 ± 1 vs 115 ± 3 mmHg, p\&lt;0.0001). A another study found that the angiotensin converting enzyme inhibitor captopril abolished testosterone effect and attenuates testosterone-induced benign prostatic hyperplasia in rats; a mechanistic approach. Captopril is a potent inhibitor of the angiotensin converting enzyme. These effects of testosterone were almost prevented by captopril (100 mg/kg). In conclusion, generally treatment with ACE inhibitors is associated with reduced androgen levels. Therefore,we think that Transmembrane protease, serine 2 (TMPRSS2) is an indirect target of ACE inhibitors and 13 cis retinoic acid As aresult, we hypothesize that any drug which downregulates TMPRSS2 expression through targeting AR, AR co-regulatory factors, or AR downstream transcription factors might be potentially effective against COVID-19 and is worth investigating under a clinical trial..
+
+Keywords: COVID -19, Transmembrane protease, serine 2 (TMPRSS2), ACE inhibitors, ACE2.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT06022211</Data></Cell>
+    <Cell><Data ss:Type="String">Post-COVID-19 Condition: Observational Study in Vietnam</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2023-12</Data></Cell>
+    <Cell><Data ss:Type="String">2024-12</Data></Cell>
+    <Cell><Data ss:Type="String">ANRS, Emerging Infectious Diseases</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">835</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">The primary objective of this study is to estimate the prevalence of the post-COVID-19 condition in confirmed mild, moderate, and severe COVID-19 adult patients in Hai Phong, Vietnam.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT05244044</Data></Cell>
+    <Cell><Data ss:Type="String">Pulmonary Rehabilitation for Long COVID (Post COVID-19 Condition)</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2022-04-19</Data></Cell>
+    <Cell><Data ss:Type="String">2024-02-29</Data></Cell>
+    <Cell><Data ss:Type="String">University Hospital, Antwerp</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">76</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Pulmonary rehabilitation in primary care</Data></Cell>
+    <Cell><Data ss:Type="String">In the PuRe COVID study (a randomized, controlled, multicenter, pragmatic trial) the investigators aim to assess the effect of a pulmonary rehabilitation program in primary care on exercise capacity (6MWT) and daily life physical activity in patients with long COVID.
+
+134 patients with long COVID, defined by self-reported persistent COVID related symptoms ≥6 weeks after COVID-19 infection and a positive symptom score (CAT score ≥10 or mMRC score ≥2 or CIS-fatigue ≥36 or PCFS score of ≥2), will be recruited and divided into an intervention group or a control group. The intervention group will get twelve weeks of primary care pulmonary rehabilitation (PR) including coaching by primary care physiotherapists. The control group consists of usual care, which does not include a pulmonary rehabilitation program.
+
+This study will help determine whether the type of symptoms or affected body system can impact recovery form long covid during rehabilitation and after follow-up. The investigators will analyze determinants and risk factors that characterize non-responders and non-adherers to better understand which patients with long COVID benefit from rehabilitation.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04353206</Data></Cell>
+    <Cell><Data ss:Type="String">Convalescent Plasma in ICU Patients With COVID-19-induced Respiratory Failure</Data></Cell>
+    <Cell><Data ss:Type="String">TERMINATED</Data></Cell>
+    <Cell><Data ss:Type="String">Early Phase 1</Data></Cell>
+    <Cell><Data ss:Type="String">2020-06-27</Data></Cell>
+    <Cell><Data ss:Type="String">2020-11-01</Data></Cell>
+    <Cell><Data ss:Type="String">Noah Merin</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">BIOLOGICAL: Multiple Doses of Anti-SARS-CoV-2 convalescent plasma</Data></Cell>
+    <Cell><Data ss:Type="String">This study will assess the feasibility of administering multiple doses of convalescent plasma (from people who have recovered form SARS-CoV-2) to Covid-19 positive patients in the Intensive Care Unit receiving mechanical ventilation. Donor plasma will not be obtained under this protocol, but all plasma used will follow FDA guidelines for Investigational COVID-19 Convalescent Plasma use.
+
+Patients may receive single or double plasma units infused on days 0, 3, and 6. This decision may be based on availability of blood plasma. The primary objective of this study is feasibility. Feasibility will be assessed based on the proportion of subjects who consent and receive at least one dose of convalescent plasma. The study will be declared &apos;feasible&apos; if at least 80% of subjects who consent receive at least one dose.
+
+The secondary study endpoint is overall survival at day 60 after first dose of convalescent plasma. Respiratory status and overall clinical status will be reviewed during follow up on days 14, 28, and 60.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04413006</Data></Cell>
+    <Cell><Data ss:Type="String">Self-compassion for Chronic Pain Virtual Group Treatment Program</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2020-05-25</Data></Cell>
+    <Cell><Data ss:Type="String">2021-03-31</Data></Cell>
+    <Cell><Data ss:Type="String">University of Manitoba</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">28</Data></Cell>
+    <Cell><Data ss:Type="String">BEHAVIORAL: Self-Compassion for Chronic Pain Virtual Group Treatment Program</Data></Cell>
+    <Cell><Data ss:Type="String">As a result of COVID-19 and measures taken by the Canadian Government to reduce the transmission of the virus, in-person psychology services have been suspended. Psychology services are now being conducted via video conferencing. The purpose of the current project is to pilot-test a 6-week Self Compassion Treatment for Chronic Pain delivered virtually, in order to understand its utility in the current environment. The treatment is to be delivered through a secure professional ZOOM licence. Objective 1 of the project is to assess the feasibility and acceptability of attending the treatment group through virtual participation. Objective 2 is to assess the effectiveness of the group treatment in improving self-compassion, mental health, relationship with pain, and quality of life.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04844658</Data></Cell>
+    <Cell><Data ss:Type="String">Covid-19, Hospitalized, PatIents, Nasafytol</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2021-02-17</Data></Cell>
+    <Cell><Data ss:Type="String">2022-03-31</Data></Cell>
+    <Cell><Data ss:Type="String">Tilman S.A.</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">51</Data></Cell>
+    <Cell><Data ss:Type="String">DIETARY_SUPPLEMENT: NASAFYTOL®; DIETARY_SUPPLEMENT: FULTIUM® -D3 800; DRUG: Strandard of care treatment</Data></Cell>
+    <Cell><Data ss:Type="String">The objective of this study is to evaluate the effect and safety of NASAFYTOL® on COVID-19 positive hospitalized patients as a supportive supplementation to standard-of-care in improving clinical parameters safely during hospital admission (maximum 14 days).
+
+The study is a standard-of-care comparative, open, parallel two-arms and randomized trial in 50 adult patients positive to COVID-19 infection and hospitalized. It will be monocentric but may be extended to several investigation sites (multicentric) depending on the evolution of the epidemic within the hospitals.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04767958</Data></Cell>
+    <Cell><Data ss:Type="String">The RAPID COVID Study - Application of Point-of-Care COVID-19 Testing</Data></Cell>
+    <Cell><Data ss:Type="String">TERMINATED</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2021-03-19</Data></Cell>
+    <Cell><Data ss:Type="String">2021-08-31</Data></Cell>
+    <Cell><Data ss:Type="String">Ottawa Heart Institute Research Corporation</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">89</Data></Cell>
+    <Cell><Data ss:Type="String">DIAGNOSTIC_TEST: Spartan COVID-19 Platform</Data></Cell>
+    <Cell><Data ss:Type="String">This study is being conducted to study the use and application of a point-of-care (POC) Covid-19 test developed by Spartan BioSciences and recently approved for clinical use by Health Canada.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04864548</Data></Cell>
+    <Cell><Data ss:Type="String">COV-CHIM01: SARS-CoV-2 (COVID-19) Dose Finding Infection Study</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">Phase 1</Data></Cell>
+    <Cell><Data ss:Type="String">2021-05-27</Data></Cell>
+    <Cell><Data ss:Type="String">2024-03</Data></Cell>
+    <Cell><Data ss:Type="String">University of Oxford</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">132</Data></Cell>
+    <Cell><Data ss:Type="String">BIOLOGICAL: SARS-CoV-2 virus</Data></Cell>
+    <Cell><Data ss:Type="String">A phase I, experimental dose finding, open label, clinical infection, safety and viral detection optimisation in previously SARS-CoV-2 infected (unvaccinated or vaccinated) or uninfected vaccinated volunteers.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04358926</Data></Cell>
+    <Cell><Data ss:Type="String">Hyperbaric Oxygen Therapy Effect in COVID-19 RCT (HBOTCOVID19)</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2020-04-30</Data></Cell>
+    <Cell><Data ss:Type="String">2020-11-01</Data></Cell>
+    <Cell><Data ss:Type="String">Assaf-Harofeh Medical Center</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">30</Data></Cell>
+    <Cell><Data ss:Type="String">DEVICE: Hyperbaric oxygen therapy</Data></Cell>
+    <Cell><Data ss:Type="String">The 2019-20 coronavirus disease, caused by COVID-19, is an ongoing pandemic.So far, no specific treatment has proven efficacy. Recent case series reported the use of Hyperbaric Oxygen Therapy (HBOT) on 5 severe COVID-19 patients who developed respiratory insufficiency. HBOT mechanisms of tissue oxygenation and anti-inflammatory effect may explain these findings.
+
+The purpose of the current study is the evaluate the efficacy of HBOT in moderate-severe COVID-19 patients in a randomized controlled manner.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04411511</Data></Cell>
+    <Cell><Data ss:Type="String">COVID-19, Obesity and Lifestyle in Children</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2020-05-06</Data></Cell>
+    <Cell><Data ss:Type="String">2022-12-12</Data></Cell>
+    <Cell><Data ss:Type="String">Maastricht University Medical Center</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">4000</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Exposure to the Dutch measures due to the Covid-19 pandemic.</Data></Cell>
+    <Cell><Data ss:Type="String">This study aims to evaluate the impact of the COVID-19 pandemic and its measures on lifestyle in Dutch children between 4 - 18 years.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04993534</Data></Cell>
+    <Cell><Data ss:Type="String">RESPOND: Improving the Preparedness of Health Systems to Reduce Mental Health and Psychosocial Concerns Resulting From the COVID-19 Pandemic</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2021-12-14</Data></Cell>
+    <Cell><Data ss:Type="String">2023-05</Data></Cell>
+    <Cell><Data ss:Type="String">Universita di Verona</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">212</Data></Cell>
+    <Cell><Data ss:Type="String">BEHAVIORAL: Stepped-care DWM/PM+; OTHER: Psychological First Aid + usual care (CAU)</Data></Cell>
+    <Cell><Data ss:Type="String">This randomized controlled trial will evaluate the implementation and (cost-)effectiveness of the culturally and contextually adapted Doing What Matters in times of stress (DWM) and Problem Management Plus (PM+) stepped-care programs amongst asylum seekers, refugees, and/or migrants living in Italy. Outcomes include mental health, resilience, wellbeing, health inequalities, and costs to health systems.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04977934</Data></Cell>
+    <Cell><Data ss:Type="String">Clinical, Molecular and Functional Biomarkers for PROgnosis, Pathomechanisms and Treatment Strategies of COVID-19</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2021-01-20</Data></Cell>
+    <Cell><Data ss:Type="String">2023-06-30</Data></Cell>
+    <Cell><Data ss:Type="String">Charite University, Berlin, Germany</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">94</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">The aim of the joint project PROVID is to contribute to better outcome prediction for COVID-19 patients, to better clinical management, and to the development of new therapies. To this end, the investigators will collect detailed data on the course of COVID-19 patients and deeply characterize them at the molecular level. The investigators also aim to identify compounds with the potential to improve outcome.
+
+The PROVID-PROGRESS study is being carried out as a prospective, longitudinal, multicenter observational study (case cohort study) with material asservation for genomic, transcriptomic and proteomic analyzes on adult patients with COVID-19.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04818463</Data></Cell>
+    <Cell><Data ss:Type="String">Characterization and Verification of the Intensive Care Standard Operating Procedure (SOP) Adherence of the Treated COVID-19 Patients</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2021-04-01</Data></Cell>
+    <Cell><Data ss:Type="String">2023-06-21</Data></Cell>
+    <Cell><Data ss:Type="String">Charite University, Berlin, Germany</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">162</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">As part of the internal quality management (QM project), this retrospective cohort study examines the adherence to Standard Operating Procedures (SOP) of the COVID-19 patients treated since January 1st, 2020 to February 28th, 2021 in intensive care units of the Clinic for Anesthesiology m.S. operative intensive care medicine CCM / CVK.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04586114</Data></Cell>
+    <Cell><Data ss:Type="String">Effect of Corticosteroid Treatment on Prognosis in ARDS Secondary to Covid-19</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2020-03-01</Data></Cell>
+    <Cell><Data ss:Type="String">2020-12-31</Data></Cell>
+    <Cell><Data ss:Type="String">Central Hospital, Nancy, France</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="String">DRUG: Corticosteroids and Derivatives</Data></Cell>
+    <Cell><Data ss:Type="String">Study conducted on hospitalized patient in critical ill units in Nancy and Metz to evaluate if early corticosteroid treatment in first seven days after admission improve patients outcome in Acute Respiratory Distress Syndrome secondary to Covid-19 compared to later corticosteroid therapy or no treatment. Also comparison of acquired infection with or without corticosteroid treatment during hospitalisation.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04725084</Data></Cell>
+    <Cell><Data ss:Type="String">Comparison of Non-invasive Oxygenation Strategies in Patients Admitted for Covid-19 Acute Respiratory Distress Syndrome</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2020-07-01</Data></Cell>
+    <Cell><Data ss:Type="String">2020-12-15</Data></Cell>
+    <Cell><Data ss:Type="String">Centre Hospitalier Intercommunal de Toulon La Seyne sur Mer</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">355</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Use of High Flow Nasal Cannula alone; OTHER: Use of Non-invasive Ventilation; OTHER: Use of Continuous Positive Airway Pressure</Data></Cell>
+    <Cell><Data ss:Type="String">Acute Respiratory Distress Syndrome (ARDS) is the main clinical presentation of SARS-CoV-2 (Covid-19) infected patients admitted in Intensive Care Unit (ICU).
+
+During the first phase of the outbreak (between February and May 2020), the use of invasive Mechanical Ventilation (MV) was largely required with 63% of ICU patients intubated in the first 24 hours after admission and up to 80% of patients during the overall ICU stay. Mortality was especially higher when using MV in the first 24 hours. In contrast, the use of non-invasive oxygenation strategies in the first 24 hours was only 19% for High Flow Nasal Cannula oxygen therapy (HFNC) and 6% for Non-Invasive Ventilation (NIV).
+
+Several non-invasive oxygenation strategies were proposed in order to delay or avoid MV in ICU patients suffering from Covid-19 ARDS. The use of HFNC became the recommended oxygenation strategy, based in particular on publications prior to the outbreak. The use of NIV or Continuous Positive Airway Pressure (CPAP) combined with HFNC have also been proposed. Although these non-invasive oxygenation strategies seem widely used in the second phase of the outbreak, they have not yet confirmed their clinical impact on MV requirement and patient&apos;s outcome. Moreover, no comparison has been made between these different non-invasive oxygenation strategies.
+
+The aim of this study is to compare different non-invasive oxygenation strategies (HFNC, NIV, CPAP) on MV requirement and outcome in ICU patients treated for ARDS related to Covid-19.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04390152</Data></Cell>
+    <Cell><Data ss:Type="String">Safety and Efficacy of Intravenous Wharton&apos;s Jelly Derived Mesenchymal Stem Cells in Acute Respiratory Distress Syndrome Due to COVID 19</Data></Cell>
+    <Cell><Data ss:Type="String">TERMINATED</Data></Cell>
+    <Cell><Data ss:Type="String">Phase 1, Phase 2</Data></Cell>
+    <Cell><Data ss:Type="String">2020-01-13</Data></Cell>
+    <Cell><Data ss:Type="String">2022-03-03</Data></Cell>
+    <Cell><Data ss:Type="String">BioXcellerator</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">DRUG: Wharton&apos;s jelly derived Mesenchymal stem cells.; DRUG: Hydroxychloroquine, lopinavir/ritonavir or azithromycin and placebo (standard therapy)</Data></Cell>
+    <Cell><Data ss:Type="String">Recent COVID 19 pandemic has overwhelmed health services all around the world, and humanity has yet to find a cure or a vaccine for the treatment of patients, mainly the severe ones, who pose a therapeutic challenge to healthcare professionals given the paucity of information we have regarding SARS-CoV-2 pathogenesis.
+
+Recently, reports mainly from China from patients treated with mesenchymal stem cells have shown promise in accelerating recovery, even in the critically ill and the therapy has sustained an increase in research because of it&apos;s powerful immunomodulatory effects, making it and interesting alternative in patients with lung and systemic inflammation.
+
+These effects could help treat a lot of patients and improve their outcomes, reason why phase I/II studies are needed to show their safety and experimental efficacy.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT05197647</Data></Cell>
+    <Cell><Data ss:Type="String">Cohort Study for the Assessment of Long-term Impact of COVID-19 Among Mild COVID-19 Patients in Brazil</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2022-01-25</Data></Cell>
+    <Cell><Data ss:Type="String">2024-07-20</Data></Cell>
+    <Cell><Data ss:Type="String">Hospital Moinhos de Vento</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">1085</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Patients with symptomatic COVID-19 disease not requiring hospitalization.</Data></Cell>
+    <Cell><Data ss:Type="String">The present prospective cohort study aims to assess factors associated with of one-year health-related quality of life and physical, cognitive and mental health outcomes among adult patients with mild COVID-19. Adult patients with symptomatic COVID-19 not requiring hospitalization will be followed through structured and centralized telephone interviews performed at 1, 3, 6, 9 and 12 months after enrollment.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04471649</Data></Cell>
+    <Cell><Data ss:Type="String">Hydroxy Chloroquine and Covid in RA Patients</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2020-06-15</Data></Cell>
+    <Cell><Data ss:Type="String">2020-11</Data></Cell>
+    <Cell><Data ss:Type="String">Tanta University</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">80</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">evaluation of the clinical course of COVID-19 in a cohort of patients with rheumatoid arthritis treated with or without hydroxychloroquine.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT05115526</Data></Cell>
+    <Cell><Data ss:Type="String">PEEP Setting in COVID19-related ARDS</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2021-03-01</Data></Cell>
+    <Cell><Data ss:Type="String">2021-05-01</Data></Cell>
+    <Cell><Data ss:Type="String">Central Hospital, Nancy, France</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">17</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: PEEP setting</Data></Cell>
+    <Cell><Data ss:Type="String">The best way to titrate positive end-expiratory pressure (PEEP) in patients suffering from acute respiratory distress syndrome is still matter of debate. Electrical impedance tomography (EIT) in a non-invasive technique that could guide PEEP setting based on an optimized ventilation homogeneity.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04642326</Data></Cell>
+    <Cell><Data ss:Type="String">Study Investigating the Effects of UVC Beam and Laser Beam Therapy According to Standard Therapy in Patients With Covid-19 Diagnosis</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2020-06-26</Data></Cell>
+    <Cell><Data ss:Type="String">2021-05-04</Data></Cell>
+    <Cell><Data ss:Type="String">RD Global Araştirma Geliştirme Sağlik Ilaç Inşaat Yatirimlari A.Ş.</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">50</Data></Cell>
+    <Cell><Data ss:Type="String">DEVICE: Test Group: experimental - UVC Therapy applied</Data></Cell>
+    <Cell><Data ss:Type="String">Clinical research study that evaluates the effect of Turkish Beam-Selective UV developed by RD GLOBAL ARAŞTIRMA GELİŞTİRME SAĞLIK İLAÇ İNŞAAT YATIRIMLARI A.Ş. use into Intravascular, Intrapulmonary, Intratracial, Intrarespiratory area. Bacteria, Fungal and Virus-based pathogens systematically to collect and evaluate specific clinical performance and safety data.
+
+This Clinical Research aims to investigate the effectiveness of the treatment group and control group mortality rates, intensive care hospitalization times, monitoring the virus load by PCR, and the treatment effectiveness of UVC application.
+
+This Clinical Research covers determining the treatment effectiveness and reliability of UVC application to patient groups, the details of which are determined in the protocol.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04503525</Data></Cell>
+    <Cell><Data ss:Type="String">Nutritional Assessment of Hospitalized Patients With COVID-19</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2020-05-25</Data></Cell>
+    <Cell><Data ss:Type="String">2021-06-30</Data></Cell>
+    <Cell><Data ss:Type="String">Lille Catholic University</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">90</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Nutritional assessment</Data></Cell>
+    <Cell><Data ss:Type="String">The nutritional consequences of the infection by the SARS-CoV-2 are as follows:
+
+* A severe respiratory infection induces an inflammatory syndrome and hypercatabolism, as well as an increase in energy expenditure related to ventilatory work; nutritional requirements (calories and protein) are therefore increased.
+* Food intake is often reduced by several factors: anorexia secondary to infection, respiratory discomfort, anosmia, ageusia, obesity, stress, confinement, organizational problems limiting meal assistance.
+
+Then, it is important to asses the nutritional status of COVID patients hospitalized in conventional COVID units (excluding intensive care).</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04673149</Data></Cell>
+    <Cell><Data ss:Type="String">GLS-5310 Vaccine for the Prevention of SARS-CoV-2 (COVID-19)</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">Phase 1, Phase 2</Data></Cell>
+    <Cell><Data ss:Type="String">2020-12-31</Data></Cell>
+    <Cell><Data ss:Type="String">2023-05-10</Data></Cell>
+    <Cell><Data ss:Type="String">GeneOne Life Science, Inc.</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">171</Data></Cell>
+    <Cell><Data ss:Type="String">BIOLOGICAL: GLS-5310; BIOLOGICAL: Placebo</Data></Cell>
+    <Cell><Data ss:Type="String">This clinical trial will evaluate the safety, tolerability and immunogenicity of GLS-5310 DNA vaccine against SARS-CoV-2(COVID-19) in healthy volunteers.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT06303635</Data></Cell>
+    <Cell><Data ss:Type="String">Safety of UFRJvac, Trivalent COVID-19 Vaccine</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2024-06-24</Data></Cell>
+    <Cell><Data ss:Type="String">2025-11-25</Data></Cell>
+    <Cell><Data ss:Type="String">Azidus Brasil</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">156</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">Phase I study to evaluate the safety and immunogenicity of the vaccine booster with the trivalent UFRJvac COVID-19 vaccine.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT05197608</Data></Cell>
+    <Cell><Data ss:Type="String">At-risk and vulNerable Individuals To Infection With COVID-19 and ProActive inTervention With intEgrated Health and Social Care</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2022-02-25</Data></Cell>
+    <Cell><Data ss:Type="String">2024-03</Data></Cell>
+    <Cell><Data ss:Type="String">Unity Health Toronto</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">180</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: System Navigator; OTHER: Tailored list of resources</Data></Cell>
+    <Cell><Data ss:Type="String">This randomized control trial aims to explore a data-driven, proactive approach to identifying patients at greatest risk during the pandemic, and assess the impact of an embedded System Navigator in a primary health care setting. The System Navigator works one-on-one with patients to identify and provide support to their biological, psychological and social needs (e.g. income, housing, food security). Investigators are doing this study to find out whether proactive identification of vulnerable patients and linking to a System Navigator leads to reduction in emotional distress associated with managing complex health conditions and unmet social needs during COVID-19, compared to usual care.
+
+Investigators will involve approximately 180 patients from primary care clinics that are a part of the University of Toronto Practice-Based Research Network (UTOPIAN). The information from this study will be used to help us understand how proactive engagement within a primary health setting can help to improve the health of patients during COVID-19, and beyond.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04713540</Data></Cell>
+    <Cell><Data ss:Type="String">Rehabilitation in Intensive Care Unit</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2021-01-01</Data></Cell>
+    <Cell><Data ss:Type="String">2021-05-01</Data></Cell>
+    <Cell><Data ss:Type="String">Bakirkoy Dr. Sadi Konuk Research and Training Hospital</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">58</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">It was aimed to evaluate the respiratory functions of patients who were hospitalized in intensive care due to Covid-19 and given respiratory rehabilitation, in-bed positioning, and early mobilization, and the time of leaving the intensive care unit.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT06522750</Data></Cell>
+    <Cell><Data ss:Type="String">Periodic Fasting for Treatment of Long Covid in Adults: a Pilot Study</Data></Cell>
+    <Cell><Data ss:Type="String">RECRUITING</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2025-02-19</Data></Cell>
+    <Cell><Data ss:Type="String">2025-09-30</Data></Cell>
+    <Cell><Data ss:Type="String">University of Luxembourg</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: 7-day ambulatory caloric restriction intervention using the Buchinger-Wilhelmi method</Data></Cell>
+    <Cell><Data ss:Type="String">Background:
+
+Long COVID, characterized by persistent symptoms following acute COVID-19 infection, has emerged as a significant public health concern. Symptoms range from fatigue, cognitive impairments, to respiratory difficulties, affecting patients\&amp;#39; quality of life. Dietary interventions, particularly fasting, have historically been used to modulate immune responses and improve health outcomes in various conditions. The Buchinger-Wilhelmi method represents a structured and medically supervised fasting approach. Given the inflammatory nature of long COVID, fasting may offer therapeutic benefits by modulating the immune response, enhancing cellular repair mechanisms, and resetting metabolic processes.
+
+Objectives:
+
+This clinical trial aims to assess the feasibility of a 7-day ambulatory fasting intervention using the Buchinger-Wilhelmi method on long COVID patients as primary objective. As secondary objectives, the study will investigate the potential beneficial impact of fasting on clinical, biological, and psychological parameters over a period of 4 weeks, offering insights into potential therapeutic avenues for long COVID management.
+
+Study timeline:
+
+The research will span a period of 4 weeks
+
+Study population:
+
+This study aims to recruit around 20 participants, who will all receive a fasting intervention using the Buchinger-Wilhelmi method.
+
+Biological sample and data collection:
+
+Participants will undergo various data and sample collection procedures, including blood draws of up to 90 42 ml per visit, collection of peripheral mononuclear cells, stool samples, and completion of questionnaires in a smartphone-based Application (MyCap).
+
+Sample analysis:
+
+The collected samples will be subjected to a range of analyses, including the assessment of serological markers for routine blood chemistry, evaluation of inflammation markers, and examination of stool samples.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04902118</Data></Cell>
+    <Cell><Data ss:Type="String">Burnout Determinants Among Pediatric Psychiatry Workers During COVID-19 Crisis</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2020-02-10</Data></Cell>
+    <Cell><Data ss:Type="String">2021-12-30</Data></Cell>
+    <Cell><Data ss:Type="String">University Hospital, Montpellier</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">300</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">Burnout among health workers is at core of our current preoccupations because of the health crisis we&apos;re going trough. Indeed, COVID-19 epidemic had terrible consequences not only on global mental health both in adults and children, but also on Health workers mental health. The investigators chose to consider Pediatric Psychiatry workers because of their particular position in this crisis.
+
+The aim of the study is to point out burnout determining factors among Pediatric Psychiatry workers in Occitanie during COVID-19 crisis, by the use of an online questionnaire including the Copenhagen Burnout Inventory.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04840082</Data></Cell>
+    <Cell><Data ss:Type="String">Optimal Length for Nasal Mid-turbinate and Nasopharyngeal Swabs</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2021-03-07</Data></Cell>
+    <Cell><Data ss:Type="String">2021-03-08</Data></Cell>
+    <Cell><Data ss:Type="String">Rigshospitalet, Denmark</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">109</Data></Cell>
+    <Cell><Data ss:Type="String">DIAGNOSTIC_TEST: Nasopharyngeal swab for COVID-19 testing</Data></Cell>
+    <Cell><Data ss:Type="String">This study aim to explore the optimal swap insertion length for mid-turbinate and nasopharyngeal samples. Our clinical trial took place at a Covid-19 test center in Copenhagen. Participants consisted of voluntary citizens who were at the test center for a nasopharyngeal antigen quicktest. An endoscopic examination was performed simultaneous with the swap to measure the length from the vestibulum nasi to the posterior wall of the nasopharynx and the mid-turbinate.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04736524</Data></Cell>
+    <Cell><Data ss:Type="String">Immune Response Following COVID-19 Vaccination</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2021-01-15</Data></Cell>
+    <Cell><Data ss:Type="String">2022-03</Data></Cell>
+    <Cell><Data ss:Type="String">Texas Cardiac Arrhythmia Research Foundation</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">500</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Rapid antibody test</Data></Cell>
+    <Cell><Data ss:Type="String">Few trials have reported the safety and efficacy of the COVID-19 vaccines. However, these trials were mostly focused on post-vaccination adverse events and short-term antibody detection with none monitoring the presence of immunoglobulin G (IgG) in blood at long-term follow-up after the vaccination. This study aims to evaluate the immune response in post-vaccinated individuals across a follow-up period of one year.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04425707</Data></Cell>
+    <Cell><Data ss:Type="String">Ivermectin In Treatment of COVID 19 Patients</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2020-06-09</Data></Cell>
+    <Cell><Data ss:Type="String">2020-09-01</Data></Cell>
+    <Cell><Data ss:Type="String">Ministry of Health and Population, Egypt</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="String">DRUG: Ivermectin</Data></Cell>
+    <Cell><Data ss:Type="String">as Egypt suffered a lot during the pandemic of COVID 19 with limited drug choices, many of the patients could not acheive viral clearence with the standard module of care teh idea of introduction of new medications in the treatment protocol of COVID 19 managment. Ivermectin had shown a promising results in vitro studies and in limited in vivo studies. this clinical trial may open a new hope for COVID 19 patients as a new and cheap line of treatment</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04363736</Data></Cell>
+    <Cell><Data ss:Type="String">A Study to Investigate Intravenous Tocilizumab in Participants With Moderate to Severe COVID-19 Pneumonia</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">Phase 2</Data></Cell>
+    <Cell><Data ss:Type="String">2020-05-05</Data></Cell>
+    <Cell><Data ss:Type="String">2020-08-12</Data></Cell>
+    <Cell><Data ss:Type="String">Hoffmann-La Roche</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">97</Data></Cell>
+    <Cell><Data ss:Type="String">DRUG: Tociliuzumab</Data></Cell>
+    <Cell><Data ss:Type="String">This study will assess the pharmacodynamics, pharmacokinetics, safety and efficacy of two different doses of tocilizumab (TCZ) in combination with standard-of-care (SOC) in hospitalized adult participants with moderate to severe COVID-19 pneumonia.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT06404411</Data></Cell>
+    <Cell><Data ss:Type="String">The Efficacy of Aerobic Exercise in the Rehabilitation of Patients With COVID-19-Related Myocardial Injury</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2024-06-30</Data></Cell>
+    <Cell><Data ss:Type="String">2025-12-30</Data></Cell>
+    <Cell><Data ss:Type="String">Chengdu Sport University</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">40</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Assigned interventions; OTHER: conventional rehabilitation</Data></Cell>
+    <Cell><Data ss:Type="String">A study of the efficacy of aerobic exercise based on cardiopulmonary exercise test in the rehabilitation of patients with COVID-19-related myocardial injury</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT05258734</Data></Cell>
+    <Cell><Data ss:Type="String">The Effect of Mobile Health Application Based on Omaha System on Symptoms and Quality of Life in COVID-19 Patients</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2022-07-23</Data></Cell>
+    <Cell><Data ss:Type="String">2022-10-29</Data></Cell>
+    <Cell><Data ss:Type="String">Kocaeli University</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">60</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: COVOS app; OTHER: Standard Care</Data></Cell>
+    <Cell><Data ss:Type="String">Purpose: The aim of this study is to evaluate the effects of nursing interventions made with a mobile health application (COVOS) developed based on the Omaha System on the physical, psychosocial and cognitive symptoms and quality of life of patients diagnosed with COVID-19, and continuing treatment at home.
+
+Design: This is a single center, 1:1 randomized, single blind, parallel, active comparator trial.
+
+Method: Standard Protocol Items: Recommendations for Interventional Trials (SPIRIT) Statement 2013 checklist used in study. The CONSORT (Consolidated Standards of Reporting Trials) flowchart is used in this protocol. This study will carried out in a family health center, located within the boundaries of İzmit District of Kocaeli province. The patients in the experimental group will be followed up with the COVOS app and nursing interventions (videos, information messages) to manage their symptoms will be directed with the COVOS app. The patients in the control group will not receive any intervention, the standard follow-up and health care provided by the family health center of the patients will continue.
+
+Hypothesis: In patients diagnosed with COVID-19 followed at home with COVOS, symptom management and quality of life will be better in 1st, 2nd and 3rd months compared to the control group.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04473898</Data></Cell>
+    <Cell><Data ss:Type="String">Telerehabilitation After Coronavirus</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2020-06-19</Data></Cell>
+    <Cell><Data ss:Type="String">2021-02-17</Data></Cell>
+    <Cell><Data ss:Type="String">KTO Karatay University</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">35</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Aerobic Exercise Training; BEHAVIORAL: Patient Education; OTHER: Respiratory Exercise Training</Data></Cell>
+    <Cell><Data ss:Type="String">The aim of the study is to investigate the effects of telerehabilitation program on COVID-19 symptoms, quality of life, level of depression, perception of dyspnea, sleep, fatigue, kinesiophobia and patient satisfaction in individuals diagnosed with COVID-19.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT05142306</Data></Cell>
+    <Cell><Data ss:Type="String">A COVID-19 Study to Evaluate Safety and PK of COVID-HIG Administered Through IM, SC, or IV Routes to SARS-CoV-2 Uninfected Adults</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">Phase 1</Data></Cell>
+    <Cell><Data ss:Type="String">2021-12-07</Data></Cell>
+    <Cell><Data ss:Type="String">2022-05-31</Data></Cell>
+    <Cell><Data ss:Type="String">Emergent BioSolutions</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">23</Data></Cell>
+    <Cell><Data ss:Type="String">BIOLOGICAL: COVID-HIG</Data></Cell>
+    <Cell><Data ss:Type="String">The primary objectives of this open-label trial were to evaluate the safety and pharmacokinetics (PK) of Anti-SARS-CoV-2 Immunoglobulin (Human) Investigational Product (COVID-HIG) administered intramuscularly (IM), subcutaneously (SC), or intravenously (IV) as a single dose in healthy adults 18-59 years of age with body mass index ≤35 kg/m\^2. Prior studies examined IV administration, and the secondary objective of the present study was to compare PK among the three administration routes. No placebo group was included in the phase 1 randomized design. The exploratory objective was to evaluate disease severity in participants that became positive for SARS-CoV-2.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04454606</Data></Cell>
+    <Cell><Data ss:Type="String">The New Silicone N99 Half-Piece Respirator</Data></Cell>
+    <Cell><Data ss:Type="String">COMPLETED</Data></Cell>
+    <Cell><Data ss:Type="String">N/A</Data></Cell>
+    <Cell><Data ss:Type="String">2020-05-01</Data></Cell>
+    <Cell><Data ss:Type="String">2020-05-31</Data></Cell>
+    <Cell><Data ss:Type="String">Bangkok Metropolitan Administration Medical College and Vajira Hospital</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">43</Data></Cell>
+    <Cell><Data ss:Type="String">DEVICE: Fit test; DEVICE: Filtration Test</Data></Cell>
+    <Cell><Data ss:Type="String">Filter facepiece respirator (FFR) is a critical equipment to prevent the transmission of respiratory tract infection disease especially the dreadful corona virus 2(SARs-CoV-2).The N95 mask is the prototype of high efficiency protective device and can effectively protect airborne pathogens of less than 0.3 μm by more than 95%. It is tightly fit and had high filtration capacity. The widespread pandemic of COVID-19 leads to greater requirement of FFR. A rising in demand would greatly exceed current productive capabilities and stockpiles and would almost certainly result in a robust shortage.
+
+In order to solve these problems, our team had invented a new type of half-piece respirator made from silicone and assembled with hepa or elastostatic filter . A variety of methods have been used to evaluate this new device, including qualitative fit test with Bitrex® test kit and filtration test.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04480333</Data></Cell>
+    <Cell><Data ss:Type="String">Safety, Tolerability and Pharmacokinetics of Inhaled Nanoparticle Formulation of Remdesivir (GS-5734) and NA-831</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String">Phase 1</Data></Cell>
+    <Cell><Data ss:Type="String">2020-09-15</Data></Cell>
+    <Cell><Data ss:Type="String">2021-03-31</Data></Cell>
+    <Cell><Data ss:Type="String">Biomed Industries, Inc.</Data></Cell>
+    <Cell><Data ss:Type="String">INTERVENTIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">45</Data></Cell>
+    <Cell><Data ss:Type="String">DRUG: Drug: NA-831 - 0.10 mg/kg; DRUG: Placebo- 0.10 mg/kg; DRUG: Drug: NA-831 - 0.20 mg/kg; DRUG: Placebo- 0.20 mg/kg; DRUG: Drug: GS-5734 - 1.00 mg/kg; DRUG: Placebo- 1.00 mg/kg; DRUG: Drug: GS-5734 - 2.00 mg/kg; DRUG: Placebo- 2.00 mg/kg; COMBINATION_PRODUCT: Drugs: NA-831 (0.10 mg/kg) plus GS-5734 (1.00 mg/kg); COMBINATION_PRODUCT: Placebo 0.10 mg + 1.00 mg/kg; COMBINATION_PRODUCT: Drugs: NA-831 (0.20 mg/kg) plus GS-5734 (2.00 mg/kg); COMBINATION_PRODUCT: Placebo 0.20 mg + 2.00 mg/kg</Data></Cell>
+    <Cell><Data ss:Type="String">The clinical study is designed to evaluate the safety, tolerability and pharmacokinetics of inhaled nanoparticle nanoparticle formulation of Remdesivir (GS-5734) alone and in combination with NA-831 in 48 healthy volunteers.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04598347</Data></Cell>
+    <Cell><Data ss:Type="String">Evaluation of the Possible Vertical Transmission of SARS-CoV-2 Through Study of Amniotic Fluid and Chorionic Villi of Affected Pregnant Women for the COVID-19</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2020-08-08</Data></Cell>
+    <Cell><Data ss:Type="String">2022-01-23</Data></Cell>
+    <Cell><Data ss:Type="String">Fundació Institut de Recerca de l&apos;Hospital de la Santa Creu i Sant Pau</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">225</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">Longitudinal prospective study in pregnant women withpositive serology or PCR for SARS-CoV-2 and indicationinvasive technique (amniocentesis or chorionic biopsy) that has the objective to evaluate the possible vertical transmission of SARS-CoV-2in the amniotic fluid or chorionic villi of pregnant women affected by coronavirus in the different periods of gestation.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04632355</Data></Cell>
+    <Cell><Data ss:Type="String">Musculoskeletal Pain in Patients With Covid-19 Who Have Hospital Care</Data></Cell>
+    <Cell><Data ss:Type="String">UNKNOWN</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2020-12-01</Data></Cell>
+    <Cell><Data ss:Type="String">2021-07-31</Data></Cell>
+    <Cell><Data ss:Type="String">Fondazione Don Carlo Gnocchi Onlus</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">100</Data></Cell>
+    <Cell><Data ss:Type="String">OTHER: Interview</Data></Cell>
+    <Cell><Data ss:Type="String">Worldwide, the COVID-19 pandemic continues to grow. Although COVID-19 mainly affects the lungs and internal organs, musculoskeletal injury from this disease was reported with the presentation of marked elevation in creatine kinase and lactate dehydrogenase levels. Patients with post-acute COVID-19 are considered patients with a post-intensive syndrome (PICS) that results in loss of functional independence.
+
+In the physical and rehabilitation medical field, various modalities with therapeutic exercise can be used to manage pain by a physical therapist and psychiatrist.
+
+Pain management is particularly important during the COVID-19 pandemic because of the reduced accessibility to hospitals and medical resources.</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">NCT04903132</Data></Cell>
+    <Cell><Data ss:Type="String">Cellular Senescence and COVID-19 Long-Hauler Syndrome</Data></Cell>
+    <Cell><Data ss:Type="String">ACTIVE_NOT_RECRUITING</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">2021-03-01</Data></Cell>
+    <Cell><Data ss:Type="String">2026-12</Data></Cell>
+    <Cell><Data ss:Type="String">Mayo Clinic</Data></Cell>
+    <Cell><Data ss:Type="String">OBSERVATIONAL</Data></Cell>
+    <Cell><Data ss:Type="Number">200</Data></Cell>
+    <Cell><Data ss:Type="String"></Data></Cell>
+    <Cell><Data ss:Type="String">The purpose of this study is to test if senescent cells and their secretome contribute to Long-Hauler Syndrome and if a clinical trial of senolytic drugs, which selectively eliminate senescent cells, should be initiated.</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+</Workbook>
