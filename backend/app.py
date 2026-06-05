@@ -4,7 +4,7 @@ Provides endpoints to search diseases, trials, articles, and drugs.
 """
 
 import re
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -17,6 +17,7 @@ from services import (
 )
 
 app = FastAPI(title="SAdvisory API", version="1.0.0")
+router = APIRouter()
 
 # Allow the React dev server to connect
 app.add_middleware(
@@ -32,7 +33,7 @@ app.add_middleware(
 # Orchestrated search – single disease query returns trials + articles + drugs
 # ---------------------------------------------------------------------------
 
-@app.get("/api/search")
+@router.get("/search")
 def search_disease(
     q: str = Query(..., description="Disease or condition name"),
     max_trials: int = Query(10, ge=1, le=50),
@@ -114,7 +115,7 @@ def search_disease(
 # Individual endpoints
 # ---------------------------------------------------------------------------
 
-@app.get("/api/trials")
+@router.get("/trials")
 def api_search_trials(
     q: str = Query(..., description="Disease / condition"),
     max_results: int = Query(10, ge=1, le=50),
@@ -126,7 +127,7 @@ def api_search_trials(
         raise HTTPException(status_code=502, detail=str(e))
 
 
-@app.get("/api/trial/{nct_id}")
+@router.get("/trial/{nct_id}")
 def api_get_trial(nct_id: str):
     """Get a single trial by NCT ID."""
     result = get_trial_by_nct_id(nct_id)
@@ -135,7 +136,7 @@ def api_get_trial(nct_id: str):
     return result
 
 
-@app.get("/api/articles")
+@router.get("/articles")
 def api_search_articles(
     q: str = Query(..., description="Search query"),
     max_results: int = Query(10, ge=1, le=50),
@@ -147,7 +148,7 @@ def api_search_articles(
         raise HTTPException(status_code=502, detail=str(e))
 
 
-@app.get("/api/drug/{drug_name}")
+@router.get("/drug/{drug_name}")
 def api_get_drug(drug_name: str):
     """Get drug details from PubChem."""
     result = get_drug_details(drug_name)
@@ -156,10 +157,14 @@ def api_get_drug(drug_name: str):
     return result
 
 
-@app.get("/api/chembl/{query}")
+@router.get("/chembl/{query}")
 def api_search_chembl(query: str):
     """Search ChEMBL for a molecule."""
     chembl_id = search_chembl(query)
     if chembl_id is None:
         raise HTTPException(status_code=404, detail=f"No ChEMBL result for '{query}'.")
     return {"chemblId": chembl_id}
+
+
+app.include_router(router)
+app.include_router(router, prefix="/api")
