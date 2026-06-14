@@ -8,6 +8,7 @@ import {
   Pill,
   Microscope,
   Download,
+  FileSpreadsheet,
 } from 'lucide-react';
 import './App.css';
 import SearchBar from './components/SearchBar';
@@ -18,12 +19,16 @@ import TrialModal from './components/TrialModal';
 import FilterPanel from './components/FilterPanel';
 import type { FilterState } from './components/FilterPanel';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
+import ExcelAnalyzer from './components/ExcelAnalyzer';
 import { searchDisease } from './api';
 import type { SearchResults } from './types';
+
+type AppMode = 'search' | 'excel';
 
 type Tab = 'trials' | 'articles' | 'drugs';
 
 function App() {
+  const [appMode, setAppMode] = useState<AppMode>('search');
   const [results, setResults] = useState<SearchResults | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -245,9 +250,40 @@ function App() {
             <span>S</span>Advisory
           </div>
         </div>
+
+        {/* Mode Toggle */}
+        <div className="mode-toggle" role="group" aria-label="App mode">
+          <button
+            id="mode-btn-search"
+            className={`mode-toggle-btn ${appMode === 'search' ? 'mode-toggle-btn--active' : ''}`}
+            onClick={() => setAppMode('search')}
+          >
+            <Stethoscope size={14} /> Clinical Search
+          </button>
+          <button
+            id="mode-btn-excel"
+            className={`mode-toggle-btn ${appMode === 'excel' ? 'mode-toggle-btn--active' : ''}`}
+            onClick={() => setAppMode('excel')}
+          >
+            <FileSpreadsheet size={14} /> Excel Analyzer
+          </button>
+        </div>
+
         <span className="app-header-meta">Clinical Intelligence Dashboard</span>
       </header>
 
+
+
+      {/* ── Excel Mode ── */}
+      {appMode === 'excel' && (
+        <main className="app-main">
+          <ExcelAnalyzer />
+        </main>
+      )}
+
+      {/* ── Search Mode ── */}
+      {appMode === 'search' && (
+      <>
       {/* ── Hero / Search ── */}
       <section className="hero-section">
         <span className="hero-badge">
@@ -260,7 +296,6 @@ function App() {
         </p>
         <SearchBar onSearch={handleSearch} isLoading={isLoading} />
       </section>
-
       {/* ── Main Content ── */}
       <main className="app-main">
         {/* Error */}
@@ -438,6 +473,8 @@ function App() {
           </div>
         )}
       </main>
+      </>
+      )}
 
       {/* ── Trial Details Modal ── */}
       {selectedNctId && (

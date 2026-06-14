@@ -1,0 +1,316 @@
+/* ================================================================
+   ExcelDashboard & ExcelCharts – Styles
+   ================================================================ */
+
+/* ── Dashboard Tabs ── */
+.excel-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.excel-dash-tabs {
+  display: flex;
+  gap: var(--space-xs);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 4px;
+}
+
+.excel-dash-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px var(--space-md);
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.excel-dash-tab:hover { background: var(--color-surface-hover); color: var(--color-text-secondary); }
+.excel-dash-tab--active { background: var(--color-accent); color: #fff; box-shadow: var(--shadow-sm); }
+.excel-dash-tab--active:hover { background: var(--color-accent-dark); }
+
+.dash-tab-content { display: flex; flex-direction: column; gap: var(--space-lg); }
+.dash-section-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-md);
+}
+
+/* ── Summary Cards ── */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.summary-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.summary-card--blue::before   { background: var(--color-accent); }
+.summary-card--purple::before { background: #8b5cf6; }
+.summary-card--green::before  { background: var(--color-success); }
+.summary-card--orange::before { background: var(--color-warning); }
+
+.summary-card-value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.summary-card-label { font-size: var(--text-sm); font-weight: 600; color: var(--color-text-primary); }
+.summary-card-sub   { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+/* ── Column Type Bars ── */
+.summary-col-types {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+.col-type-bars { display: flex; flex-direction: column; gap: var(--space-md); }
+.col-type-bar-item { display: flex; flex-direction: column; gap: 6px; }
+.col-type-bar-header { display: flex; justify-content: space-between; }
+.col-type-label { font-size: var(--text-xs); font-weight: 500; color: var(--color-text-secondary); }
+.col-type-count { font-size: var(--text-xs); color: var(--color-text-muted); }
+.col-type-track { height: 6px; background: var(--color-border-light); border-radius: var(--radius-full); overflow: hidden; }
+.col-type-fill  { height: 100%; border-radius: var(--radius-full); transition: width 600ms var(--ease-out); }
+
+/* ── Column Stat Cards ── */
+.col-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-md);
+}
+
+.col-stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  transition: box-shadow var(--duration-fast) var(--ease-out);
+}
+.col-stat-card:hover { box-shadow: var(--shadow-md); }
+
+.col-stat-header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); }
+.col-stat-name {
+  font-size: var(--text-sm); font-weight: 600; color: var(--color-text-primary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.col-stat-type {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 2px 8px; border-radius: var(--radius-full); flex-shrink: 0;
+}
+.col-stat-type--numeric { background: #eff6ff; color: #2563eb; }
+.col-stat-type--text    { background: #faf5ff; color: #7c3aed; }
+.col-stat-type--date    { background: #fffbeb; color: #d97706; }
+
+.col-stat-meta { font-size: var(--text-xs); color: var(--color-text-muted); display: flex; gap: 6px; }
+
+.col-numeric-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+  background: var(--color-bg); border-radius: var(--radius-sm); padding: var(--space-sm);
+}
+.col-num-stat { display: flex; flex-direction: column; gap: 2px; }
+.col-num-label { font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.col-num-val   { font-size: var(--text-sm); font-weight: 600; color: var(--color-text-primary); }
+
+.col-top-values { display: flex; flex-direction: column; gap: 6px; }
+.col-top-val-item { display: flex; flex-direction: column; gap: 4px; }
+.col-top-val-header { display: flex; justify-content: space-between; }
+.col-top-val-name {
+  font-size: var(--text-xs); color: var(--color-text-secondary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px;
+}
+.col-top-val-pct  { font-size: var(--text-xs); color: var(--color-text-muted); flex-shrink: 0; }
+.col-top-val-track { height: 4px; background: var(--color-border-light); border-radius: var(--radius-full); overflow: hidden; }
+.col-top-val-fill  { height: 100%; background: var(--color-accent); border-radius: var(--radius-full); transition: width 500ms var(--ease-out); }
+
+/* ── Data Table ── */
+.table-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.table-search-wrap {
+  position: relative; flex: 1; min-width: 200px;
+}
+.table-search-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--color-text-muted); pointer-events: none;
+}
+.table-search {
+  width: 100%; padding: 8px 12px 8px 32px;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); font-family: var(--font-sans);
+  font-size: var(--text-sm); color: var(--color-text-primary);
+  transition: border-color var(--duration-fast) var(--ease-out);
+  outline: none;
+}
+.table-search:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(79,110,247,0.1); }
+
+.table-meta { display: flex; align-items: center; gap: var(--space-sm); }
+.table-showing { font-size: var(--text-xs); color: var(--color-text-muted); white-space: nowrap; }
+.table-page-size {
+  padding: 6px 10px; background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); font-family: var(--font-sans); font-size: var(--text-xs);
+  color: var(--color-text-secondary); cursor: pointer; outline: none;
+}
+
+.table-scroll-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.data-table { width: 100%; border-collapse: collapse; font-size: var(--text-xs); }
+
+.data-table-th {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--color-bg);
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--color-border-light);
+  cursor: pointer; white-space: nowrap; user-select: none;
+}
+.data-table-th:hover { background: var(--color-surface-hover); color: var(--color-accent); }
+.data-table-th--index { width: 48px; cursor: default; }
+.data-table-th--index:hover { background: var(--color-bg); color: var(--color-text-secondary); }
+
+.th-inner { display: flex; align-items: center; gap: 4px; }
+.th-name { flex: 1; }
+.th-sort-idle { opacity: 0.3; }
+
+.data-table-row:nth-child(even) { background: var(--color-bg); }
+.data-table-row:hover { background: var(--color-accent-light); }
+
+.data-table-td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text-primary);
+  max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.data-table-td--index { color: var(--color-text-muted); font-size: 10px; text-align: right; width: 48px; }
+.td-null { color: var(--color-text-muted); font-style: italic; }
+.table-empty-cell { padding: var(--space-xl); text-align: center; color: var(--color-text-muted); font-size: var(--text-sm); }
+
+/* ── Pagination ── */
+.table-pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--space-sm); padding-top: var(--space-sm);
+}
+.page-btn {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text-secondary);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+.page-btn:hover:not(:disabled) { border-color: var(--color-accent); color: var(--color-accent); }
+.page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.page-label { font-size: var(--text-xs); color: var(--color-text-muted); white-space: nowrap; }
+
+/* ── Charts ── */
+.excel-charts { display: flex; flex-direction: column; gap: var(--space-lg); }
+
+.chart-controls {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.chart-control-row { display: flex; gap: var(--space-lg); flex-wrap: wrap; }
+.chart-control-group { display: flex; flex-direction: column; gap: 6px; }
+.chart-control-label { font-size: var(--text-xs); font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
+
+.chart-type-btns { display: flex; gap: var(--space-xs); flex-wrap: wrap; }
+.chart-type-btn {
+  padding: 6px 14px;
+  background: var(--color-bg); border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); font-family: var(--font-sans);
+  font-size: var(--text-xs); font-weight: 500; color: var(--color-text-secondary);
+  cursor: pointer; transition: all var(--duration-fast) var(--ease-out);
+}
+.chart-type-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.chart-type-btn--active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+
+.chart-select {
+  padding: 7px 10px; background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); font-family: var(--font-sans);
+  font-size: var(--text-sm); color: var(--color-text-primary); outline: none; cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out); min-width: 160px;
+}
+.chart-select:focus { border-color: var(--color-accent); }
+.chart-select--sm { min-width: 120px; font-size: var(--text-xs); }
+
+.chart-y-row { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+
+.chart-canvas {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-svg { width: 100%; height: auto; overflow: visible; }
+.chart-empty { color: var(--color-text-muted); font-size: var(--text-sm); text-align: center; }
+
+.chart-legend-row { display: flex; justify-content: flex-end; }
+.chart-legend-info { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  .excel-dash-tabs { flex-wrap: wrap; }
+}
+
+@media (max-width: 600px) {
+  .summary-grid { grid-template-columns: 1fr; }
+  .col-stat-grid { grid-template-columns: 1fr; }
+  .chart-control-row { flex-direction: column; }
+}
