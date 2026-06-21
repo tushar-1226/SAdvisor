@@ -9,6 +9,7 @@ import {
   Microscope,
   Download,
   FileSpreadsheet,
+  TrendingUp,
 } from 'lucide-react';
 import './App.css';
 import SearchBar from './components/SearchBar';
@@ -20,10 +21,12 @@ import FilterPanel from './components/FilterPanel';
 import type { FilterState } from './components/FilterPanel';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 import ExcelAnalyzer from './components/ExcelAnalyzer';
+import PharmaceuticalForecast from './components/PharmaceuticalForecast';
 import { searchDisease } from './api';
 import type { SearchResults } from './types';
 
-type AppMode = 'search' | 'excel';
+type AppMode = 'search' | 'excel' | 'pharmaceutical';
+
 
 type Tab = 'trials' | 'articles' | 'drugs';
 
@@ -267,6 +270,13 @@ function App() {
           >
             <FileSpreadsheet size={14} /> Excel Analyzer
           </button>
+          <button
+            id="mode-btn-pharma"
+            className={`mode-toggle-btn ${appMode === 'pharmaceutical' ? 'mode-toggle-btn--active' : ''}`}
+            onClick={() => setAppMode('pharmaceutical')}
+          >
+            <TrendingUp size={14} /> Pharmaceutical
+          </button>
         </div>
 
         <span className="app-header-meta">Clinical Intelligence Dashboard</span>
@@ -280,6 +290,14 @@ function App() {
           <ExcelAnalyzer />
         </main>
       )}
+
+      {/* ── Pharmaceutical Mode ── */}
+      {appMode === 'pharmaceutical' && (
+        <main className="app-main">
+          <PharmaceuticalForecast />
+        </main>
+      )}
+
 
       {/* ── Search Mode ── */}
       {appMode === 'search' && (

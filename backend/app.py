@@ -4,9 +4,13 @@ Provides endpoints to search diseases, trials, articles, and drugs.
 """
 
 import re
+import os
+import json
 from fastapi import FastAPI, HTTPException, Query, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pydantic import BaseModel
+from typing import List, Optional, Dict
 
 from services import (
     search_trials_by_condition,
@@ -15,6 +19,8 @@ from services import (
     get_drug_details,
     search_chembl,
 )
+from forecast import generate_forecast_model
+
 
 app = FastAPI(title="SAdvisory API", version="1.0.0")
 router = APIRouter()
@@ -164,6 +170,119 @@ def api_search_chembl(query: str):
     if chembl_id is None:
         raise HTTPException(status_code=404, detail=f"No ChEMBL result for '{query}'.")
     return {"chemblId": chembl_id}
+
+
+# ---------------------------------------------------------------------------
+# Pharmaceutical Forecasting Endpoints
+# ---------------------------------------------------------------------------
+
+class ForecastRequest(BaseModel):
+    disease: str
+    category: str  # "oncology" | "non_oncology" | "auto"
+    geography: List[str]
+    api_keys: Optional[Dict[str, str]] = None
+
+class ConfigUpdateRequest(BaseModel):
+    seer_api_key: Optional[str] = None
+    ncbi_api_key: Optional[str] = None
+    openfda_api_key: Optional[str] = None
+
+CONFIG_FILE = "api_keys_config.json"
+
+def load_stored_keys() -> dict:
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, "r") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {
+        "seer_api_key": os.environ.get("SEER_API_KEY", ""),
+        "ncbi_api_key": os.environ.get("NCBI_API_KEY", ""),
+        "openfda_api_key": os.environ.get("OPENFDA_API_KEY", "")
+    }
+
+def save_stored_keys(keys: dict):
+    try:
+        with open(CONFIG_FILE, "w") as f:
+            json.dump(keys, f)
+    except Exception as e:
+        print(f"Error saving config keys: {e}")
+
+
+@router.post("/forecast")
+def api_generate_forecast(req: ForecastRequest):
+    """
+    Generate a 10-year market forecast model for the given disease.
+    """
+    if not req.disease.strip():
+        raise HTTPException(status_code=400, detail="Disease query is required.")
+        
+    category = req.category
+    if category == "auto":
+        normalized = req.disease.lower()
+        oncology_keywords = ["cancer", "carcinoma", "tumor", "melanoma", "nsclc", "sclc", "glioma", "sarcoma", "leukemia", "lymphoma", "breast", "prostate", "bladder", "pancreatic", "colon", "colorectal"]
+        if any(kw in normalized for kw in oncology_keywords):
+            category = "oncology"
+        else:
+            category = "non_oncology"
+
+    # Merge client keys with stored server keys
+    keys = req.api_keys or {}
+    stored = load_stored_keys()
+    for k, v in stored.items():
+        # Map pydantic field names to forecast.py expected keys if needed
+        # forecast expects: "seer", "ncbi", "openfda"
+        api_name = k.replace("_api_key", "")
+        if api_name not in keys or not keys[api_name]:
+            keys[api_name] = v
+
+    try:
+        model = generate_forecast_model(
+            disease=req.disease,
+            category=category,
+            countries=req.geography,
+            api_keys=keys
+        )
+        return model
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to generate forecast: {str(e)}")
+
+
+@router.get("/config")
+def api_get_config():
+    """Retrieve currently stored API keys (masked for safety)."""
+    keys = load_stored_keys()
+    
+    def mask(val: str) -> str:
+        if not val:
+            return ""
+        if len(val) <= 6:
+            return "******"
+        return f"{val[:4]}...{val[-2:]}"
+        
+    return {
+        "seer_api_key": mask(keys.get("seer_api_key", "")),
+        "ncbi_api_key": mask(keys.get("ncbi_api_key", "")),
+        "openfda_api_key": mask(keys.get("openfda_api_key", ""))
+    }
+
+
+@router.post("/config")
+def api_update_config(req: ConfigUpdateRequest):
+    """Update and persist API keys on the server."""
+    keys = load_stored_keys()
+    if req.seer_api_key is not None:
+        keys["seer_api_key"] = req.seer_api_key
+    if req.ncbi_api_key is not None:
+        keys["ncbi_api_key"] = req.ncbi_api_key
+    if req.openfda_api_key is not None:
+        keys["openfda_api_key"] = req.openfda_api_key
+    save_stored_keys(keys)
+    return {"status": "success", "message": "API keys updated successfully."}
+
 
 
 app.include_router(router)

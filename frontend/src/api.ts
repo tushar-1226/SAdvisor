@@ -26,3 +26,51 @@ export async function fetchTrialDetails(nctId: string): Promise<any> {
 
   return response.json();
 }
+
+export async function generateForecast(params: {
+  disease: string;
+  category: 'oncology' | 'non_oncology' | 'auto';
+  geography: string[];
+  api_keys?: Record<string, string>;
+}): Promise<any> {
+  const url = `${API_BASE}/api/forecast`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(text || `Forecast API error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+export async function fetchKeysConfig(): Promise<any> {
+  const url = `${API_BASE}/api/config`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Config API error: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
+}
+
+export async function updateKeysConfig(keys: {
+  seer_api_key?: string;
+  ncbi_api_key?: string;
+  openfda_api_key?: string;
+}): Promise<any> {
+  const url = `${API_BASE}/api/config`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(keys),
+  });
+  if (!response.ok) {
+    throw new Error(`Config API error: ${response.status} ${response.statusText}`);
+  }
+  return response.json();
+}
+
