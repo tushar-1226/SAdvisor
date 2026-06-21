@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, DragEvent, ChangeEvent } from 'react';
+import { useState, useRef, useCallback, type DragEvent, type ChangeEvent } from 'react';
 import * as XLSX from 'xlsx';
 import { UploadCloud, FileSpreadsheet, X, ChevronDown } from 'lucide-react';
 import ExcelDashboard from './ExcelDashboard';

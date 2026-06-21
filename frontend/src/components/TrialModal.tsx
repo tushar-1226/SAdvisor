@@ -38,12 +38,20 @@ function safe(obj: any, ...keys: string[]): string | undefined {
 }
 
 export default function TrialModal({ nctId, onClose }: TrialModalProps) {
+  const [prevNctId, setPrevNctId] = useState(nctId);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const load = useCallback(() => {
+  if (nctId !== prevNctId) {
+    setPrevNctId(nctId);
+    setData(null);
+    setLoading(true);
+    setError(null);
+  }
+
+  const handleRetry = useCallback(() => {
     setLoading(true);
     setError(null);
     setData(null);
@@ -54,8 +62,24 @@ export default function TrialModal({ nctId, onClose }: TrialModalProps) {
   }, [nctId]);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    let ignore = false;
+    fetchTrialDetails(nctId)
+      .then((res) => {
+        if (!ignore) {
+          setData(res);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (!ignore) {
+          setError(err instanceof Error ? err.message : 'Unknown error');
+          setLoading(false);
+        }
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [nctId]);
 
   // Close on Escape key
   useEffect(() => {
@@ -161,7 +185,7 @@ export default function TrialModal({ nctId, onClose }: TrialModalProps) {
           {error && (
             <div className="trial-modal-error">
               <p>{error}</p>
-              <button className="trial-modal-retry" onClick={load}>
+              <button className="trial-modal-retry" onClick={handleRetry}>
                 Retry
               </button>
             </div>

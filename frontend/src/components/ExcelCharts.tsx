@@ -149,14 +149,15 @@ function PieChart({ data }: { data: { label: string; value: number }[] }) {
   const top = data.slice(0, 10);
   const total = top.reduce((a, b) => a + b.value, 0);
   if (total === 0) return <div className="chart-empty">All values are zero.</div>;
-  let angle = -Math.PI / 2;
   const R = 100, cx = 160, cy = 140;
   const slices = top.map((d, i) => {
     const pct = d.value / total;
     const sweep = pct * 2 * Math.PI;
-    const x1 = cx + R * Math.cos(angle), y1 = cy + R * Math.sin(angle);
-    angle += sweep;
-    const x2 = cx + R * Math.cos(angle), y2 = cy + R * Math.sin(angle);
+    const prevSum = top.slice(0, i).reduce((sum, item) => sum + item.value, 0);
+    const startAngle = -Math.PI / 2 + (prevSum / total) * 2 * Math.PI;
+    const endAngle = startAngle + sweep;
+    const x1 = cx + R * Math.cos(startAngle), y1 = cy + R * Math.sin(startAngle);
+    const x2 = cx + R * Math.cos(endAngle), y2 = cy + R * Math.sin(endAngle);
     const largeArc = sweep > Math.PI ? 1 : 0;
     const path = `M${cx},${cy} L${x1},${y1} A${R},${R} 0 ${largeArc},1 ${x2},${y2} Z`;
     return { path, color: COLORS[i % COLORS.length], label: d.label, value: d.value, pct };
