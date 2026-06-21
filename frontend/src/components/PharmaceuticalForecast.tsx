@@ -278,8 +278,8 @@ export default function PharmaceuticalForecast() {
           const y = getY(val);
           return (
             <g key={val}>
-              <line x1={padL} x2={W - padR} y1={y} y2={y} stroke="rgba(255, 255, 255, 0.08)" strokeWidth={1} />
-              <text x={padL - 8} y={y + 4} textAnchor="end" className="chart-label-text" fill="#94a3b8">
+              <line x1={padL} x2={W - padR} y1={y} y2={y} stroke="var(--chart-grid-color)" strokeWidth={1} />
+              <text x={padL - 8} y={y + 4} textAnchor="end" className="chart-label-text" fill="var(--chart-label-color)">
                 {Math.round(val * 100)}%
               </text>
             </g>
@@ -291,8 +291,8 @@ export default function PharmaceuticalForecast() {
           const x = getX(yr);
           return (
             <g key={yr}>
-              <line x1={x} x2={x} y1={padT} y2={H - padB} stroke="rgba(255, 255, 255, 0.04)" />
-              <text x={x} y={H - padB + 18} textAnchor="middle" className="chart-label-text" fill="#94a3b8">
+              <line x1={x} x2={x} y1={padT} y2={H - padB} stroke="var(--chart-grid-light)" />
+              <text x={x} y={H - padB + 18} textAnchor="middle" className="chart-label-text" fill="var(--chart-label-color)">
                 {yr}
               </text>
             </g>
@@ -330,7 +330,7 @@ export default function PharmaceuticalForecast() {
                   cy={p.y}
                   r={isSelected ? 5.5 : 3.5}
                   fill={color}
-                  stroke="#111827"
+                  stroke="var(--dashboard-bg)"
                   strokeWidth={1.5}
                   onMouseEnter={() => setHoveredChartYear(p.yr)}
                   onMouseLeave={() => setHoveredChartYear(null)}
@@ -350,7 +350,7 @@ export default function PharmaceuticalForecast() {
             x2={getX(hoveredChartYear)}
             y1={padT}
             y2={H - padB}
-            stroke="#a78bfa"
+            stroke="var(--chart-active-color)"
             strokeWidth={1.5}
             strokeDasharray="4 4"
             opacity={0.8}
@@ -377,7 +377,7 @@ export default function PharmaceuticalForecast() {
                 y={10}
                 className="chart-legend-text"
                 fontWeight={isSelected ? 600 : 400}
-                fill={isSelected ? '#ffffff' : '#94a3b8'}
+                fill={isSelected ? 'var(--chart-legend-active-color)' : 'var(--chart-label-color)'}
               >
                 {prod.length > 18 ? `${prod.slice(0, 16)}...` : prod} ({Math.round(currentShare * 100)}%)
               </text>
@@ -431,7 +431,7 @@ export default function PharmaceuticalForecast() {
           return (
             <g key={pct}>
               <line x1={padL} x2={W - padR} y1={y} y2={y} stroke="rgba(255, 255, 255, 0.08)" strokeWidth={1} />
-              <text x={padL - 8} y={y + 4} textAnchor="end" className="chart-label-text" fill="#94a3b8">
+              <text x={padL - 8} y={y + 4} textAnchor="end" className="chart-label-text" fill="var(--chart-label-color)">
                 {formatRevenueLabel(val)}
               </text>
             </g>
@@ -443,7 +443,7 @@ export default function PharmaceuticalForecast() {
           const x = getX(yr) + barW / 2;
           return (
             <g key={yr}>
-              <text x={x} y={H - padB + 18} textAnchor="middle" className="chart-label-text" fill="#94a3b8">
+              <text x={x} y={H - padB + 18} textAnchor="middle" className="chart-label-text" fill="var(--chart-label-color)">
                 {yr}
               </text>
             </g>
@@ -495,7 +495,7 @@ export default function PharmaceuticalForecast() {
           return (
             <g key={prod} transform={`translate(${W - padR + 15}, ${padT + idx * 24})`}>
               <rect width={12} height={12} rx={3} fill={color} />
-              <text x={20} y={10} className="chart-legend-text" fill="#94a3b8">
+              <text x={20} y={10} className="chart-legend-text" fill="var(--chart-label-color)">
                 {prod.length > 18 ? `${prod.slice(0, 16)}...` : prod} ({formatRevenueLabel(totalRev2035)})
               </text>
             </g>
@@ -549,7 +549,7 @@ export default function PharmaceuticalForecast() {
           return (
             <g key={pct}>
               <line x1={padL} x2={W - padR} y1={y} y2={y} stroke="rgba(255, 255, 255, 0.08)" strokeWidth={1} />
-              <text x={padL - 8} y={y + 4} textAnchor="end" className="chart-label-text" fill="#94a3b8">
+              <text x={padL - 8} y={y + 4} textAnchor="end" className="chart-label-text" fill="var(--chart-label-color)">
                 {formatRevenueLabel(val)}
               </text>
             </g>
@@ -561,7 +561,7 @@ export default function PharmaceuticalForecast() {
           const x = getX(yr) + groupW / 2;
           return (
             <g key={yr}>
-              <text x={x} y={H - padB + 18} textAnchor="middle" className="chart-label-text" fill="#94a3b8">
+              <text x={x} y={H - padB + 18} textAnchor="middle" className="chart-label-text" fill="var(--chart-label-color)">
                 {yr}
               </text>
             </g>
@@ -608,7 +608,7 @@ export default function PharmaceuticalForecast() {
           return (
             <g key={prod} transform={`translate(${W - padR + 15}, ${padT + idx * 24})`}>
               <rect width={12} height={12} rx={3} fill={color} />
-              <text x={20} y={10} className="chart-legend-text" fill="#94a3b8">
+              <text x={20} y={10} className="chart-legend-text" fill="var(--chart-label-color)">
                 {prod.length > 18 ? `${prod.slice(0, 16)}...` : prod} ({formatRevenueLabel(peakRev)})
               </text>
             </g>
@@ -703,14 +703,14 @@ export default function PharmaceuticalForecast() {
         })}
 
         {/* Center label */}
-        <circle cx={cx} cy={cy} r={r - strokeW/2 - 2} fill="#1e293b" opacity={0.6} />
-        <text x={cx} y={cy} textAnchor="middle" fill="#ffffff" fontWeight={700} fontSize={12}>
+        <circle cx={cx} cy={cy} r={r - strokeW/2 - 2} fill="var(--donut-center-bg)" opacity={0.6} />
+        <text x={cx} y={cy} textAnchor="middle" fill="var(--chart-legend-active-color)" fontWeight={700} fontSize={12}>
           {hoveredDonutProduct
             ? (hoveredDonutProduct.length > 15 ? `${hoveredDonutProduct.slice(0, 13)}...` : hoveredDonutProduct)
             : "Market Share"
           }
         </text>
-        <text x={cx} y={cy + 18} textAnchor="middle" fill="#06b6d4" fontWeight={800} fontSize={16}>
+        <text x={cx} y={cy + 18} textAnchor="middle" fill="var(--chart-donut-value-color)" fontWeight={800} fontSize={16}>
           {hoveredDonutProduct
             ? `${((normalizedShares.find(s => s.name === hoveredDonutProduct)?.share || 0) * 100).toFixed(1)}%`
             : "Peak year 2035"
@@ -735,7 +735,7 @@ export default function PharmaceuticalForecast() {
                 y={10}
                 className="chart-legend-text"
                 fontWeight={isHovered ? 700 : 400}
-                fill={isHovered ? '#ffffff' : '#cbd5e1'}
+                fill={isHovered ? 'var(--chart-legend-active-color)' : 'var(--chart-label-color)'}
               >
                 {s.name.length > 20 ? `${s.name.slice(0, 18)}...` : s.name} ({(s.share * 100).toFixed(0)}%)
               </text>
