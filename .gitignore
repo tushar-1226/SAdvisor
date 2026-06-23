@@ -49,3 +49,8 @@ backend/*_response.json
 backend/*_details.json
 backend/*_data.json
 backend/*.csv
+
+# Local disk cache and test SVG reports
+backend/.cache/
+backend/test_report.svg
+download/

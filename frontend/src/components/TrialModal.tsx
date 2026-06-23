@@ -146,10 +146,15 @@ export default function TrialModal({ nctId, onClose }: TrialModalProps) {
         {/* ── Header ── */}
         <div className="trial-modal-header">
           <div className="trial-modal-header-info">
-            <span className="trial-modal-nct">
+            <a 
+              href={`https://clinicaltrials.gov/study/${nctId}`} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="trial-modal-nct trial-modal-nct--link"
+            >
               <ClipboardList size={14} />
               {nctId}
-            </span>
+            </a>
             {!loading && !error && (
               <>
                 <h2 className="trial-modal-title">{briefTitle}</h2>

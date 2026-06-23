@@ -32,6 +32,7 @@ export async function generateForecast(params: {
   category: 'oncology' | 'non_oncology' | 'auto';
   geography: string[];
   api_keys?: Record<string, string>;
+  model_type?: string;
 }): Promise<any> {
   const url = `${API_BASE}/api/forecast`;
   const response = await fetch(url, {

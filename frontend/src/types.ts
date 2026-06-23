@@ -43,11 +43,15 @@ export interface Drug {
 
 export interface SearchResults {
   query: string;
+  original_query?: string;
   trials: Trial[];
   articles: Article[];
   drugs: Drug[];
   trials_error?: string;
   articles_error?: string;
+  confidence_score?: number;
+  confidence_reasons?: string[];
+  insights?: string;
 }
 
 export interface FunnelYearData {
@@ -70,6 +74,11 @@ export interface PipelineProduct {
   phase: string;
   mechanism: string;
   sponsor: string;
+}
+
+export interface DataSource {
+  name: string;
+  url: string;
 }
 
 export interface ForecastModel {
@@ -115,7 +124,11 @@ export interface ForecastModel {
     discount_rate: Record<string, number>;
     compliance_rate: number;
   };
-  data_sources: string[];
+  data_sources: DataSource[];
+  confidence_score?: number;
+  confidence_reasons?: string[];
+  model_type?: string;
+  insights?: string;
 }
 
 export interface ApiKeysConfig {

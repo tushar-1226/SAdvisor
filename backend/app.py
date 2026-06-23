@@ -20,7 +20,9 @@ from services import (
     search_chembl,
 )
 from forecast import generate_forecast_model
-
+from cache import cache
+from ontology import resolve_disease
+from insights import generate_clinical_insights
 
 app = FastAPI(title="SAdvisory API", version="1.0.0")
 router = APIRouter()
@@ -47,16 +49,27 @@ def search_disease(
 ):
     """
     Master endpoint: searches ClinicalTrials.gov, PubMed, and PubChem
-    in parallel and returns consolidated results.
+    in parallel and returns consolidated results. Matches synonyms and utilizes cache.
     """
     if not q.strip():
         raise HTTPException(status_code=400, detail="Query parameter 'q' is required.")
 
-    results: dict = {"query": q, "trials": [], "articles": [], "drugs": []}
+    # Caching check
+    cache_key = f"search_{q.strip().lower()}_{max_trials}_{max_articles}"
+    cached = cache.get(cache_key)
+    if cached:
+        return cached
 
     query_str = q.strip()
     # Check if query is an NCT ID (e.g. NCT01466647)
     is_nct = bool(re.match(r"^NCT\d{8}$", query_str, re.IGNORECASE))
+
+    resolved_query = query_str
+    if not is_nct:
+        canonical_key, display_name = resolve_disease(query_str)
+        resolved_query = display_name
+
+    results: dict = {"query": resolved_query, "original_query": query_str, "trials": [], "articles": [], "drugs": []}
 
     if is_nct:
         # Direct lookup of the specific trial
@@ -74,8 +87,8 @@ def search_disease(
     else:
         # Run trials + articles searches in parallel
         with ThreadPoolExecutor(max_workers=3) as pool:
-            future_trials = pool.submit(search_trials_by_condition, query_str, max_trials)
-            future_articles = pool.submit(search_pubmed_articles, query_str, max_articles)
+            future_trials = pool.submit(search_trials_by_condition, resolved_query, max_trials)
+            future_articles = pool.submit(search_pubmed_articles, resolved_query, max_articles)
 
             for future in as_completed([future_trials, future_articles]):
                 try:
@@ -113,6 +126,52 @@ def search_disease(
                         results["drugs"].append(detail)
                 except Exception:
                     pass
+
+    # 1. Compute Data Confidence Score & Reasons
+    score = 100
+    reasons = []
+    
+    if is_nct:
+        reasons.append("Retrieved specific registry ID details")
+    else:
+        reasons.append(f"Mapped search query to canonical term: {resolved_query}")
+
+    trials_list = results.get("trials", [])
+    if not trials_list:
+        score -= 30
+        reasons.append("No clinical trials found (-30)")
+    else:
+        reasons.append(f"Retrieved {len(trials_list)} clinical trials")
+        no_phase = sum(1 for t in trials_list if not t.get("phases"))
+        if no_phase > 0:
+            penalty = min(20, no_phase * 5)
+            score -= penalty
+            reasons.append(f"{no_phase} trials lack phase assignments (-{penalty})")
+        else:
+            reasons.append("100% of trials have developmental phase detail")
+
+    articles_list = results.get("articles", [])
+    if not articles_list:
+        score -= 20
+        reasons.append("No PubMed research articles found (-20)")
+    else:
+        reasons.append(f"Retrieved {len(articles_list)} publications")
+
+    drugs_list = results.get("drugs", [])
+    if not drugs_list:
+        score -= 15
+        reasons.append("No active therapeutic drug details resolved (-15)")
+    else:
+        reasons.append(f"Extracted properties for {len(drugs_list)} compounds")
+
+    results["confidence_score"] = max(10, min(100, score))
+    results["confidence_reasons"] = reasons
+
+    # 2. Compile AI / Heuristics insights summary
+    results["insights"] = generate_clinical_insights(resolved_query, trials_list, articles_list, drugs_list)
+
+    # Save to cache
+    cache.set(cache_key, results)
 
     return results
 
@@ -181,6 +240,7 @@ class ForecastRequest(BaseModel):
     category: str  # "oncology" | "non_oncology" | "auto"
     geography: List[str]
     api_keys: Optional[Dict[str, str]] = None
+    model_type: Optional[str] = "s_curve"
 
 class ConfigUpdateRequest(BaseModel):
     seer_api_key: Optional[str] = None
@@ -214,9 +274,17 @@ def save_stored_keys(keys: dict):
 def api_generate_forecast(req: ForecastRequest):
     """
     Generate a 10-year market forecast model for the given disease.
+    Uses caching and calculates data confidence.
     """
     if not req.disease.strip():
         raise HTTPException(status_code=400, detail="Disease query is required.")
+
+    # Caching check
+    geo_key = "_".join(sorted(req.geography))
+    cache_key = f"forecast_{req.disease.strip().lower()}_{req.category}_{geo_key}_{req.model_type or 's_curve'}"
+    cached = cache.get(cache_key)
+    if cached:
+        return cached
         
     category = req.category
     if category == "auto":
@@ -231,19 +299,66 @@ def api_generate_forecast(req: ForecastRequest):
     keys = req.api_keys or {}
     stored = load_stored_keys()
     for k, v in stored.items():
-        # Map pydantic field names to forecast.py expected keys if needed
-        # forecast expects: "seer", "ncbi", "openfda"
         api_name = k.replace("_api_key", "")
         if api_name not in keys or not keys[api_name]:
             keys[api_name] = v
 
     try:
+        # Resolve synonyms to match disease baselines in forecast
+        canonical_key, display_name = resolve_disease(req.disease)
+        
         model = generate_forecast_model(
-            disease=req.disease,
+            disease=display_name,
             category=category,
             countries=req.geography,
-            api_keys=keys
+            api_keys=keys,
+            model_type=req.model_type or "s_curve"
         )
+        
+        # Generate insights for the forecast model
+        mock_articles = []
+        for src in model.get("data_sources", []):
+            if "PubMed" in src.get("name", ""):
+                mock_articles.append({"title": src.get("name"), "journal": "NCBI PubMed", "pubDate": "Recent"})
+        
+        model["insights"] = generate_clinical_insights(
+            display_name,
+            model.get("treatment_landscape", {}).get("pipeline_products", []),
+            mock_articles if mock_articles else [{"title": "Clinical Literature Review", "journal": "PubMed", "pubDate": "Recent"}],
+            model.get("treatment_landscape", {}).get("approved_products", [])
+        )
+        
+        # Calculate Data Confidence
+        score = 100
+        reasons = []
+        
+        uses_wb = any("World Bank" in src.get("name", "") for src in model.get("data_sources", []))
+        if not uses_wb:
+            score -= 20
+            reasons.append("World Bank API unavailable; fell back to calculated demographics (-20)")
+        else:
+            reasons.append("Demographics resolved via World Bank population indicators")
+            
+        pipeline_drugs = model.get("treatment_landscape", {}).get("pipeline_products", [])
+        if not pipeline_drugs:
+            score -= 20
+            reasons.append("No active clinical pipeline compounds found (-20)")
+        else:
+            reasons.append(f"Identified {len(pipeline_drugs)} active pipeline clinical trials")
+            
+        approved_drugs = model.get("treatment_landscape", {}).get("approved_products", [])
+        if not approved_drugs:
+            score -= 15
+            reasons.append("No FDA approved reference products resolved (-15)")
+        else:
+            reasons.append(f"Successfully loaded {len(approved_drugs)} approved reference therapies")
+            
+        model["confidence_score"] = max(10, min(100, score))
+        model["confidence_reasons"] = reasons
+        
+        # Save to cache
+        cache.set(cache_key, model)
+        
         return model
     except Exception as e:
         import traceback

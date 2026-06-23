@@ -378,10 +378,12 @@ def generate_forecast_model(
     disease: str,
     category: str,
     countries: List[str],
-    api_keys: Dict[str, str] = None
+    api_keys: Dict[str, str] = None,
+    model_type: str = "s_curve"
 ) -> Dict[str, Any]:
     """
     Core forecasting engine. Builds a 10-year projection (2026-2035) for Oncology or Non-Oncology.
+    Supports selectable forecasting models: s_curve, linear, exponential, smoothing.
     """
     normalized_query = disease.lower().strip()
     
@@ -620,16 +622,23 @@ def generate_forecast_model(
         for yr in forecast_years:
             market_share[c_code][yr] = {}
             
-            # Simple diffusion curves
             if yr < 2028:
                 # Stable shares before pipeline launch
                 for p in all_products:
                     market_share[c_code][yr][p] = shares_2026[p]
             else:
-                # Pipeline asset launches in 2028 and grows
-                # Others and standard brand shares erode slightly
+                # Calculate pipeline diffusion based on selected statistical model
                 diff_yr = yr - 2028
-                pipeline_share = 0.25 * (1.0 / (1.0 + 2.718 ** -(diff_yr - 1))) # S-curve uptake
+                
+                if model_type == "linear":
+                    pipeline_share = min(0.24, 0.048 * diff_yr)
+                elif model_type == "exponential":
+                    pipeline_share = min(0.24, 0.02 * (1.45 ** diff_yr))
+                elif model_type == "smoothing":
+                    # Double smoothing representation
+                    pipeline_share = min(0.24, 0.07 * diff_yr * (0.88 ** (diff_yr - 1)) + 0.04)
+                else:  # Default "s_curve"
+                    pipeline_share = 0.25 * (1.0 / (1.0 + 2.718 ** -(diff_yr - 1)))
                 
                 # Deduct pipeline share proportionally from others
                 total_established_share = 1.0 - pipeline_share
@@ -684,28 +693,58 @@ def generate_forecast_model(
                 net_price = price * (1.0 - gtn_discount)
                 
                 # Revenue = Treated Patients * Share * Compliance * Net Price
-                # (Compliance/adherence rate is already modeled in 'adherent' funnel, 
-                # but to avoid double-counting, we multiply treated_pats * share * compliance rate * net price)
                 compliance = assumptions["compliance_rate"]
                 
                 rev_val = int(treated_pats * share * compliance * net_price)
                 revenue[c_code][yr][p] = rev_val
 
-    # 9. Data Sources Cites
-    default_sources = [
-        "World Bank Population Projections (2020-2035)",
-        "ClinicalTrials.gov Registry (Pipeline phase & status analysis)",
-        "US Food & Drug Administration (FDA) Approved Drug Database",
-        "World Health Organization (WHO) Global Health Observatory Data"
-    ]
-    if category == "oncology":
-        default_sources.append("GLOBOCAN / International Agency for Research on Cancer")
-        default_sources.append("National Cancer Institute Surveillance, Epidemiology, and End Results (SEER)")
-    else:
-        default_sources.append("Centers for Disease Control and Prevention (CDC) Chronic Disease Indicators")
-        default_sources.append("IQVIA Disease Landscape and Market Audits")
+    # 9. Structured Data Sources (Trustworthiness)
+    data_sources = []
+    
+    # Add PMIDs
+    for cite in pubmed_citations:
+        pmid_match = re.search(r"PMID:\s*(\d+)", cite)
+        url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid_match.group(1)}/" if pmid_match else "https://pubmed.ncbi.nlm.nih.gov/"
+        data_sources.append({
+            "name": cite,
+            "url": url
+        })
         
-    data_sources = pubmed_citations + default_sources
+    data_sources.append({
+        "name": "World Bank Population Projections (2020-2035)",
+        "url": f"https://data.worldbank.org/indicator/SP.POP.TOTL?locations={'-'.join(countries).lower()}"
+    })
+    data_sources.append({
+        "name": "ClinicalTrials.gov Registry (Pipeline phase & status analysis)",
+        "url": f"https://clinicaltrials.gov/search?cond={requests.utils.quote(disease)}"
+    })
+    data_sources.append({
+        "name": "US Food & Drug Administration (FDA) Approved Drug Database",
+        "url": "https://www.fda.gov/drugs"
+    })
+    data_sources.append({
+        "name": "World Health Organization (WHO) Global Health Observatory Data",
+        "url": "https://www.who.int/data/gho"
+    })
+    
+    if category == "oncology":
+        data_sources.append({
+            "name": "GLOBOCAN / International Agency for Research on Cancer",
+            "url": "https://gco.iarc.fr/"
+        })
+        data_sources.append({
+            "name": "National Cancer Institute Surveillance, Epidemiology, and End Results (SEER)",
+            "url": "https://seer.cancer.gov/"
+        })
+    else:
+        data_sources.append({
+            "name": "Centers for Disease Control and Prevention (CDC) Chronic Disease Indicators",
+            "url": "https://www.cdc.gov/cdi/"
+        })
+        data_sources.append({
+            "name": "IQVIA Disease Landscape and Market Audits",
+            "url": "https://www.iqvia.com/"
+        })
     
     return {
         "disease": disease.upper(),
@@ -719,5 +758,6 @@ def generate_forecast_model(
         "market_share": market_share,
         "revenue": revenue,
         "assumptions": assumptions,
-        "data_sources": data_sources
+        "data_sources": data_sources,
+        "model_type": model_type
     }

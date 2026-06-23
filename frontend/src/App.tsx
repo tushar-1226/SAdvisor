@@ -8,8 +8,9 @@ import {
   Pill,
   Microscope,
   Download,
-  FileSpreadsheet,
   TrendingUp,
+  Sparkles,
+  Shield,
 } from 'lucide-react';
 import './App.css';
 import SearchBar from './components/SearchBar';
@@ -20,15 +21,158 @@ import TrialModal from './components/TrialModal';
 import FilterPanel from './components/FilterPanel';
 import type { FilterState } from './components/FilterPanel';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
-import ExcelAnalyzer from './components/ExcelAnalyzer';
 import PharmaceuticalForecast from './components/PharmaceuticalForecast';
+import ErrorBoundary from './components/ErrorBoundary';
 import { searchDisease } from './api';
 import type { SearchResults } from './types';
 
-type AppMode = 'search' | 'excel' | 'pharmaceutical';
+type AppMode = 'search' | 'pharmaceutical';
 
 
-type Tab = 'trials' | 'articles' | 'drugs';
+type Tab = 'trials' | 'articles' | 'drugs' | 'insights';
+
+function renderCleanInsights(text: string) {
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+  
+  let listItems: string[] = [];
+  let swotCells: string[] = [];
+  
+  const flushList = (key: string) => {
+    if (listItems.length > 0) {
+      elements.push(
+        <ul key={key} className="insights-list">
+          {listItems.map((item, idx) => (
+            <li key={idx} className="insights-list-item">{item}</li>
+          ))}
+        </ul>
+      );
+      listItems = [];
+    }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    
+    if (line.includes('|') && line.includes(':-')) {
+      continue;
+    }
+    
+    if (line.startsWith('|') && line.endsWith('|')) {
+      flushList(`list-pre-table-${i}`);
+      const parts = line.split('|').map(p => p.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+      parts.forEach(part => {
+        if (part) {
+          const cleanPart = part.replace(/\*\*/g, '').replace(/#/g, '').trim();
+          if (cleanPart) {
+            swotCells.push(cleanPart);
+          }
+        }
+      });
+      continue;
+    }
+    
+    if (swotCells.length > 0) {
+      elements.push(
+        <div key={`swot-grid-${i}`} className="swot-grid" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '1.25rem',
+          margin: '1.5rem 0'
+        }}>
+          <div className="swot-card swot-card--strengths" style={{
+            padding: '1.25rem',
+            borderRadius: '8px',
+            background: 'rgba(79, 110, 247, 0.05)',
+            borderLeft: '4px solid #4f6ef7'
+          }}>
+            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#4f6ef7' }}>Strengths</h5>
+            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
+              {(swotCells[2] || '').split('<br>').map((b, bIdx) => (
+                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="swot-card swot-card--weaknesses" style={{
+            padding: '1.25rem',
+            borderRadius: '8px',
+            background: 'rgba(239, 68, 68, 0.05)',
+            borderLeft: '4px solid #ef4444'
+          }}>
+            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Weaknesses</h5>
+            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
+              {(swotCells[3] || '').split('<br>').map((b, bIdx) => (
+                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="swot-card swot-card--opportunities" style={{
+            padding: '1.25rem',
+            borderRadius: '8px',
+            background: 'rgba(16, 185, 129, 0.05)',
+            borderLeft: '4px solid #10b981'
+          }}>
+            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#10b981' }}>Opportunities</h5>
+            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
+              {(swotCells[6] || '').split('<br>').map((b, bIdx) => (
+                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="swot-card swot-card--threats" style={{
+            padding: '1.25rem',
+            borderRadius: '8px',
+            background: 'rgba(245, 158, 11, 0.05)',
+            borderLeft: '4px solid #f59e0b'
+          }}>
+            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#f59e0b' }}>Threats</h5>
+            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
+              {(swotCells[7] || '').split('<br>').map((b, bIdx) => (
+                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      );
+      swotCells = [];
+    }
+    
+    if (line.startsWith('#')) {
+      flushList(`list-pre-h-${i}`);
+      const cleanHeader = line.replace(/^#+\s*/, '').replace(/\*\*/g, '').replace(/#/g, '').trim();
+      elements.push(
+        <h4 key={`header-${i}`} className="insights-h4">
+          {cleanHeader}
+        </h4>
+      );
+      continue;
+    }
+    
+    if (line.startsWith('*') || line.startsWith('-') || line.startsWith('•')) {
+      const cleanItem = line.replace(/^[\*\-•]\s*/, '').replace(/\*\*/g, '').trim();
+      listItems.push(cleanItem);
+      continue;
+    }
+    
+    flushList(`list-pre-p-${i}`);
+    
+    const cleanPara = line.replace(/\*\*/g, '').replace(/#/g, '').trim();
+    if (cleanPara) {
+      elements.push(
+        <p key={`para-${i}`} className="insights-p">
+          {cleanPara}
+        </p>
+      );
+    }
+  }
+  
+  flushList('list-final');
+  return elements;
+}
 
 function App() {
   const [appMode, setAppMode] = useState<AppMode>('search');
@@ -264,13 +408,6 @@ function App() {
             <Stethoscope size={14} /> Clinical Search
           </button>
           <button
-            id="mode-btn-excel"
-            className={`mode-toggle-btn ${appMode === 'excel' ? 'mode-toggle-btn--active' : ''}`}
-            onClick={() => setAppMode('excel')}
-          >
-            <FileSpreadsheet size={14} /> Excel Analyzer
-          </button>
-          <button
             id="mode-btn-pharma"
             className={`mode-toggle-btn ${appMode === 'pharmaceutical' ? 'mode-toggle-btn--active' : ''}`}
             onClick={() => setAppMode('pharmaceutical')}
@@ -284,17 +421,12 @@ function App() {
 
 
 
-      {/* ── Excel Mode ── */}
-      {appMode === 'excel' && (
-        <main className="app-main">
-          <ExcelAnalyzer />
-        </main>
-      )}
-
       {/* ── Pharmaceutical Mode ── */}
       {appMode === 'pharmaceutical' && (
         <main className="app-main">
-          <PharmaceuticalForecast />
+          <ErrorBoundary>
+            <PharmaceuticalForecast />
+          </ErrorBoundary>
         </main>
       )}
 
@@ -336,6 +468,27 @@ function App() {
         {/* Results */}
         {results && !isLoading && (
           <div className="results-section fade-in-up">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
+              <h2 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--text-primary)' }}>
+                Search Results for "{results.query}"
+              </h2>
+              {results.confidence_score !== undefined && (
+                <div className="confidence-badge-wrapper">
+                  <span className={`confidence-badge confidence-badge--${results.confidence_score >= 80 ? 'high' : results.confidence_score >= 60 ? 'medium' : 'low'}`}>
+                    <Shield size={13} style={{ marginRight: '4px', verticalAlign: 'middle' }} /> {results.confidence_score}% Confidence
+                  </span>
+                  <div className="confidence-tooltip">
+                    <h4 className="confidence-tooltip-title">Data Completeness Checklist</h4>
+                    <ul className="confidence-tooltip-list">
+                      {results.confidence_reasons?.map((reason, idx) => (
+                        <li key={idx} className="confidence-tooltip-item">✓ {reason}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Tabs */}
             <div className="tabs">
               <button
@@ -367,6 +520,15 @@ function App() {
               >
                 <Pill size={15} /> Drugs{' '}
                 <span className="tab-count">{drugsCount}</span>
+              </button>
+              <button
+                id="tab-insights"
+                className={`tab-btn ${
+                  activeTab === 'insights' ? 'tab-btn--active' : ''
+                }`}
+                onClick={() => setActiveTab('insights')}
+              >
+                <Sparkles size={15} /> AI Insights
               </button>
             </div>
 
@@ -477,6 +639,24 @@ function App() {
                   </div>
                 )}
               </>
+            )}
+
+            {/* ── AI Insights Tab ── */}
+            {activeTab === 'insights' && (
+              <div className="tab-panel fade-in-up" style={{ width: '100%' }}>
+                <div className="glass-panel" style={{ padding: '2rem', minHeight: '200px', width: '100%', boxSizing: 'border-box' }}>
+                  <h3 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+                    <Sparkles size={18} style={{ color: '#f59e0b' }} /> AI Clinical Analysis &amp; SWOT Synthesis
+                  </h3>
+                  {results.insights ? (
+                    <div className="insights-markdown">
+                      {renderCleanInsights(results.insights)}
+                    </div>
+                  ) : (
+                    <p className="text-muted">No insights available for this search query.</p>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         )}
