@@ -1,34 +1,36 @@
 import os
 import requests
+import json
 from typing import Dict, Any, List
 
-def query_gemini_summary(prompt: str, api_key: str) -> str:
-    """Queries the Gemini API via standard REST API to avoid SDK version conflicts."""
-    url = f"https://generativelapis.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
-    headers = {"Content-Type": "application/json"}
+def query_nvidia_summary(prompt: str, api_key: str, api_url: str) -> str:
+    """Queries the NVIDIA Chat Completion API using the Google DiffusionGemma model."""
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }
     payload = {
-        "contents": [{
-            "parts": [{
-                "text": prompt
-            }]
-        }],
-        "generationConfig": {
-            "temperature": 0.2,
-            "maxOutputTokens": 800
-        }
+        "model": "google/diffusiongemma-26b-a4b-it",
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": 1024,
+        "temperature": 0.20,
+        "top_p": 0.95,
+        "stream": False,
+        "chat_template_kwargs": {"enable_thinking": True}
     }
     try:
-        resp = requests.post(url, json=payload, headers=headers, timeout=12)
+        resp = requests.post(api_url, json=payload, headers=headers, timeout=20)
         if resp.status_code == 200:
             data = resp.json()
-            candidates = data.get("candidates", [])
-            if candidates:
-                text = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+            choices = data.get("choices", [])
+            if choices:
+                text = choices[0].get("message", {}).get("content", "")
                 if text:
                     return text.strip()
-        print(f"[Insights] Gemini REST API call returned status {resp.status_code}: {resp.text}")
+        print(f"[Insights] NVIDIA API call returned status {resp.status_code}: {resp.text}")
     except Exception as e:
-        print(f"[Insights] Failed to contact Gemini REST API: {e}")
+        print(f"[Insights] Failed to contact NVIDIA API: {e}")
     return ""
 
 def compile_heuristic_insights(query: str, trials: List[Dict[str, Any]], articles: List[Dict[str, Any]], drugs: List[Dict[str, Any]]) -> str:
@@ -86,10 +88,11 @@ Research papers indicate focus on secondary endpoints and survival efficacy stat
 
 def generate_clinical_insights(query: str, trials: List[Dict[str, Any]], articles: List[Dict[str, Any]], drugs: List[Dict[str, Any]]) -> str:
     """Main insights orchestrator."""
-    api_key = os.environ.get("GEMINI_API_KEY", "")
+    api_key = os.environ.get("NVIDIA_API_KEY", "")
+    api_url = os.environ.get("NVIDIA_API_URL", "")
     
-    # If API key is present, construct a dense clinical summary prompt
-    if api_key:
+    # If API key and URL are present, construct a dense clinical summary prompt
+    if api_key and api_url:
         trial_summaries = []
         for t in trials[:8]:
             phases_str = ", ".join(t.get("phases", []))
@@ -116,9 +119,122 @@ Here is the data context to summarize:
 
 Keep the tone objective, clinical, and scientific. Keep it under 500 words. Do not make up facts. Do not use any emojis in your response.
 """
-        ai_summary = query_gemini_summary(prompt, api_key)
+        ai_summary = query_nvidia_summary(prompt, api_key, api_url)
         if ai_summary:
             return ai_summary
             
     # Fallback to high-quality template-based summary
     return compile_heuristic_insights(query, trials, articles, drugs)
+
+
+def compile_heuristic_excel_insights(sheet_name: str, row_count: int, column_count: int, columns: List[Dict[str, Any]]) -> str:
+    """Heuristic summary generator for Excel sheets when Gemini API is unavailable."""
+    # Analyze columns
+    numeric_cols = [c for c in columns if c.get("type") == "numeric"]
+    categorical_cols = [c for c in columns if c.get("type") == "categorical"]
+    date_cols = [c for c in columns if c.get("type") == "date"]
+    
+    summary = f"### Heuristic Analysis Summary for **{sheet_name}**\n\n"
+    summary += "#### Sheet Overview\n"
+    summary += f"The worksheet contains **{row_count} rows** and **{column_count} columns**. The parsed data schema contains:\n"
+    summary += f"* **{len(numeric_cols)} Numeric columns**: {', '.join([c.get('name') for c in numeric_cols]) if numeric_cols else 'None'}\n"
+    summary += f"* **{len(categorical_cols)} Categorical columns**: {', '.join([c.get('name') for c in categorical_cols]) if categorical_cols else 'None'}\n"
+    summary += f"* **{len(date_cols)} Date/Time columns**: {', '.join([c.get('name') for c in date_cols]) if date_cols else 'None'}\n\n"
+
+    if numeric_cols:
+        summary += "#### Data Metrics & Statistics\n"
+        summary += "Here are key statistics computed for the top numeric fields:\n"
+        for col in numeric_cols[:4]:
+            name = col.get("name")
+            col_sum = col.get("sum")
+            col_avg = col.get("avg")
+            col_min = col.get("min")
+            col_max = col.get("max")
+            
+            # Safe formatting helper
+            def fmt(val):
+                if isinstance(val, (int, float)):
+                    return f"{val:,.2f}"
+                return "N/A"
+            
+            summary += f"* **{name}**: Sum: `{fmt(col_sum)}` · Average: `{fmt(col_avg)}` · Range: [`{fmt(col_min)}` to `{fmt(col_max)}`]\n"
+        summary += "\n"
+        
+    if categorical_cols:
+        summary += "#### Distribution Insights\n"
+        for col in categorical_cols[:2]:
+            name = col.get("name")
+            cardinality = col.get("cardinality", 0)
+            summary += f"* **{name}** represents categorical labels with **{cardinality} unique values**."
+            dist = col.get("distribution")
+            if dist and isinstance(dist, dict):
+                dist_str = ", ".join([f"'{k}': {v} records" for k, v in list(dist.items())[:3]])
+                summary += f" Top categories: {dist_str}."
+            summary += "\n"
+        summary += "\n"
+
+    summary += """#### Observations & Recommendations
+1. **Quality Check**: The dataset appears fully structured with well-defined types. Review any outliers in the range metrics.
+2. **Trend Potential**: Since date/time columns are detected, we recommend exploring time-series lines to visualize trend gradients over time.
+3. **Segmentation**: Grouping numeric KPIs by key categorical columns is recommended to discover high-value and low-value segments.
+
+*Note: For a fully personalized AI narrative analysis, please configure your Gemini API Key in the environment.*"""
+    return summary
+
+
+def generate_excel_insights(sheet_name: str, row_count: int, column_count: int, columns: List[Dict[str, Any]], sample_rows: List[Dict[str, Any]]) -> str:
+    """Main Excel insights generator using Gemini model or heuristic fallback."""
+    api_key = os.environ.get("NVIDIA_API_KEY", "")
+    api_url = os.environ.get("NVIDIA_API_URL", "")
+    
+    if api_key and api_url:
+        # Prepare columns summary
+        col_desc = []
+        for c in columns:
+            name = c.get("name")
+            c_type = c.get("type")
+            stats = []
+            if c_type == "numeric":
+                stats.append(f"Sum={c.get('sum')}, Avg={c.get('avg')}, Range=[{c.get('min')} to {c.get('max')}]")
+            elif c_type == "categorical":
+                stats.append(f"Unique values count={c.get('cardinality')}")
+                dist = c.get("distribution")
+                if dist and isinstance(dist, dict):
+                    top_vals = [f"{k}: {v}" for k, v in list(dist.items())[:3]]
+                    stats.append(f"Top values={', '.join(top_vals)}")
+            col_desc.append(f"- Name: {name}, Type: {c_type}, Stats: {'; '.join(stats)}")
+        
+        col_desc_str = "\n".join(col_desc)
+        
+        # Prepare sample rows as a small clean JSON block
+        sample_rows_str = json.dumps(sample_rows[:3], indent=2)
+        
+        prompt = f"""
+You are 'SAdvisory Excel AI Copilot', an expert Business Intelligence analyst and data scientist.
+Analyze the following parsed Excel worksheet summary details and generate a premium, professional analytical summary.
+Your report must use clean markdown styling with exactly these sections:
+1. "### AI Executive Insights for Sheet: **{sheet_name}**"
+2. "#### Executive Summary": Provide an elegant explanation of what this dataset appears to be, who would use it, and what its overall health is.
+3. "#### Key Trends & Analytical Findings": Detail at least 2-3 specific insights. Focus on trends, categorical distributions, or numerical observations from the statistics.
+4. "#### Outlier & Anomaly Detection": Call out any potential data quality concerns, missing cells, extreme min/max values, or details that warrant verification.
+5. "#### Strategic Action Items": List 3-4 actionable recommendations for decision-makers based on this data.
+
+Here is the data context:
+- Sheet Name: {sheet_name}
+- Total Row Count: {row_count}
+- Total Column Count: {column_count}
+- Columns metadata and statistics:
+{col_desc_str}
+- Sample Rows (for content context):
+{sample_rows_str}
+
+Be direct, objective, and extremely analytical. Avoid marketing fluff or generic comments. Do not use any emojis in your response. Keep it under 400 words.
+"""
+        ai_summary = query_nvidia_summary(prompt, api_key, api_url)
+        if ai_summary:
+            return ai_summary
+            
+    # Fallback
+    return compile_heuristic_excel_insights(sheet_name, row_count, column_count, columns)
+
+

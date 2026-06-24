@@ -1,0 +1,270 @@
+.trial-visualizer-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.visualizer-sub-tabs {
+  display: flex;
+  gap: var(--space-xs);
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: var(--space-sm);
+}
+
+.sub-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.sub-tab-btn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.sub-tab-btn--active {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.chart-info-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  background: var(--color-bg);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.gantt-svg-container,
+.risk-svg-container {
+  width: 100%;
+}
+
+.gantt-gridline {
+  stroke: var(--color-border-light);
+  stroke-width: 1;
+}
+
+.gantt-axis-text {
+  font-size: 10px;
+  fill: var(--color-text-muted);
+  text-anchor: middle;
+  font-family: var(--font-sans);
+}
+
+.row-hover-strip {
+  fill: transparent;
+  transition: fill var(--duration-fast);
+}
+
+.gantt-row:hover .row-hover-strip {
+  fill: var(--color-surface-hover);
+}
+
+.gantt-label-text {
+  font-family: var(--font-sans);
+}
+
+.gantt-label-text--nct {
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--color-text-primary);
+}
+
+.gantt-label-text--sponsor {
+  font-size: 9px;
+  fill: var(--color-text-muted);
+}
+
+.gantt-bar-fill {
+  transition: fill-opacity var(--duration-fast);
+}
+
+.gantt-row:hover .gantt-bar-fill {
+  fill-opacity: 0.9;
+}
+
+.bar-fill--recruiting {
+  fill: #10b981;
+}
+
+.bar-fill--completed {
+  fill: #3b82f6;
+}
+
+.bar-fill--terminated {
+  fill: #ef4444;
+}
+
+.bar-fill--other {
+  fill: var(--color-text-muted);
+}
+
+/* Gantt Tooltip Rendering */
+.gantt-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  pointer-events: none;
+}
+
+.gantt-row:hover .gantt-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.gantt-tooltip-box {
+  fill: #1e293b;
+  stroke: #475569;
+  stroke-width: 1;
+}
+
+.gantt-tooltip-title {
+  font-size: 10px;
+  fill: #ffffff;
+  font-weight: 700;
+  font-family: var(--font-sans);
+}
+
+.gantt-tooltip-desc {
+  font-size: 9px;
+  fill: #94a3b8;
+  font-family: var(--font-sans);
+}
+
+.gantt-tooltip-meta {
+  font-size: 9px;
+  fill: #cbd5e1;
+  font-weight: 500;
+  font-family: var(--font-sans);
+}
+
+.gantt-legend {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* Risk Matrix Grid & Bubbles */
+.matrix-gridline {
+  stroke: var(--color-border-light);
+  stroke-width: 1.5;
+}
+
+.matrix-axis-text {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  fill: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.matrix-axis-text--x {
+  text-anchor: middle;
+}
+
+.matrix-axis-text--y {
+  text-anchor: end;
+}
+
+.matrix-bubble {
+  cursor: pointer;
+  transition: fill-opacity var(--duration-fast), r var(--duration-fast);
+}
+
+.matrix-bubble-group:hover .matrix-bubble {
+  fill-opacity: 0.95;
+  r: 28px;
+}
+
+/* Matrix Tooltip */
+.matrix-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  pointer-events: none;
+}
+
+.matrix-bubble-group:hover .matrix-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.matrix-tooltip-box {
+  fill: #1e293b;
+  stroke: #475569;
+  stroke-width: 1;
+}
+
+.matrix-tooltip-title {
+  font-size: 10px;
+  fill: #ffffff;
+  font-weight: 700;
+  font-family: var(--font-sans);
+}
+
+.matrix-tooltip-desc {
+  font-size: 9px;
+  fill: #94a3b8;
+  font-family: var(--font-sans);
+}
+
+.matrix-tooltip-meta {
+  font-size: 9px;
+  fill: #cbd5e1;
+  font-weight: 500;
+  font-family: var(--font-sans);
+}
+
+.visualizer-empty-state,
+.visualizer-no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.visualizer-no-data p {
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+}
+
+.warning-icon {
+  color: var(--color-warning);
+}

@@ -75,3 +75,23 @@ export async function updateKeysConfig(keys: {
   return response.json();
 }
 
+export async function sendChatQuery(
+  message: string,
+  context: any,
+  history: { role: 'user' | 'model'; content: string }[]
+): Promise<{ response: string }> {
+  const url = `${API_BASE}/api/chat`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, context, history }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Chat API error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+

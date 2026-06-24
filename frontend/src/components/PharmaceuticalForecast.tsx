@@ -195,11 +195,64 @@ function renderCleanInsights(text: string) {
   return elements;
 }
 
-export default function PharmaceuticalForecast() {
+interface PharmaceuticalForecastProps {
+  onPinForecast?: (model: any) => void;
+  pinnedCount?: number;
+  onViewComparison?: () => void;
+}
+
+export default function PharmaceuticalForecast({
+  onPinForecast,
+  pinnedCount = 0,
+  onViewComparison
+}: PharmaceuticalForecastProps) {
   // Input Form States
   const [diseaseInput, setDiseaseInput] = useState('');
   const [categoryInput, setCategoryInput] = useState<'oncology' | 'non_oncology' | 'auto'>('auto');
   const [selectedCountries, setSelectedCountries] = useState<string[]>(['US', 'CN', 'DE', 'JP', 'IT']);
+  
+  const [placeholder, setPlaceholder] = useState('');
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const placeholders = useMemo(() => [
+    'e.g. Breast Cancer...',
+    'e.g. Type 2 Diabetes...',
+    'e.g. Asthma...',
+    'e.g. COPD...',
+    'e.g. NSCLC...',
+    'e.g. SCLC...',
+    'e.g. Prostate Cancer...',
+    'e.g. Colorectal Cancer...',
+    'e.g. Cardiovascular Disease...'
+  ], []);
+
+  useEffect(() => {
+    let timer: any;
+    const currentPhrase = placeholders[phraseIdx];
+    
+    if (isDeleting) {
+      timer = setTimeout(() => {
+        setPlaceholder(currentPhrase.substring(0, charIdx - 1));
+        setCharIdx(charIdx - 1);
+      }, 25);
+    } else {
+      timer = setTimeout(() => {
+        setPlaceholder(currentPhrase.substring(0, charIdx + 1));
+        setCharIdx(charIdx + 1);
+      }, 60);
+    }
+
+    if (!isDeleting && charIdx === currentPhrase.length) {
+      timer = setTimeout(() => setIsDeleting(true), 1600);
+    } else if (isDeleting && charIdx === 0) {
+      setIsDeleting(false);
+      setPhraseIdx((prev) => (prev + 1) % placeholders.length);
+    }
+
+    return () => clearTimeout(timer);
+  }, [charIdx, isDeleting, phraseIdx, placeholders]);
   
   // Forecast results states
   const [isLoading, setIsLoading] = useState(false);
@@ -1561,7 +1614,7 @@ export default function PharmaceuticalForecast() {
                 <input
                   id="disease-input"
                   type="text"
-                  placeholder="e.g. NSCLC, Diabetes, Breast Cancer, Asthma..."
+                  placeholder={placeholder}
                   value={diseaseInput}
                   onChange={(e) => setDiseaseInput(e.target.value)}
                   className="search-text-input"
@@ -1667,6 +1720,24 @@ export default function PharmaceuticalForecast() {
             </div>
             
             <div className="header-actions">
+              {onPinForecast && (
+                <button
+                  className="btn-secondary"
+                  onClick={() => onPinForecast(derivedData)}
+                  style={{ background: 'rgba(99, 102, 241, 0.08)', color: 'var(--color-accent)', border: '1px solid rgba(99, 102, 241, 0.2)' }}
+                >
+                  Pin Forecast
+                </button>
+              )}
+              {pinnedCount > 0 && onViewComparison && (
+                <button
+                  className="btn-secondary"
+                  onClick={onViewComparison}
+                  style={{ border: '1.5px solid #10b981', color: '#10b981', fontWeight: 600 }}
+                >
+                  Compare ({pinnedCount})
+                </button>
+              )}
               <button className="btn-secondary" onClick={handleExportCSV}>
                 <Download size={14} /> Export CSV Data
               </button>

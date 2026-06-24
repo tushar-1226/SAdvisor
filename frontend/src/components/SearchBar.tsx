@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { Search } from 'lucide-react';
 import './SearchBar.css';
 
@@ -8,35 +8,61 @@ interface SearchBarProps {
 }
 
 const SUGGESTIONS = [
-  'Lung Cancer',
-  'Diabetes',
-  'Alzheimer\'s Disease',
   'Breast Cancer',
-  'COVID-19',
-  'Hypertension',
+  'Type 2 Diabetes',
   'Asthma',
-  'Rheumatoid Arthritis',
-  'Parkinson\'s Disease',
-  'Multiple Sclerosis',
-  'Crohn\'s Disease',
-  'Leukemia',
-  'Melanoma',
-  'Schizophrenia',
-  'Tuberculosis',
-  'Osteoarthritis',
-  'Influenza',
-  'Psoriasis',
-  'Epilepsy',
-  'Malaria',
-  'Hepatitis C',
-  'Migraine',
-  'HIV/AIDS',
-  'Obesity',
-  'Atrial Fibrillation',
+  'COPD',
+  'NSCLC',
+  'SCLC',
+  'Prostate Cancer',
+  'Colorectal Cancer',
+  'Cardiovascular Disease'
+];
+
+const PLACEHOLDERS = [
+  'Search Breast Cancer...',
+  'Search Type 2 Diabetes...',
+  'Search Asthma...',
+  'Search COPD...',
+  'Search NSCLC (Non-Small Cell Lung Cancer)...',
+  'Search SCLC (Small Cell Lung Cancer)...',
+  'Search Prostate Cancer...',
+  'Search Colorectal Cancer...',
+  'Search Cardiovascular Disease (CVD)...'
 ];
 
 export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
   const [query, setQuery] = useState('');
+  const [placeholder, setPlaceholder] = useState('');
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timer: any;
+    const currentPhrase = PLACEHOLDERS[phraseIdx];
+    
+    if (isDeleting) {
+      timer = setTimeout(() => {
+        setPlaceholder(currentPhrase.substring(0, charIdx - 1));
+        setCharIdx(charIdx - 1);
+      }, 25);
+    } else {
+      timer = setTimeout(() => {
+        setPlaceholder(currentPhrase.substring(0, charIdx + 1));
+        setCharIdx(charIdx + 1);
+      }, 60);
+    }
+
+    if (!isDeleting && charIdx === currentPhrase.length) {
+      timer = setTimeout(() => setIsDeleting(true), 1600);
+    } else if (isDeleting && charIdx === 0) {
+      setIsDeleting(false);
+      setPhraseIdx((prev) => (prev + 1) % PLACEHOLDERS.length);
+    }
+
+    return () => clearTimeout(timer);
+  }, [charIdx, isDeleting, phraseIdx]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -58,7 +84,7 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
           id="search-input"
           className="search-input"
           type="text"
-          placeholder="Search a disease or condition…"
+          placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           autoFocus

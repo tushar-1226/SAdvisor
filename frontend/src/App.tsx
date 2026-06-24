@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import {
   Stethoscope,
@@ -11,6 +11,8 @@ import {
   TrendingUp,
   Sparkles,
   Shield,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import './App.css';
 import SearchBar from './components/SearchBar';
@@ -23,13 +25,17 @@ import type { FilterState } from './components/FilterPanel';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 import PharmaceuticalForecast from './components/PharmaceuticalForecast';
 import ErrorBoundary from './components/ErrorBoundary';
+
+import ComparisonDashboard from './components/ComparisonDashboard';
+import TrialVisualizer from './components/TrialVisualizer';
+import ExcelDashboard from './components/ExcelDashboard';
 import { searchDisease } from './api';
 import type { SearchResults } from './types';
 
-type AppMode = 'search' | 'pharmaceutical';
+type AppMode = 'search' | 'pharmaceutical' | 'excel';
 
 
-type Tab = 'trials' | 'articles' | 'drugs' | 'insights';
+type Tab = 'trials' | 'articles' | 'drugs' | 'insights' | 'visualizer';
 
 function renderCleanInsights(text: string) {
   const lines = text.split('\n');
@@ -180,6 +186,24 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>('trials');
+
+  // Theme State (Premium Dark theme by default)
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+    return 'dark';
+  });
+
+  // Apply theme to document element
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+
+  // Pinned Forecasts State
+  const [pinnedForecasts, setPinnedForecasts] = useState<any[]>([]);
+  const [isComparing, setIsComparing] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedNctId, setSelectedNctId] = useState<string | null>(null);
 
@@ -414,9 +438,43 @@ function App() {
           >
             <TrendingUp size={14} /> Pharmaceutical
           </button>
+          <button
+            id="mode-btn-excel"
+            className={`mode-toggle-btn ${appMode === 'excel' ? 'mode-toggle-btn--active' : ''}`}
+            onClick={() => setAppMode('excel')}
+          >
+            <FileText size={14} /> Excel Analyzer
+          </button>
         </div>
 
-        <span className="app-header-meta">Clinical Intelligence Dashboard</span>
+        <div className="app-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+
+          {/* Theme Toggle Button */}
+          <button
+            className="header-action-btn"
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            title="Toggle Theme"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--color-text-secondary)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '36px',
+              height: '36px',
+              borderRadius: 'var(--radius-full)',
+              transition: 'background var(--duration-fast)',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-surface-hover)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+          
+          <span className="app-header-meta">Clinical Intelligence Dashboard</span>
+        </div>
       </header>
 
 
@@ -425,7 +483,42 @@ function App() {
       {appMode === 'pharmaceutical' && (
         <main className="app-main">
           <ErrorBoundary>
-            <PharmaceuticalForecast />
+            {isComparing ? (
+              <ComparisonDashboard
+                comparisonList={pinnedForecasts}
+                onBack={() => setIsComparing(false)}
+                onRemove={(idx) => {
+                  const updated = [...pinnedForecasts];
+                  updated.splice(idx, 1);
+                  setPinnedForecasts(updated);
+                  if (updated.length === 0) {
+                    setIsComparing(false);
+                  }
+                }}
+              />
+            ) : (
+              <PharmaceuticalForecast
+                onPinForecast={(model) => {
+                  if (pinnedForecasts.some(f => f.disease === model.disease)) {
+                    alert('This forecast is already pinned for comparison!');
+                    return;
+                  }
+                  setPinnedForecasts([...pinnedForecasts, model]);
+                }}
+                pinnedCount={pinnedForecasts.length}
+                onViewComparison={() => setIsComparing(true)}
+              />
+            )}
+          </ErrorBoundary>
+        </main>
+      )}
+
+
+      {/* ── Excel Analyzer Mode ── */}
+      {appMode === 'excel' && (
+        <main className="app-main">
+          <ErrorBoundary>
+            <ExcelDashboard />
           </ErrorBoundary>
         </main>
       )}
@@ -529,6 +622,15 @@ function App() {
                 onClick={() => setActiveTab('insights')}
               >
                 <Sparkles size={15} /> AI Insights
+              </button>
+              <button
+                id="tab-visualizer"
+                className={`tab-btn ${
+                  activeTab === 'visualizer' ? 'tab-btn--active' : ''
+                }`}
+                onClick={() => setActiveTab('visualizer')}
+              >
+                <TrendingUp size={15} /> Visual Analysis
               </button>
             </div>
 
@@ -658,6 +760,11 @@ function App() {
                 </div>
               </div>
             )}
+
+            {/* ── Visual Analysis Tab ── */}
+            {activeTab === 'visualizer' && (
+              <TrialVisualizer trials={results.trials} />
+            )}
           </div>
         )}
 
@@ -681,6 +788,7 @@ function App() {
           onClose={() => setSelectedNctId(null)}
         />
       )}
+
     </>
   );
 }

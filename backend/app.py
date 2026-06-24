@@ -10,7 +10,7 @@ from fastapi import FastAPI, HTTPException, Query, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pydantic import BaseModel
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 
 from services import (
     search_trials_by_condition,
@@ -25,6 +25,20 @@ from ontology import resolve_disease
 from insights import generate_clinical_insights
 
 app = FastAPI(title="SAdvisory API", version="1.0.0")
+
+# Load .env file programmatically if it exists
+if os.path.exists(".env"):
+    print("[Env] Loading .env file...")
+    with open(".env", "r") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, val = line.split("=", 1)
+                os.environ[key.strip()] = val.strip()
+                print(f"[Env] Loaded {key.strip()} from .env")
+else:
+    print("[Env] .env file not found at", os.path.abspath(".env"))
+
 router = APIRouter()
 
 # Allow the React dev server to connect
@@ -400,5 +414,36 @@ def api_update_config(req: ConfigUpdateRequest):
 
 
 
+
+class ExcelAnalysisRequest(BaseModel):
+    sheet_name: str
+    row_count: int
+    column_count: int
+    columns: List[Dict[str, Any]]
+    sample_rows: List[Dict[str, Any]]
+
+
+@router.post("/analyze-excel")
+def api_analyze_excel(req: ExcelAnalysisRequest):
+    """
+    Generate an AI executive summary for an uploaded Excel sheet.
+    """
+    try:
+        from insights import generate_excel_insights
+        insights = generate_excel_insights(
+            sheet_name=req.sheet_name,
+            row_count=req.row_count,
+            column_count=req.column_count,
+            columns=req.columns,
+            sample_rows=req.sample_rows
+        )
+        return {"insights": insights}
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed to generate Excel insights: {str(e)}")
+
+
 app.include_router(router)
 app.include_router(router, prefix="/api")
+
