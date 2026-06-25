@@ -13,6 +13,7 @@ import {
   Shield,
   Sun,
   Moon,
+  Database,
 } from 'lucide-react';
 import './App.css';
 import SearchBar from './components/SearchBar';
@@ -29,10 +30,11 @@ import ErrorBoundary from './components/ErrorBoundary';
 import ComparisonDashboard from './components/ComparisonDashboard';
 import TrialVisualizer from './components/TrialVisualizer';
 import ExcelDashboard from './components/ExcelDashboard';
+import IntelligenceDashboard from './components/IntelligenceDashboard';
 import { searchDisease } from './api';
 import type { SearchResults } from './types';
 
-type AppMode = 'search' | 'pharmaceutical' | 'excel';
+type AppMode = 'search' | 'pharmaceutical' | 'excel' | 'intelligence';
 
 
 type Tab = 'trials' | 'articles' | 'drugs' | 'insights' | 'visualizer';
@@ -159,7 +161,7 @@ function renderCleanInsights(text: string) {
     }
     
     if (line.startsWith('*') || line.startsWith('-') || line.startsWith('•')) {
-      const cleanItem = line.replace(/^[\*\-•]\s*/, '').replace(/\*\*/g, '').trim();
+      const cleanItem = line.replace(/^[*\-•]\s*/, '').replace(/\*\*/g, '').trim();
       listItems.push(cleanItem);
       continue;
     }
@@ -202,7 +204,7 @@ function App() {
 
 
   // Pinned Forecasts State
-  const [pinnedForecasts, setPinnedForecasts] = useState<any[]>([]);
+  const [pinnedForecasts, setPinnedForecasts] = useState<{ disease?: string; [key: string]: unknown }[]>([]);
   const [isComparing, setIsComparing] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedNctId, setSelectedNctId] = useState<string | null>(null);
@@ -445,6 +447,13 @@ function App() {
           >
             <FileText size={14} /> Excel Analyzer
           </button>
+          <button
+            id="mode-btn-intel"
+            className={`mode-toggle-btn ${appMode === 'intelligence' ? 'mode-toggle-btn--active' : ''}`}
+            onClick={() => setAppMode('intelligence')}
+          >
+            <Database size={14} /> Drug Intelligence
+          </button>
         </div>
 
         <div className="app-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
@@ -519,6 +528,15 @@ function App() {
         <main className="app-main">
           <ErrorBoundary>
             <ExcelDashboard />
+          </ErrorBoundary>
+        </main>
+      )}
+
+      {/* ── Drug Intelligence Mode ── */}
+      {appMode === 'intelligence' && (
+        <main className="app-main">
+          <ErrorBoundary>
+            <IntelligenceDashboard />
           </ErrorBoundary>
         </main>
       )}

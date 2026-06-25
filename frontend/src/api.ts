@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // api.ts – API service layer for SAdvisory
 
 import type { SearchResults } from './types';
@@ -15,7 +16,6 @@ export async function searchDisease(query: string): Promise<SearchResults> {
   return response.json();
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function fetchTrialDetails(nctId: string): Promise<any> {
   const url = `https://clinicaltrials.gov/api/v2/studies/${nctId}`;
   const response = await fetch(url);

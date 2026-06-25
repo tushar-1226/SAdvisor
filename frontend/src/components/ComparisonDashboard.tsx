@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo } from 'react';
 import { ArrowLeft, BarChart3, TrendingUp, Users, Calendar, ShieldCheck, Download, FileDown, Award } from 'lucide-react';
 import './ComparisonDashboard.css';

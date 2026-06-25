@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useMemo, useEffect, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import {
@@ -878,7 +880,7 @@ export default function ExcelDashboard() {
         return <h4 key={idx} className="ai-report-h4">{trimmed.replace(/####\s*/, '')}</h4>;
       }
       if (trimmed.startsWith('*') || trimmed.startsWith('-')) {
-        const cleanItem = trimmed.replace(/^[\*\-]\s*/, '');
+        const cleanItem = trimmed.replace(/^[*-]\s*/, '');
         // basic bold formatting inside list items
         return (
           <li key={idx} className="ai-report-li">

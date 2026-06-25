@@ -5,3 +5,6 @@ requests==2.34.2
 urllib3==2.7.0
 fastapi>=0.115.0
 uvicorn[standard]>=0.30.0
+pymupdf
+sqlalchemy
+python-multipart

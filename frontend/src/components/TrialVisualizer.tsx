@@ -43,9 +43,6 @@ export default function TrialVisualizer({ trials }: TrialVisualizerProps) {
   // Filter out trials without enough details and compute timeline coordinates
   const timelineData = useMemo(() => {
     const minTrialsToPlot = trials.slice(0, 15); // limit to 15 trials for readability
-    let minYear = 2026;
-    let maxYear = 2028;
-    
     const items = minTrialsToPlot
       .map((t) => {
         const start = parseYearAndMonth(t.startDate);
@@ -55,9 +52,6 @@ export default function TrialVisualizer({ trials }: TrialVisualizerProps) {
 
         // If no completion date, assume 2 years duration
         const end = comp || { year: start.year + 2, month: start.month };
-        
-        if (start.year < minYear) minYear = start.year;
-        if (end.year > maxYear) maxYear = end.year;
 
         const startFraction = start.year + (start.month - 1) / 12;
         const endFraction = end.year + (end.month - 1) / 12;
@@ -74,6 +68,9 @@ export default function TrialVisualizer({ trials }: TrialVisualizerProps) {
         };
       })
       .filter((item): item is NonNullable<typeof item> => item !== null);
+
+    const minYear = Math.min(2026, ...items.map(i => Math.floor(i.start)));
+    let maxYear = Math.max(2028, ...items.map(i => Math.ceil(i.end)));
 
     // Keep range reasonable
     if (maxYear - minYear < 2) {

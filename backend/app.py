@@ -6,7 +6,7 @@ Provides endpoints to search diseases, trials, articles, and drugs.
 import re
 import os
 import json
-from fastapi import FastAPI, HTTPException, Query, APIRouter
+from fastapi import FastAPI, HTTPException, Query, APIRouter, UploadFile, File, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pydantic import BaseModel
@@ -23,6 +23,10 @@ from forecast import generate_forecast_model
 from cache import cache
 from ontology import resolve_disease
 from insights import generate_clinical_insights
+from database import get_db, DrugLabel
+from sqlalchemy.orm import Session
+from pdf_parser import extract_pdf_text_from_bytes, get_label_chunks
+from llm_extractor import extract_drug_intelligence
 
 app = FastAPI(title="SAdvisory API", version="1.0.0")
 
@@ -442,6 +446,67 @@ def api_analyze_excel(req: ExcelAnalysisRequest):
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Failed to generate Excel insights: {str(e)}")
+
+
+# ---------------------------------------------------------------------------
+# Drug Label Intelligence Endpoints
+# ---------------------------------------------------------------------------
+
+@router.post("/labels/upload")
+async def api_upload_drug_label(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """Upload a PDF drug label, parse, extract intelligence, and save to DB."""
+    try:
+        content = await file.read()
+        # 1. Parse text
+        pdf_text = extract_pdf_text_from_bytes(content)
+        chunks = get_label_chunks(pdf_text)
+        
+        # 2. Extract intelligence via LLM
+        data = extract_drug_intelligence(pdf_text, chunks)
+        
+        if "error" in data and len(data) == 2:
+            raise HTTPException(status_code=500, detail=f"LLM Extraction failed: {data['error']}")
+            
+        # 3. Save to database
+        db_label = DrugLabel(
+            drug_name=data.get("drug_name", "Unknown"),
+            generic_name=data.get("generic_name"),
+            sponsor=data.get("sponsor"),
+            approval_date=data.get("approval_date"),
+            indications=data.get("indications"),
+            dosage=data.get("dosage"),
+            adverse_reactions=data.get("adverse_reactions"),
+            efficacy_data=data.get("efficacy_data"),
+            moa=data.get("moa"),
+            biomarkers=data.get("biomarkers"),
+            line_of_therapy=data.get("line_of_therapy"),
+            black_box_warnings=data.get("black_box_warnings"),
+            source_file=file.filename
+        )
+        db.add(db_label)
+        db.commit()
+        db.refresh(db_label)
+        
+        return {"status": "success", "data": db_label}
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/labels")
+def api_get_drug_labels(db: Session = Depends(get_db)):
+    """Retrieve all extracted drug labels."""
+    labels = db.query(DrugLabel).all()
+    return {"labels": labels}
+
+@router.get("/labels/{label_id}")
+def api_get_drug_label(label_id: int, db: Session = Depends(get_db)):
+    """Retrieve a single drug label by ID."""
+    label = db.query(DrugLabel).filter(DrugLabel.id == label_id).first()
+    if not label:
+        raise HTTPException(status_code=404, detail="Label not found")
+    return label
 
 
 app.include_router(router)
