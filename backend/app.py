@@ -6,6 +6,7 @@ Provides endpoints to search diseases, trials, articles, and drugs.
 import re
 import os
 import json
+import requests
 from fastapi import FastAPI, HTTPException, Query, APIRouter, UploadFile, File, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -451,6 +452,79 @@ def api_analyze_excel(req: ExcelAnalysisRequest):
 # ---------------------------------------------------------------------------
 # Drug Label Intelligence Endpoints
 # ---------------------------------------------------------------------------
+
+class DrugSearchRequest(BaseModel):
+    drug_name: str
+
+@router.post("/labels/search")
+def api_search_and_extract_drug_label(req: DrugSearchRequest, db: Session = Depends(get_db)):
+    """Search DailyMed for a drug, download its PDF label, and extract intelligence."""
+    try:
+        drug_name = req.drug_name.strip()
+        if not drug_name:
+            raise HTTPException(status_code=400, detail="Drug name is required")
+            
+        # 1. Search DailyMed for the drug
+        search_url = f"https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?drug_name={drug_name}"
+        resp = requests.get(search_url)
+        if resp.status_code != 200:
+            raise HTTPException(status_code=500, detail="Failed to contact DailyMed API")
+            
+        data = resp.json()
+        results = data.get("data", [])
+        if not results:
+            raise HTTPException(status_code=404, detail=f"No FDA labels found for '{drug_name}'")
+            
+        # Get the setid of the first (latest) result
+        setid = results[0].get("setid")
+        if not setid:
+            raise HTTPException(status_code=404, detail="SPL ID not found in DailyMed response")
+            
+        # 2. Download PDF
+        pdf_url = f"https://dailymed.nlm.nih.gov/dailymed/getFile.cfm?setid={setid}&type=pdf"
+        pdf_resp = requests.get(pdf_url)
+        if pdf_resp.status_code != 200 or not pdf_resp.content:
+            raise HTTPException(status_code=404, detail="Failed to download PDF from DailyMed")
+            
+        pdf_bytes = pdf_resp.content
+        
+        # 3. Parse text and extract intelligence
+        pdf_text = extract_pdf_text_from_bytes(pdf_bytes)
+        chunks = get_label_chunks(pdf_text)
+        extracted_data = extract_drug_intelligence(pdf_text, chunks)
+        
+        if "error" in extracted_data and len(extracted_data) == 2:
+            raise HTTPException(status_code=500, detail=f"LLM Extraction failed: {extracted_data['error']}")
+            
+        # 4. Save to database
+        db_label = DrugLabel(
+            drug_name=extracted_data.get("drug_name", drug_name.title()),
+            generic_name=extracted_data.get("generic_name"),
+            sponsor=extracted_data.get("sponsor"),
+            approval_date=extracted_data.get("approval_date"),
+            indications=extracted_data.get("indications"),
+            dosage=extracted_data.get("dosage"),
+            adverse_reactions=extracted_data.get("adverse_reactions"),
+            efficacy_data=extracted_data.get("efficacy_data"),
+            moa=extracted_data.get("moa"),
+            biomarkers=extracted_data.get("biomarkers"),
+            line_of_therapy=extracted_data.get("line_of_therapy"),
+            black_box_warnings=extracted_data.get("black_box_warnings"),
+            source_file=f"DailyMed_{setid}.pdf"
+        )
+        db.add(db_label)
+        db.commit()
+        db.refresh(db_label)
+        
+        return {"status": "success", "data": db_label}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.post("/labels/upload")
 async def api_upload_drug_label(file: UploadFile = File(...), db: Session = Depends(get_db)):

@@ -59,7 +59,6 @@ function renderCleanInsights(text: string) {
   const elements: React.ReactNode[] = [];
   
   let listItems: string[] = [];
-  let swotCells: string[] = [];
   
   const flushList = (key: string) => {
     if (listItems.length > 0) {
@@ -77,92 +76,6 @@ function renderCleanInsights(text: string) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
-    
-    if (line.includes('|') && line.includes(':-')) {
-      continue;
-    }
-    
-    if (line.startsWith('|') && line.endsWith('|')) {
-      flushList(`list-pre-table-${i}`);
-      const parts = line.split('|').map(p => p.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
-      parts.forEach(part => {
-        if (part) {
-          const cleanPart = part.replace(/\*\*/g, '').replace(/#/g, '').trim();
-          if (cleanPart) {
-            swotCells.push(cleanPart);
-          }
-        }
-      });
-      continue;
-    }
-    
-    if (swotCells.length > 0) {
-      elements.push(
-        <div key={`swot-grid-${i}`} className="swot-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1.25rem',
-          margin: '1.5rem 0'
-        }}>
-          <div className="swot-card swot-card--strengths" style={{
-            padding: '1.25rem',
-            borderRadius: '8px',
-            background: 'rgba(79, 110, 247, 0.05)',
-            borderLeft: '4px solid #4f6ef7'
-          }}>
-            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#4f6ef7' }}>Strengths</h5>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
-              {(swotCells[2] || '').split('<br>').map((b, bIdx) => (
-                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="swot-card swot-card--weaknesses" style={{
-            padding: '1.25rem',
-            borderRadius: '8px',
-            background: 'rgba(239, 68, 68, 0.05)',
-            borderLeft: '4px solid #ef4444'
-          }}>
-            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Weaknesses</h5>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
-              {(swotCells[3] || '').split('<br>').map((b, bIdx) => (
-                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="swot-card swot-card--opportunities" style={{
-            padding: '1.25rem',
-            borderRadius: '8px',
-            background: 'rgba(16, 185, 129, 0.05)',
-            borderLeft: '4px solid #10b981'
-          }}>
-            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#10b981' }}>Opportunities</h5>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
-              {(swotCells[6] || '').split('<br>').map((b, bIdx) => (
-                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="swot-card swot-card--threats" style={{
-            padding: '1.25rem',
-            borderRadius: '8px',
-            background: 'rgba(245, 158, 11, 0.05)',
-            borderLeft: '4px solid #f59e0b'
-          }}>
-            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#f59e0b' }}>Threats</h5>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
-              {(swotCells[7] || '').split('<br>').map((b, bIdx) => (
-                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      );
-      swotCells = [];
-    }
     
     if (line.startsWith('#')) {
       flushList(`list-pre-h-${i}`);
@@ -471,34 +384,29 @@ export default function PharmaceuticalForecast({
     return lines;
   };
 
-  const getSwotQuadrants = (insightsText: string) => {
+  const getKeyFindings = (insightsText: string) => {
     const lines = insightsText.split('\n');
-    const swotCells: string[] = [];
+    let inFindingsSection = false;
+    const findings: string[] = [];
     
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-      if (line.startsWith('|') && line.endsWith('|') && !line.includes(':-')) {
-        const parts = line.split('|').map(p => p.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
-        parts.forEach(part => {
-          if (part) {
-            const cleanPart = part.replace(/\*\*/g, '').replace(/#/g, '').trim();
-            if (cleanPart) swotCells.push(cleanPart);
-          }
-        });
+      if (line.includes('Key Findings & Analysis')) {
+        inFindingsSection = true;
+        continue;
+      }
+      if (inFindingsSection && line.startsWith('####') && !line.includes('Key Findings & Analysis')) {
+        break;
+      }
+      if (inFindingsSection && (line.startsWith('*') || line.startsWith('-') || line.startsWith('•'))) {
+        findings.push(line.replace(/^[*\-•]\s*/, '').replace(/\*\*/g, '').trim());
       }
     }
     
-    const cleanList = (cellText: string) => {
-      if (!cellText) return '';
-      return cellText.split('<br>').map(b => b.replace(/^[•\s*-]+/, '').trim()).filter(b => b).map(b => '• ' + b).join('\n');
-    };
-    
-    return {
-      strengths: swotCells[2] ? cleanList(swotCells[2]) : '• Strong representation of developmental phases.\n• Parallel research backed by active publication outputs.\n• Multidisciplinary combination regimens.',
-      weaknesses: swotCells[3] ? cleanList(swotCells[3]) : '• Critical data fields missing in registered trials.\n• High dependency on standard cytotoxic backbones.\n• Limited long-term safety profile records.',
-      opportunities: swotCells[6] ? cleanList(swotCells[6]) : '• Emerging biomarkers indicate opportunities for personalized therapies.\n• High phase 1/2 density suggests novel molecular entries.\n• Accelerated FDA approval potential.',
-      threats: swotCells[7] ? cleanList(swotCells[7]) : '• Patient recruitment delays for rare cohorts.\n• Competing trials matching similar inclusion criteria.\n• Regulatory policy adjustments.'
-    };
+    if (findings.length === 0) {
+      return ['Strong representation of developmental phases.', 'Emerging biomarkers indicate opportunities.', 'Pipeline targets novel mechanisms.'];
+    }
+    return findings;
   };
 
   const handleDownloadSVG = () => {
@@ -669,7 +577,7 @@ export default function PharmaceuticalForecast({
     
     svgString += '\n  <text x="' + (plotX + plotW / 2) + '" y="874" text-anchor="middle" font-size="9" font-weight="600" fill="#64748b">← Favors Treatment | Favors Control →</text>';
 
-    svgString += '\n  <text x="40" y="930" class="section-title">Clinical Outlook &amp; SWOT Analysis</text>';
+    svgString += '\n  <text x="40" y="930" class="section-title">Clinical Outlook &amp; Detailed Analysis</text>';
     svgString += '\n  <rect x="40" y="945" width="805" height="630" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />';
 
     const executiveParagraph = forecastModel.insights?.split('\n\n')
@@ -685,47 +593,19 @@ export default function PharmaceuticalForecast({
       svgString += '\n  <text x="60" y="' + (1000 + idx * 19) + '" class="insights-text">' + line + '</text>';
     });
 
-    const swot = getSwotQuadrants(forecastModel.insights || '');
+    const findings = getKeyFindings(forecastModel.insights || '');
 
-    svgString += '\n  <text x="60" y="1135" class="insights-title">SWOT Analysis Matrix</text>';
+    svgString += '\n  <text x="60" y="1135" class="insights-title">Key Findings &amp; Analysis</text>';
     
-    svgString += '\n  <!-- Strengths Box (Blue) -->';
-    svgString += '\n  <rect x="60" y="1155" width="380" height="180" rx="8" fill="rgba(79, 110, 247, 0.03)" stroke="rgba(79, 110, 247, 0.2)" stroke-width="1.2" />';
-    svgString += '\n  <rect x="60" y="1155" width="380" height="30" rx="8" fill="rgba(79, 110, 247, 0.08)" />';
-    svgString += '\n  <text x="75" y="1175" class="swot-header" fill="#4f6ef7">STRENGTHS</text>';
-    
-    svgString += '\n  <!-- Weaknesses Box (Red) -->';
-    svgString += '\n  <rect x="450" y="1155" width="380" height="180" rx="8" fill="rgba(239, 68, 68, 0.03)" stroke="rgba(239, 68, 68, 0.2)" stroke-width="1.2" />';
-    svgString += '\n  <rect x="450" y="1155" width="380" height="30" rx="8" fill="rgba(239, 68, 68, 0.08)" />';
-    svgString += '\n  <text x="465" y="1175" class="swot-header" fill="#ef4444">WEAKNESSES</text>';
-    
-    svgString += '\n  <!-- Opportunities Box (Green) -->';
-    svgString += '\n  <rect x="60" y="1355" width="380" height="180" rx="8" fill="rgba(16, 185, 129, 0.03)" stroke="rgba(16, 185, 129, 0.2)" stroke-width="1.2" />';
-    svgString += '\n  <rect x="60" y="1355" width="380" height="30" rx="8" fill="rgba(16, 185, 129, 0.08)" />';
-    svgString += '\n  <text x="75" y="1375" class="swot-header" fill="#10b981">OPPORTUNITIES</text>';
-    
-    svgString += '\n  <!-- Threats Box (Amber) -->';
-    svgString += '\n  <rect x="450" y="1355" width="380" height="180" rx="8" fill="rgba(245, 158, 11, 0.03)" stroke="rgba(245, 158, 11, 0.2)" stroke-width="1.2" />';
-    svgString += '\n  <rect x="450" y="1355" width="380" height="30" rx="8" fill="rgba(245, 158, 11, 0.08)" />';
-    svgString += '\n  <text x="465" y="1375" class="swot-header" fill="#f59e0b">THREATS</text>';
-
-    const drawSwotText = (text: string, x: number, startY: number) => {
-      const bulletLines = text.split('\n');
-      let currentY = startY;
-      bulletLines.forEach(line => {
-        const wrapped = splitTextIntoLines(line, 55);
-        wrapped.forEach((wl, wIdx) => {
-          svgString += '\n  <text x="' + (x + (wIdx === 0 ? 0 : 10)) + '" y="' + currentY + '" class="swot-text">' + (wIdx === 0 ? '• ' : '') + wl.replace(/^[•\s*-]+/, '') + '</text>';
-          currentY += 15;
-        });
-        currentY += 5;
+    let currentY = 1165;
+    findings.forEach(finding => {
+      const wrapped = splitTextIntoLines(finding, 115);
+      wrapped.forEach((wl, wIdx) => {
+        svgString += '\n  <text x="' + (60 + (wIdx === 0 ? 0 : 10)) + '" y="' + currentY + '" class="swot-text" font-size="12" fill="#334155">' + (wIdx === 0 ? '• ' : '') + wl + '</text>';
+        currentY += 20;
       });
-    };
-
-    drawSwotText(swot.strengths, 75, 1205);
-    drawSwotText(swot.weaknesses, 465, 1205);
-    drawSwotText(swot.opportunities, 75, 1405);
-    drawSwotText(swot.threats, 465, 1405);
+      currentY += 10;
+    });
 
     svgString += '\n</svg>';
 

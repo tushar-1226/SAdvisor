@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useState, useEffect } from 'react';
-import { UploadCloud, Database, Info, Activity, AlertCircle } from 'lucide-react';
+import { UploadCloud, Database, Info, Activity, AlertCircle, Search } from 'lucide-react';
 
 interface DrugLabel {
   id: number;
@@ -25,6 +25,10 @@ export default function IntelligenceDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
   const fetchLabels = async () => {
     setIsLoading(true);
@@ -71,6 +75,36 @@ export default function IntelligenceDashboard() {
     }
   };
 
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const query = searchQuery.trim();
+    if (!query) return;
+
+    setIsSearching(true);
+    setError(null);
+
+    try {
+      const res = await fetch('http://localhost:8000/api/labels/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ drug_name: query }),
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.detail || 'Search failed');
+      
+      // Refresh list and select the new label
+      await fetchLabels();
+      if (result.data) {
+        setSelectedLabel(result.data);
+      }
+      setSearchQuery('');
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
   return (
     <div className="intelligence-dashboard fade-in-up" style={{ padding: '2rem' }}>
       <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -83,29 +117,72 @@ export default function IntelligenceDashboard() {
           </p>
         </div>
 
-        <div style={{ position: 'relative' }}>
-          <label style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.75rem 1.25rem',
-            background: 'var(--color-primary, #4f6ef7)',
-            color: 'white',
-            borderRadius: '8px',
-            cursor: uploading ? 'wait' : 'pointer',
-            fontWeight: 500,
-            transition: 'opacity 0.2s'
-          }}>
-            <UploadCloud size={18} />
-            {uploading ? 'Processing PDF...' : 'Upload FDA Label (PDF)'}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <form onSubmit={handleSearch} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '8px', padding: '0.25rem' }}>
             <input 
-              type="file" 
-              accept=".pdf" 
-              onChange={handleFileUpload}
-              disabled={uploading}
-              style={{ display: 'none' }}
+              type="text" 
+              placeholder="Search FDA drug label..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              disabled={isSearching || uploading}
+              style={{
+                border: 'none',
+                background: 'transparent',
+                padding: '0.5rem 0.75rem',
+                color: 'var(--text-primary)',
+                outline: 'none',
+                width: '220px'
+              }}
             />
-          </label>
+            <button 
+              type="submit"
+              disabled={isSearching || uploading || !searchQuery.trim()}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0.5rem',
+                background: 'var(--color-primary, #4f6ef7)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: (isSearching || uploading || !searchQuery.trim()) ? 'not-allowed' : 'pointer',
+                opacity: (isSearching || uploading || !searchQuery.trim()) ? 0.7 : 1,
+                transition: 'opacity 0.2s'
+              }}
+              title="Search and Extract"
+            >
+              {isSearching ? <div className="loading-spinner" style={{ width: '18px', height: '18px', borderWidth: '2px' }} /> : <Search size={18} />}
+            </button>
+          </form>
+
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>or</span>
+
+          <div style={{ position: 'relative' }}>
+            <label style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 1.25rem',
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
+              color: 'var(--text-primary)',
+              borderRadius: '8px',
+              cursor: uploading || isSearching ? 'wait' : 'pointer',
+              fontWeight: 500,
+              transition: 'background 0.2s'
+            }}>
+              <UploadCloud size={18} />
+              {uploading ? 'Processing...' : 'Upload PDF'}
+              <input 
+                type="file" 
+                accept=".pdf" 
+                onChange={handleFileUpload}
+                disabled={uploading || isSearching}
+                style={{ display: 'none' }}
+              />
+            </label>
+          </div>
         </div>
       </header>
 

@@ -44,7 +44,6 @@ function renderCleanInsights(text: string) {
   const elements: React.ReactNode[] = [];
   
   let listItems: string[] = [];
-  let swotCells: string[] = [];
   
   const flushList = (key: string) => {
     if (listItems.length > 0) {
@@ -62,92 +61,6 @@ function renderCleanInsights(text: string) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
-    
-    if (line.includes('|') && line.includes(':-')) {
-      continue;
-    }
-    
-    if (line.startsWith('|') && line.endsWith('|')) {
-      flushList(`list-pre-table-${i}`);
-      const parts = line.split('|').map(p => p.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
-      parts.forEach(part => {
-        if (part) {
-          const cleanPart = part.replace(/\*\*/g, '').replace(/#/g, '').trim();
-          if (cleanPart) {
-            swotCells.push(cleanPart);
-          }
-        }
-      });
-      continue;
-    }
-    
-    if (swotCells.length > 0) {
-      elements.push(
-        <div key={`swot-grid-${i}`} className="swot-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1.25rem',
-          margin: '1.5rem 0'
-        }}>
-          <div className="swot-card swot-card--strengths" style={{
-            padding: '1.25rem',
-            borderRadius: '8px',
-            background: 'rgba(79, 110, 247, 0.05)',
-            borderLeft: '4px solid #4f6ef7'
-          }}>
-            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#4f6ef7' }}>Strengths</h5>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
-              {(swotCells[2] || '').split('<br>').map((b, bIdx) => (
-                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="swot-card swot-card--weaknesses" style={{
-            padding: '1.25rem',
-            borderRadius: '8px',
-            background: 'rgba(239, 68, 68, 0.05)',
-            borderLeft: '4px solid #ef4444'
-          }}>
-            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Weaknesses</h5>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
-              {(swotCells[3] || '').split('<br>').map((b, bIdx) => (
-                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="swot-card swot-card--opportunities" style={{
-            padding: '1.25rem',
-            borderRadius: '8px',
-            background: 'rgba(16, 185, 129, 0.05)',
-            borderLeft: '4px solid #10b981'
-          }}>
-            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#10b981' }}>Opportunities</h5>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
-              {(swotCells[6] || '').split('<br>').map((b, bIdx) => (
-                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="swot-card swot-card--threats" style={{
-            padding: '1.25rem',
-            borderRadius: '8px',
-            background: 'rgba(245, 158, 11, 0.05)',
-            borderLeft: '4px solid #f59e0b'
-          }}>
-            <h5 style={{ margin: '0 0 0.75rem 0', fontSize: '0.95rem', fontWeight: 700, color: '#f59e0b' }}>Threats</h5>
-            <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: 'var(--text-secondary, var(--color-text-secondary, #334155))' }}>
-              {(swotCells[7] || '').split('<br>').map((b, bIdx) => (
-                <li key={bIdx} style={{ marginBottom: '0.35rem' }}>{b.replace(/^[•\s*-]+/, '').replace(/\*\*/g, '').trim()}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      );
-      swotCells = [];
-    }
     
     if (line.startsWith('#')) {
       flushList(`list-pre-h-${i}`);
@@ -766,7 +679,7 @@ function App() {
               <div className="tab-panel fade-in-up" style={{ width: '100%' }}>
                 <div className="glass-panel" style={{ padding: '2rem', minHeight: '200px', width: '100%', boxSizing: 'border-box' }}>
                   <h3 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-                    <Sparkles size={18} style={{ color: '#f59e0b' }} /> AI Clinical Analysis &amp; SWOT Synthesis
+                    <Sparkles size={18} style={{ color: '#f59e0b' }} /> AI Clinical Analysis &amp; Detailed Synthesis
                   </h3>
                   {results.insights ? (
                     <div className="insights-markdown">

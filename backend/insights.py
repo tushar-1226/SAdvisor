@@ -73,13 +73,13 @@ Analysis of the therapeutic landscape for **{query.upper()}** indicates a highly
 * **Key Compounds Under Investigation:** {", ".join(top_interventions) if top_interventions else "Targeted biologics and immunotherapies"}.
 * **Search Context:** Clinical trials dataset suggests robust interest in combination protocols and molecularly targeted therapies.
 
-#### SWOT Analysis
-
-| Strengths | Weaknesses |
-| :--- | :--- |
-| • Strong representation of developmental phases.<br>• Parallel research backed by active publication outputs. | • Critical data fields (enrollment/phase targets) missing in {phases['N/A']} registered trials.<br>• High dependency on standard cytotoxic backbones. |
-| **Opportunities** | **Threats** |
-| • Emerging biomarkers indicate opportunities for personalized therapies.<br>• High phase 1/2 density suggests novel molecular entries. | • Patient recruitment delays for rare cohorts.<br>• Competing trials matching similar patient inclusion criteria. |
+#### Key Findings & Analysis
+* **Developmental Representation**: Strong representation of developmental phases with parallel research backed by active publication outputs.
+* **Biomarker Opportunities**: Emerging biomarkers indicate significant opportunities for targeted, personalized therapies.
+* **Novel Entries**: High Phase 1/2 trial density suggests continuous novel molecular entries into the clinical pipeline.
+* **Data Gaps**: Critical data fields (enrollment/phase targets) are missing in {phases['N/A']} registered trials, posing challenges to complete evaluation.
+* **Standard Dependencies**: High dependency on standard cytotoxic backbones remains a clinical weakness.
+* **Recruitment Hurdles**: Patient recruitment delays exist for rare cohorts, compounded by competing trials matching similar inclusion criteria.
 
 #### Regulatory & Medical Outlook
 Research papers indicate focus on secondary endpoints and survival efficacy statistics. Approved therapies like *{", ".join([d.get("name") for d in drugs[:2]]) if drugs else "standard treatments"}* continue to establish baseline values, while pipeline candidates are targeting mechanisms with enhanced selectivity to lower toxicity.
@@ -107,7 +107,7 @@ Your report must use clean, professional markdown with exactly these headers:
 1. "### Clinical Intelligence Executive Summary for **{query.upper()}**"
 2. "#### Executive Overview"
 3. "#### Pipeline Breakdown"
-4. "#### SWOT Analysis" (use a markdown table with headers "Strengths | Weaknesses" and "Opportunities | Threats")
+4. "#### Key Findings & Analysis" (Provide a complete analysis of the user query in detail with precise and concise bullet points)
 5. "#### Regulatory & Medical Outlook"
 
 Here is the data context to summarize:

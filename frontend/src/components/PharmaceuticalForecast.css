@@ -1,100 +1,100 @@
 /* PharmaceuticalForecast.css — Sleek Glassmorphism Disease Forecast Dashboard (White Theme) */
 
 .pharma-forecast-container.glass-theme {
-  /* White theme color palette tokens */
-  --dashboard-bg: #f8fafc; /* Slate 50 background */
-  --text-primary: #0f172a; /* Slate 900 */
-  --text-secondary: #334155; /* Slate 700 */
-  --text-muted: #64748b; /* Slate 500 */
-  --text-light: #94a3b8; /* Slate 400 */
+  /* Theme-aware color palette tokens mapped to index.css */
+  --dashboard-bg: var(--color-bg);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --text-light: var(--color-border);
   
-  --glass-bg: rgba(255, 255, 255, 0.45); /* Frosty white glass */
-  --glass-border: rgba(0, 0, 0, 0.07);
-  --glass-shadow: rgba(31, 38, 135, 0.04);
+  --glass-bg: var(--color-glass-bg);
+  --glass-border: var(--color-glass-border);
+  --glass-shadow: rgba(0, 0, 0, 0.04);
   
-  --input-bg: rgba(255, 255, 255, 0.85);
-  --input-border: rgba(148, 163, 184, 0.3);
-  --input-text: #0f172a;
-  --input-focus-border: #4f46e5;
-  --input-focus-shadow: rgba(79, 70, 229, 0.15);
+  --input-bg: var(--color-surface);
+  --input-border: var(--color-border);
+  --input-text: var(--color-text-primary);
+  --input-focus-border: var(--color-accent);
+  --input-focus-shadow: var(--color-accent-light);
   
-  --preset-bg: rgba(255, 255, 255, 0.85);
-  --preset-border: rgba(0, 0, 0, 0.06);
-  --preset-text: #334155;
-  --preset-hover-bg: rgba(79, 70, 229, 0.06);
-  --preset-hover-border: rgba(79, 70, 229, 0.2);
-  --preset-hover-text: #4f46e5;
+  --preset-bg: var(--color-surface);
+  --preset-border: var(--color-border);
+  --preset-text: var(--color-text-secondary);
+  --preset-hover-bg: var(--color-surface-hover);
+  --preset-hover-border: var(--color-accent);
+  --preset-hover-text: var(--color-accent);
   
-  --btn-primary-bg: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
-  --btn-primary-hover-bg: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-  --btn-primary-shadow: rgba(79, 70, 229, 0.2);
+  --btn-primary-bg: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  --btn-primary-hover-bg: linear-gradient(135deg, var(--color-info) 0%, var(--color-accent) 100%);
+  --btn-primary-shadow: var(--color-accent-light);
   
-  --btn-secondary-bg: rgba(255, 255, 255, 0.8);
-  --btn-secondary-border: rgba(0, 0, 0, 0.08);
-  --btn-secondary-text: #334155;
-  --btn-secondary-hover-bg: rgba(0, 0, 0, 0.02);
-  --btn-secondary-hover-border: rgba(0, 0, 0, 0.15);
+  --btn-secondary-bg: var(--color-surface);
+  --btn-secondary-border: var(--color-border);
+  --btn-secondary-text: var(--color-text-secondary);
+  --btn-secondary-hover-bg: var(--color-surface-hover);
+  --btn-secondary-hover-border: var(--color-border-light);
   
-  --toggle-group-bg: rgba(0, 0, 0, 0.02);
-  --toggle-group-border: rgba(0, 0, 0, 0.05);
-  --toggle-btn-active-bg: #4f46e5;
-  --toggle-btn-active-text: #ffffff;
-  --toggle-btn-active-shadow: rgba(79, 70, 229, 0.15);
+  --toggle-group-bg: var(--color-surface-hover);
+  --toggle-group-border: var(--color-border);
+  --toggle-btn-active-bg: var(--color-accent);
+  --toggle-btn-active-text: var(--color-surface);
+  --toggle-btn-active-shadow: var(--color-accent-light);
   
-  --checklist-bg: rgba(0, 0, 0, 0.015);
-  --checklist-border: rgba(0, 0, 0, 0.05);
-  --checklist-text: #334155;
+  --checklist-bg: var(--color-surface);
+  --checklist-border: var(--color-border);
+  --checklist-text: var(--color-text-secondary);
   
-  --kpi-treated-bg: rgba(79, 110, 247, 0.1);
-  --kpi-treated-text: #4f46e5;
+  --kpi-treated-bg: var(--color-accent-light);
+  --kpi-treated-text: var(--color-accent-dark);
   --kpi-adherent-bg: rgba(139, 92, 246, 0.1);
   --kpi-adherent-text: #7c3aed;
   --kpi-revenue-bg: rgba(16, 185, 129, 0.1);
-  --kpi-revenue-text: #059669;
+  --kpi-revenue-text: var(--color-success);
   --kpi-pipeline-bg: rgba(245, 158, 11, 0.1);
-  --kpi-pipeline-text: #d97706;
+  --kpi-pipeline-text: var(--color-warning);
   
-  --slider-track-bg: rgba(0, 0, 0, 0.06);
-  --slider-thumb-bg: #4f46e5;
-  --slider-thumb-shadow: rgba(79, 70, 229, 0.25);
+  --slider-track-bg: var(--color-border);
+  --slider-thumb-bg: var(--color-accent);
+  --slider-thumb-shadow: var(--color-accent-light);
   
-  --tab-active-text: #4f46e5;
-  --tab-border-active: #4f46e5;
-  --tab-shadow-active: rgba(79, 70, 229, 0.1);
+  --tab-active-text: var(--color-accent);
+  --tab-border-active: var(--color-accent);
+  --tab-shadow-active: var(--color-accent-light);
   
-  --table-border-head: rgba(0, 0, 0, 0.08);
-  --table-border-row: rgba(0, 0, 0, 0.04);
+  --table-border-head: var(--color-border);
+  --table-border-row: var(--color-border-light);
   
-  --chart-grid-color: rgba(0, 0, 0, 0.06);
-  --chart-grid-light: rgba(0, 0, 0, 0.02);
-  --chart-label-color: #64748b;
-  --chart-legend-active-color: #0f172a;
-  --chart-donut-value-color: #4f46e5;
-  --donut-center-bg: rgba(255, 255, 255, 0.92);
-  --chart-active-color: #4f46e5;
+  --chart-grid-color: var(--color-border);
+  --chart-grid-light: var(--color-border-light);
+  --chart-label-color: var(--color-text-muted);
+  --chart-legend-active-color: var(--color-text-primary);
+  --chart-donut-value-color: var(--color-accent);
+  --donut-center-bg: var(--color-surface);
+  --chart-active-color: var(--color-accent);
   
-  --divider-color: rgba(0, 0, 0, 0.06);
+  --divider-color: var(--color-border);
   --error-bg: rgba(239, 68, 68, 0.04);
   --error-border: rgba(239, 68, 68, 0.12);
-  --error-text: #b91c1c;
+  --error-text: var(--color-danger);
   
-  --hero-title-gradient: linear-gradient(135deg, #0f172a 40%, #4f46e5 100%);
-  --hero-badge-bg: rgba(79, 70, 229, 0.07);
-  --hero-badge-border: rgba(79, 70, 229, 0.15);
-  --hero-badge-text: #4f46e5;
+  --hero-title-gradient: linear-gradient(135deg, var(--color-text-primary) 40%, var(--color-accent) 100%);
+  --hero-badge-bg: var(--color-accent-light);
+  --hero-badge-border: var(--color-border);
+  --hero-badge-text: var(--color-accent);
   
-  --bar-track-bg: rgba(0, 0, 0, 0.05);
-  --citation-bg: rgba(255, 255, 255, 0.65);
-  --citation-border: rgba(0, 0, 0, 0.05);
-  --citation-text: #334155;
-  --check-icon-color: #059669;
+  --bar-track-bg: var(--color-border-light);
+  --citation-bg: var(--color-surface);
+  --citation-border: var(--color-border);
+  --citation-text: var(--color-text-secondary);
+  --check-icon-color: var(--color-success);
 
   position: relative;
   background: var(--dashboard-bg);
   color: var(--text-secondary);
   border-radius: 24px;
   padding: 2.2rem;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--color-border);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   z-index: 1;
@@ -124,7 +124,7 @@
 .blob-blue {
   width: 320px;
   height: 320px;
-  background: #bfdbfe; /* Light Blue */
+  background: var(--color-info);
   top: -50px;
   left: -50px;
 }
@@ -132,7 +132,7 @@
 .blob-purple {
   width: 400px;
   height: 400px;
-  background: #f5d0fe; /* Light Purple */
+  background: var(--color-accent);
   bottom: -60px;
   right: 8%;
   animation-delay: 3s;
@@ -141,7 +141,7 @@
 .blob-cyan {
   width: 280px;
   height: 280px;
-  background: #c5f2f7; /* Light Cyan */
+  background: var(--color-success);
   top: 35%;
   left: 45%;
   animation-delay: 6s;
