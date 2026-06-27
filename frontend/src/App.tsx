@@ -14,6 +14,9 @@ import {
   Sun,
   Moon,
   Database,
+  AlertCircle,
+  Activity,
+  Info
 } from 'lucide-react';
 import './App.css';
 import SearchBar from './components/SearchBar';
@@ -101,6 +104,13 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>('trials');
+
+  const [toast, setToast] = useState<{message: string, type: 'success' | 'error' | 'delete' | 'info'} | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' | 'delete' | 'info') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
 
   // Theme State (Premium Dark theme by default)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -328,6 +338,34 @@ function App() {
 
   return (
     <>
+      {/* Toast Notification */}
+      {toast && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          background: 'white',
+          color: '#1e293b',
+          padding: '1rem 1.5rem',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.75rem',
+          zIndex: 9999,
+          borderLeft: `4px solid ${
+            toast.type === 'success' ? '#10b981' : 
+            toast.type === 'delete' || toast.type === 'error' ? '#ef4444' : '#3b82f6'
+          }`,
+          animation: 'slideInRight 0.3s ease-out'
+        }}>
+          {toast.type === 'success' && <div style={{ color: '#10b981' }}><Activity size={18} /></div>}
+          {(toast.type === 'delete' || toast.type === 'error') && <div style={{ color: '#ef4444' }}><AlertCircle size={18} /></div>}
+          {toast.type === 'info' && <div style={{ color: '#3b82f6' }}><Info size={18} /></div>}
+          <span style={{ fontWeight: 500 }}>{toast.message}</span>
+        </div>
+      )}
+
       {/* ── Header ── */}
       <header className="app-header">
         <div className="app-logo">
@@ -422,10 +460,11 @@ function App() {
               <PharmaceuticalForecast
                 onPinForecast={(model) => {
                   if (pinnedForecasts.some(f => f.disease === model.disease)) {
-                    alert('This forecast is already pinned for comparison!');
+                    showToast('This forecast is already pinned for comparison!', 'error');
                     return;
                   }
                   setPinnedForecasts([...pinnedForecasts, model]);
+                  showToast('Forecast pinned successfully!', 'success');
                 }}
                 pinnedCount={pinnedForecasts.length}
                 onViewComparison={() => setIsComparing(true)}
