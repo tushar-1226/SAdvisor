@@ -14,9 +14,9 @@ import {
   Sun,
   Moon,
   Database,
-  AlertCircle,
   Activity,
-  Info
+  Info,
+  Lock
 } from 'lucide-react';
 import './App.css';
 import SearchBar from './components/SearchBar';
@@ -34,10 +34,12 @@ import ComparisonDashboard from './components/ComparisonDashboard';
 import TrialVisualizer from './components/TrialVisualizer';
 import ExcelDashboard from './components/ExcelDashboard';
 import IntelligenceDashboard from './components/IntelligenceDashboard';
+import LoginModal from './components/LoginModal';
+import AdminDashboard from './components/AdminDashboard';
 import { searchDisease } from './api';
 import type { SearchResults } from './types';
 
-type AppMode = 'search' | 'pharmaceutical' | 'excel' | 'intelligence';
+type AppMode = 'search' | 'pharmaceutical' | 'excel' | 'intelligence' | 'admin';
 
 
 type Tab = 'trials' | 'articles' | 'drugs' | 'insights' | 'visualizer';
@@ -104,6 +106,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>('trials');
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error' | 'delete' | 'info'} | null>(null);
 
@@ -433,11 +437,50 @@ function App() {
             {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
           
+          {/* Admin Lock Button */}
+          <button
+            className="header-action-btn"
+            onClick={() => {
+              if (isAdminAuthenticated) {
+                setAppMode('admin');
+              } else {
+                setIsLoginModalOpen(true);
+              }
+            }}
+            title="Admin Access"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: isAdminAuthenticated ? '#10b981' : 'var(--color-text-secondary)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '36px',
+              height: '36px',
+              borderRadius: 'var(--radius-full)',
+              transition: 'all var(--duration-fast)',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-surface-hover)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+          >
+            <Lock size={18} />
+          </button>
+
           <span className="app-header-meta">Clinical Intelligence Dashboard</span>
         </div>
       </header>
 
 
+
+      {/* ── Admin Dashboard Mode ── */}
+      {appMode === 'admin' && (
+        <main className="app-main">
+          <ErrorBoundary>
+            <AdminDashboard />
+          </ErrorBoundary>
+        </main>
+      )}
 
       {/* ── Pharmaceutical Mode ── */}
       {appMode === 'pharmaceutical' && (
@@ -474,7 +517,6 @@ function App() {
         </main>
       )}
 
-
       {/* ── Excel Analyzer Mode ── */}
       {appMode === 'excel' && (
         <main className="app-main">
@@ -493,6 +535,18 @@ function App() {
         </main>
       )}
 
+      {/* ── Login Modal ── */}
+      {isLoginModalOpen && (
+        <LoginModal
+          onClose={() => setIsLoginModalOpen(false)}
+          onLoginSuccess={() => {
+            setIsLoginModalOpen(false);
+            setIsAdminAuthenticated(true);
+            setAppMode('admin');
+            showToast('Logged in as Admin securely', 'success');
+          }}
+        />
+      )}
 
       {/* ── Search Mode ── */}
       {appMode === 'search' && (

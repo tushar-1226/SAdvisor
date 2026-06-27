@@ -94,4 +94,28 @@ export async function sendChatQuery(
   return response.json();
 }
 
+export async function adminLogin(admin_id: string, admin_pass: string): Promise<any> {
+  const url = `${API_BASE}/api/admin/login`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ admin_id, admin_pass }),
+  });
+  if (!response.ok) {
+    throw new Error('Invalid credentials');
+  }
+  return response.json();
+}
 
+export async function searchApolloCompany(company_name: string): Promise<any> {
+  const url = `${API_BASE}/api/admin/apollo/search`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ company_name }),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to search company');
+  }
+  return response.json();
+}

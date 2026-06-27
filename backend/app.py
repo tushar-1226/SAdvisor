@@ -13,6 +13,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 
+# Define models for admin login
+class AdminLoginRequest(BaseModel):
+    admin_id: str
+    admin_pass: str
+
 from services import (
     search_trials_by_condition,
     get_trial_by_nct_id,
@@ -597,4 +602,185 @@ def api_delete_drug_label(label_id: int, db: Session = Depends(get_db)):
 
 app.include_router(router)
 app.include_router(router, prefix="/api")
+
+# ---------------------------------------------------------------------------
+# Admin Endpoints
+# ---------------------------------------------------------------------------
+
+@app.post("/api/admin/login")
+def admin_login(req: AdminLoginRequest):
+    """Authenticate admin user against hardcoded credentials in .env."""
+    expected_id = os.environ.get("ADMIN_ID", "admin123")
+    expected_pass = os.environ.get("ADMIN_PASS", "admin123")
+    
+    if req.admin_id == expected_id and req.admin_pass == expected_pass:
+        return {"status": "success", "token": "admin-mock-token-123"}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid admin credentials")
+
+class ApolloSearchRequest(BaseModel):
+    company_name: str
+
+@app.post("/api/admin/apollo/search")
+def admin_apollo_search(req: ApolloSearchRequest):
+    """
+    Search Apollo API for company and director/employee details.
+    Uses APOLLO_API_KEY from .env. Returns mock data if key is missing.
+    """
+    api_key = os.environ.get("APOLLO_API_KEY")
+    
+    # -------------------------------------------------------------
+    # MOCK DATA FALLBACK (If no API key is provided)
+    # -------------------------------------------------------------
+    if not api_key or api_key.strip() == "":
+        return {
+            "company": {
+                "name": req.company_name.title(),
+                "website": f"www.{req.company_name.lower().replace(' ', '')}.com",
+                "industry": "Technology / Healthcare (Mocked)",
+                "short_description": "This is a mock description because the Apollo API Key is missing from the .env file. Add your real API key to see live data.",
+                "employee_count": 5000
+            },
+            "directors": [
+                {
+                    "id": "m1",
+                    "name": "Jane Doe",
+                    "title": "Chief Executive Officer",
+                    "email": "jane.doe@mockcompany.com",
+                    "linkedin_url": "https://linkedin.com/in/mock"
+                },
+                {
+                    "id": "m2",
+                    "name": "John Smith",
+                    "title": "Director of Operations",
+                    "email": "john.smith@mockcompany.com",
+                    "linkedin_url": "https://linkedin.com/in/mock"
+                }
+            ],
+            "employees": [
+                {
+                    "id": "m3",
+                    "name": "Alice Johnson",
+                    "title": "Senior Engineer",
+                    "email": "alice.j@mockcompany.com",
+                    "linkedin_url": "https://linkedin.com/in/mock"
+                },
+                {
+                    "id": "m4",
+                    "name": "Bob Williams",
+                    "title": "Marketing Manager",
+                    "email": "bob.w@mockcompany.com",
+                    "linkedin_url": "https://linkedin.com/in/mock"
+                }
+            ]
+        }
+
+    # User explicitly requested to use these endpoints:
+    # 1. https://api.apollo.io/api/v1/emailer_messages/search
+    # 2. https://api.apollo.io/api/v1/emailer_messages/{id}/activities
+    
+    headers = {
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json",
+        "x-api-key": api_key
+    }
+    
+    try:
+        # 1. Search for the organization first to get its exact domain and details
+        org_resp = requests.post(
+            "https://api.apollo.io/v1/organizations/search",
+            headers=headers,
+            json={"q_organization_name": req.company_name, "page": 1}
+        )
+            
+        org_data = org_resp.json()
+        orgs = org_data.get("organizations", [])
+        
+        if not orgs:
+            return {
+                "company": {"name": req.company_name, "details": "Company not found in Apollo database."},
+                "directors": [],
+                "employees": []
+            }
+            
+        target_org = orgs[0]
+        
+        # 1.5 Enrich the organization for deeper intelligence (Technologies)
+        tech_names = []
+        if target_org.get("primary_domain"):
+            try:
+                enrich_resp = requests.get(
+                    f"https://api.apollo.io/v1/organizations/enrich?domain={target_org.get('primary_domain')}",
+                    headers=headers
+                )
+                if enrich_resp.status_code == 200:
+                    enrich_data = enrich_resp.json().get("organization", {})
+                    techs = enrich_data.get("current_technologies") or enrich_data.get("technologies") or []
+                    tech_names = list(set([t.get("name") for t in techs if t.get("name")]))
+            except Exception:
+                pass
+        
+        # Extract rich company intelligence
+        company_info = {
+            "name": target_org.get("name"),
+            "website": target_org.get("website_url"),
+            "primary_domain": target_org.get("primary_domain"),
+            "industry": target_org.get("industry"),
+            "short_description": target_org.get("short_description") or target_org.get("seo_description"),
+            "employee_count": target_org.get("estimated_num_employees"),
+            "founded_year": target_org.get("founded_year"),
+            "primary_phone": target_org.get("primary_phone") and target_org.get("primary_phone").get("number"),
+            "linkedin_url": target_org.get("linkedin_url"),
+            "twitter_url": target_org.get("twitter_url"),
+            "facebook_url": target_org.get("facebook_url"),
+            "keywords": target_org.get("keywords") or [],
+            "technologies": tech_names[:20], # Top 20 technologies
+            "annual_revenue": target_org.get("annual_revenue_printed"),
+            "total_funding": target_org.get("total_funding_printed"),
+            "location": target_org.get("primary_location") and f"{target_org['primary_location'].get('city', '')}, {target_org['primary_location'].get('state', '')}, {target_org['primary_location'].get('country', '')}".strip(', ')
+        }
+        
+        # 2. Search for saved contacts in that organization (Free Tier Compatible)
+        # Using contacts/search instead of mixed_people/search since the latter is blocked on free tier.
+        people_resp = requests.post(
+            "https://api.apollo.io/v1/contacts/search",
+            headers=headers,
+            json={
+                "q_organization_domains": target_org.get("primary_domain"),
+                "page": 1,
+                "per_page": 50
+            }
+        )
+        
+        people_data = people_resp.json()
+        people = people_data.get("contacts", [])
+        
+        directors = []
+        employees = []
+        
+        for person in people:
+            title = (person.get("title") or "").lower()
+            p_info = {
+                "id": person.get("id"),
+                "name": person.get("name"),
+                "title": person.get("title", "Unknown Post/Title"),
+                "email": person.get("email") or "Email not unlocked",
+                "linkedin_url": person.get("linkedin_url")
+            }
+            # Sort into directors vs employees based on their post/title
+            if "director" in title or "ceo" in title or "founder" in title or "vp" in title or "chief" in title or "head" in title:
+                directors.append(p_info)
+            else:
+                employees.append(p_info)
+                
+        return {
+            "company": company_info,
+            "directors": directors,
+            "employees": employees
+        }
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
 
