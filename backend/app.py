@@ -475,7 +475,8 @@ def api_search_and_extract_drug_label(req: DrugSearchRequest, db: Session = Depe
         if not results:
             raise HTTPException(status_code=404, detail=f"No FDA labels found for '{drug_name}'")
             
-        # Get the setid of the first (latest) result
+        # Get the setid of the most established label (highest spl_version)
+        results = sorted(results, key=lambda x: x.get("spl_version", 0), reverse=True)
         setid = results[0].get("setid")
         if not setid:
             raise HTTPException(status_code=404, detail="SPL ID not found in DailyMed response")
@@ -581,6 +582,17 @@ def api_get_drug_label(label_id: int, db: Session = Depends(get_db)):
     if not label:
         raise HTTPException(status_code=404, detail="Label not found")
     return label
+
+@router.delete("/labels/{label_id}")
+def api_delete_drug_label(label_id: int, db: Session = Depends(get_db)):
+    """Delete a single drug label by ID."""
+    label = db.query(DrugLabel).filter(DrugLabel.id == label_id).first()
+    if not label:
+        raise HTTPException(status_code=404, detail="Label not found")
+    db.delete(label)
+    db.commit()
+    return {"status": "success", "message": "Label deleted"}
+
 
 
 app.include_router(router)

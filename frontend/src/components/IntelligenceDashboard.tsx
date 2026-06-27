@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useState, useEffect } from 'react';
-import { UploadCloud, Database, Info, Activity, AlertCircle, Search } from 'lucide-react';
+import { UploadCloud, Database, Info, Activity, AlertCircle, Search, Trash2 } from 'lucide-react';
 
 interface DrugLabel {
   id: number;
@@ -29,6 +29,15 @@ export default function IntelligenceDashboard() {
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+
+  // Notification & Modal state
+  const [toast, setToast] = useState<{message: string, type: 'success' | 'error' | 'delete' | 'info'} | null>(null);
+  const [confirmDialog, setConfirmDialog] = useState<{isOpen: boolean, idToDelete: number | null}>({isOpen: false, idToDelete: null});
+
+  const showToast = (message: string, type: 'success' | 'error' | 'delete' | 'info') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
 
   const fetchLabels = async () => {
     setIsLoading(true);
@@ -67,8 +76,10 @@ export default function IntelligenceDashboard() {
       
       // Refresh list
       fetchLabels();
+      showToast('PDF uploaded and extracted successfully!', 'success');
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
+      showToast('Upload failed.', 'error');
     } finally {
       setUploading(false);
       e.target.value = '';
@@ -98,15 +109,122 @@ export default function IntelligenceDashboard() {
         setSelectedLabel(result.data);
       }
       setSearchQuery('');
+      showToast('Search and extraction completed successfully!', 'success');
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
+      showToast('Search failed.', 'error');
     } finally {
       setIsSearching(false);
     }
   };
 
+  const handleDelete = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation(); // Prevent selecting the label when clicking delete
+    setConfirmDialog({ isOpen: true, idToDelete: id });
+  };
+
+  const confirmDelete = async () => {
+    const id = confirmDialog.idToDelete;
+    if (id === null) return;
+    
+    try {
+      const res = await fetch(`http://localhost:8000/api/labels/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.detail || 'Failed to delete record');
+      }
+      
+      // If the deleted label is currently selected, clear the selection
+      if (selectedLabel?.id === id) {
+        setSelectedLabel(null);
+      }
+      
+      fetchLabels();
+      showToast('Record deleted successfully.', 'delete');
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : String(e));
+      showToast('Failed to delete record.', 'error');
+    } finally {
+      setConfirmDialog({ isOpen: false, idToDelete: null });
+    }
+  };
+
   return (
-    <div className="intelligence-dashboard fade-in-up" style={{ padding: '2rem' }}>
+    <div className="intelligence-dashboard fade-in-up" style={{ padding: '2rem', position: 'relative' }}>
+      
+      {/* Toast Notification */}
+      {toast && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          background: 'white',
+          color: 'var(--text-primary)',
+          padding: '1rem 1.5rem',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.75rem',
+          zIndex: 1000,
+          borderLeft: `4px solid ${
+            toast.type === 'success' ? '#10b981' : 
+            toast.type === 'delete' || toast.type === 'error' ? '#ef4444' : '#3b82f6'
+          }`,
+          animation: 'slideInRight 0.3s ease-out'
+        }}>
+          {toast.type === 'success' && <div style={{ color: '#10b981' }}><Activity size={18} /></div>}
+          {(toast.type === 'delete' || toast.type === 'error') && <div style={{ color: '#ef4444' }}><AlertCircle size={18} /></div>}
+          {toast.type === 'info' && <div style={{ color: '#3b82f6' }}><Info size={18} /></div>}
+          <span style={{ fontWeight: 500 }}>{toast.message}</span>
+        </div>
+      )}
+
+      {/* Confirm Dialog Overlay */}
+      {confirmDialog.isOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          animation: 'fadeIn 0.2s ease-out'
+        }}>
+          <div style={{
+            background: 'white',
+            padding: '2rem',
+            borderRadius: '12px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+            width: '90%',
+            maxWidth: '400px',
+            animation: 'slideUp 0.2s ease-out'
+          }}>
+            <h3 style={{ margin: '0 0 1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
+              <AlertCircle size={20} color="#ef4444" /> Delete Record
+            </h3>
+            <p style={{ margin: '0 0 2rem 0', color: 'var(--text-secondary)' }}>Are you sure you want to permanently delete this intelligence record?</p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+              <button 
+                onClick={() => setConfirmDialog({ isOpen: false, idToDelete: null })}
+                style={{ padding: '0.5rem 1rem', background: 'transparent', border: '1px solid var(--color-border)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)' }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmDelete}
+                style={{ padding: '0.5rem 1rem', background: '#ef4444', border: 'none', borderRadius: '6px', cursor: 'pointer', color: 'white', fontWeight: 500 }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: 0, fontSize: '1.5rem', color: 'var(--text-primary)' }}>
@@ -204,11 +322,13 @@ export default function IntelligenceDashboard() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {labels.map(label => (
-                <button
+                <div
                   key={label.id}
                   onClick={() => setSelectedLabel(label)}
                   style={{
-                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    justifyContent: 'space-between',
                     padding: '1rem',
                     borderRadius: '8px',
                     border: '1px solid',
@@ -216,13 +336,33 @@ export default function IntelligenceDashboard() {
                     background: selectedLabel?.id === label.id ? 'rgba(79, 110, 247, 0.05)' : 'transparent',
                     cursor: 'pointer',
                     transition: 'all 0.2s',
-                    color: 'var(--text-primary)'
                   }}
                 >
-                  <div style={{ fontWeight: 600, fontSize: '1rem', marginBottom: '0.25rem' }}>{label.drug_name}</div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{label.generic_name || 'Generic N/A'}</div>
-                  <div style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: '#10b981' }}>{label.sponsor}</div>
-                </button>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 600, fontSize: '1rem', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>{label.drug_name}</div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{label.generic_name || 'Generic N/A'}</div>
+                    <div style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: '#10b981' }}>{label.sponsor}</div>
+                  </div>
+                  <button
+                    onClick={(e) => handleDelete(e, label.id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--text-muted)',
+                      cursor: 'pointer',
+                      padding: '0.25rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'color 0.2s'
+                    }}
+                    title="Delete Record"
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#ef4444'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               ))}
             </div>
           )}

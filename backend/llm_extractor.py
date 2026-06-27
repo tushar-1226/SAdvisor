@@ -19,9 +19,9 @@ def extract_drug_intelligence(pdf_text: str, chunks: dict) -> Dict[str, Any]:
     context_text = ""
     if chunks:
         for k, v in chunks.items():
-            context_text += f"\n--- {k.upper()} ---\n{v[:2000]}\n" # Cap chunk sizes
+            context_text += f"\n--- {k.upper()} ---\n{v[:8000]}\n" # Cap chunk sizes
     else:
-        context_text = pdf_text[:8000]
+        context_text = pdf_text[:30000]
         
     print(f"Context text length: {len(context_text)}")
 
@@ -64,9 +64,14 @@ OUTPUT ONLY VALID JSON. DO NOT WRAP IN ```json ... ``` MARKDOWN. JUST THE RAW JS
         data = json.loads(response_text)
         print(f"--- FINAL JSON DATA ---\n{json.dumps(data, indent=2)}\n-----------------------")
         return data
-    except Exception as e:
+    except json.decoder.JSONDecodeError as e:
         print(f"Failed to parse LLM JSON: {e}")
-        # Return fallback empty structure
+        return {
+            "drug_name": "Unknown",
+            "error": "The AI model failed to format the response correctly. The document might be too complex or too large."
+        }
+    except Exception as e:
+        print(f"LLM Extraction Error: {e}")
         return {
             "drug_name": "Unknown",
             "error": str(e)

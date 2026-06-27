@@ -13,11 +13,11 @@ def query_nvidia_summary(prompt: str, api_key: str, api_url: str) -> str:
     payload = {
         "model": "google/diffusiongemma-26b-a4b-it",
         "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 1024,
+        "max_tokens": 4096,
         "temperature": 0.20,
         "top_p": 0.95,
         "stream": False,
-        "chat_template_kwargs": {"enable_thinking": True}
+        "chat_template_kwargs": {"enable_thinking": False}
     }
     try:
         resp = requests.post(api_url, json=payload, headers=headers, timeout=20)
@@ -25,9 +25,14 @@ def query_nvidia_summary(prompt: str, api_key: str, api_url: str) -> str:
             data = resp.json()
             choices = data.get("choices", [])
             if choices:
-                text = choices[0].get("message", {}).get("content", "")
+                msg = choices[0].get("message", {})
+                text = msg.get("content")
                 if text:
                     return text.strip()
+                # Fallback if reasoning ate the tokens but no content
+                reasoning = msg.get("reasoning")
+                if reasoning and not text:
+                    print("[Insights] Model returned reasoning but no content.")
         print(f"[Insights] NVIDIA API call returned status {resp.status_code}: {resp.text}")
     except Exception as e:
         print(f"[Insights] Failed to contact NVIDIA API: {e}")
