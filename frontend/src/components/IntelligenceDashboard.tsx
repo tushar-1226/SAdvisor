@@ -23,7 +23,6 @@ export default function IntelligenceDashboard() {
   const [labels, setLabels] = useState<DrugLabel[]>([]);
   const [selectedLabel, setSelectedLabel] = useState<DrugLabel | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   
   // Search state
@@ -47,7 +46,7 @@ export default function IntelligenceDashboard() {
       const data = await res.json();
       setLabels(data.labels || []);
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : String(e));
+      showToast(e instanceof Error ? e.message : String(e), 'error');
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +61,6 @@ export default function IntelligenceDashboard() {
     if (!file) return;
 
     setUploading(true);
-    setError(null);
     const formData = new FormData();
     formData.append('file', file);
 
@@ -78,8 +76,7 @@ export default function IntelligenceDashboard() {
       fetchLabels();
       showToast('PDF uploaded and extracted successfully!', 'success');
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : String(e));
-      showToast('Upload failed.', 'error');
+      showToast(e instanceof Error ? e.message : String(e), 'error');
     } finally {
       setUploading(false);
       e.target.value = '';
@@ -92,7 +89,6 @@ export default function IntelligenceDashboard() {
     if (!query) return;
 
     setIsSearching(true);
-    setError(null);
 
     try {
       const res = await fetch('http://localhost:8000/api/labels/search', {
@@ -111,8 +107,7 @@ export default function IntelligenceDashboard() {
       setSearchQuery('');
       showToast('Search and extraction completed successfully!', 'success');
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : String(e));
-      showToast('Search failed.', 'error');
+      showToast(e instanceof Error ? e.message : String(e), 'error');
     } finally {
       setIsSearching(false);
     }
@@ -144,8 +139,7 @@ export default function IntelligenceDashboard() {
       fetchLabels();
       showToast('Record deleted successfully.', 'delete');
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : String(e));
-      showToast('Failed to delete record.', 'error');
+      showToast(e instanceof Error ? e.message : String(e), 'error');
     } finally {
       setConfirmDialog({ isOpen: false, idToDelete: null });
     }
@@ -303,12 +297,6 @@ export default function IntelligenceDashboard() {
           </div>
         </div>
       </header>
-
-      {error && (
-        <div className="error-banner" style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '1rem', borderRadius: '8px' }}>
-          <AlertCircle size={18} /> {error}
-        </div>
-      )}
 
       <div style={{ display: 'flex', gap: '2rem', minHeight: '500px' }}>
         {/* Sidebar / List */}
