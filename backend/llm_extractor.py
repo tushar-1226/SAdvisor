@@ -46,6 +46,7 @@ Document Context:
 {context_text}
 
 OUTPUT ONLY VALID JSON. DO NOT WRAP IN ```json ... ``` MARKDOWN. JUST THE RAW JSON OBJECT.
+IMPORTANT: Ensure that all markdown formatting inside the JSON values uses escaped newlines (\\n) and escaped double quotes (\\").
 """
     
     try:
@@ -60,7 +61,7 @@ OUTPUT ONLY VALID JSON. DO NOT WRAP IN ```json ... ``` MARKDOWN. JUST THE RAW JS
             response_text = match.group(0)
             print(f"--- PARSED LLM STRING ---\n{response_text}\n-------------------------")
         
-        data = json.loads(response_text)
+        data = json.loads(response_text, strict=False)
         print(f"--- FINAL JSON DATA ---\n{json.dumps(data, indent=2)}\n-----------------------")
         return data
     except json.decoder.JSONDecodeError as e:

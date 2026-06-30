@@ -4,6 +4,8 @@ import { UploadCloud, Database, Info, Activity, AlertCircle, Search, Trash2, Fil
 import ReactMarkdown from 'react-markdown';
 import './IntelligenceDashboard.css';
 
+const API_BASE = import.meta.env.VITE_API_BASE || '';
+
 interface DrugLabel {
   id: number;
   drug_name: string;
@@ -54,7 +56,7 @@ export default function IntelligenceDashboard() {
   const fetchLabels = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/labels');
+      const res = await fetch(`${API_BASE}/api/labels`);
       if (!res.ok) throw new Error('Failed to fetch labels');
       const data = await res.json();
       setLabels(data.labels || []);
@@ -78,7 +80,7 @@ export default function IntelligenceDashboard() {
     formData.append('file', file);
 
     try {
-      const res = await fetch('http://localhost:8000/api/labels/upload', {
+      const res = await fetch(`${API_BASE}/api/labels/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -102,7 +104,7 @@ export default function IntelligenceDashboard() {
 
     setIsSearching(true);
     try {
-      const res = await fetch('http://localhost:8000/api/labels/search', {
+      const res = await fetch(`${API_BASE}/api/labels/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ drug_name: query }),
@@ -134,7 +136,7 @@ export default function IntelligenceDashboard() {
     if (id === null) return;
     
     try {
-      const res = await fetch(`http://localhost:8000/api/labels/${id}`, {
+      const res = await fetch(`${API_BASE}/api/labels/${id}`, {
         method: 'DELETE',
       });
       if (!res.ok) {
