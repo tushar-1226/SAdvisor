@@ -3,6 +3,7 @@ import * as XLSX from 'xlsx';
 import {
   Stethoscope,
   AlertTriangle,
+  AlertCircle,
   FlaskConical,
   FileText,
   Pill,

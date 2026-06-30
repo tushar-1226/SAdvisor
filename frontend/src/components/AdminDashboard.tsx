@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Building2, Users, User, Mail, Globe, Briefcase, ChevronRight, Activity, ArrowRight } from 'lucide-react';
+import { Search, Building2, Users, User, Mail, Globe, Briefcase, Activity, ArrowRight } from 'lucide-react';
 import { searchApolloCompany } from '../api';
 import './AdminDashboard.css';
 

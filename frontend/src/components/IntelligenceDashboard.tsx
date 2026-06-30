@@ -239,7 +239,7 @@ export default function IntelligenceDashboard() {
     if (!text) return <span style={{ color: 'var(--text-muted)' }}>Not extracted</span>;
     
     if (!verifyMode) {
-      return <ReactMarkdown className="markdown-content">{text}</ReactMarkdown>;
+      return <div className="markdown-content"><ReactMarkdown>{text}</ReactMarkdown></div>;
     }
     
     // Simple heuristic to highlight common medical terms as "verified"
@@ -381,7 +381,7 @@ export default function IntelligenceDashboard() {
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                style={{ background: 'none', border: '1px solid var(--color-border)', padding: '0.4rem', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', background: isFilterOpen ? 'var(--color-primary-light)' : 'transparent' }}
+                style={{ border: '1px solid var(--color-border)', padding: '0.4rem', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', background: isFilterOpen ? 'var(--color-primary-light)' : 'transparent' }}
                 title="Filter & Sort"
               >
                 <Filter size={16} />
@@ -443,7 +443,7 @@ export default function IntelligenceDashboard() {
                       <div style={{ fontWeight: 600, fontSize: '1rem', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>
                         {label.drug_name}
                         {label.black_box_warnings && label.black_box_warnings.length > 5 && (
-                          <AlertCircle size={14} color="#ef4444" style={{ marginLeft: '6px', verticalAlign: 'middle' }} title="Has Boxed Warning" />
+                          <span title="Has Boxed Warning"><AlertCircle size={14} color="#ef4444" style={{ marginLeft: '6px', verticalAlign: 'middle' }} /></span>
                         )}
                       </div>
                       <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{label.generic_name || 'Generic N/A'}</div>
