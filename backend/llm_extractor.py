@@ -19,9 +19,9 @@ def extract_drug_intelligence(pdf_text: str, chunks: dict) -> Dict[str, Any]:
     context_text = ""
     if chunks:
         for k, v in chunks.items():
-            context_text += f"\n--- {k.upper()} ---\n{v[:8000]}\n" # Cap chunk sizes
+            context_text += f"\n--- {k.upper()} ---\n{v[:20000]}\n" # Cap chunk sizes to allow full info
     else:
-        context_text = pdf_text[:30000]
+        context_text = pdf_text[:60000]
         
     print(f"Context text length: {len(context_text)}")
 
@@ -33,15 +33,14 @@ Fields to extract:
 - "drug_name": The brand or product name of the drug.
 - "generic_name": The generic name.
 - "sponsor": The company or manufacturer.
-- "approval_date": Initial US approval date (e.g. "2020").
-- "indications": A concise summary of approved indications.
-- "dosage": Recommended dosage summary.
-- "adverse_reactions": Most common adverse reactions.
-- "efficacy_data": Key efficacy endpoints (e.g. ORR, PFS, OS).
-- "moa": Mechanism of action.
+- "indications": A comprehensive section containing a short executive summary followed by detailed indications and usage, patient populations, and limitations of use. Format the response beautifully using Markdown with proper headings (###), bullet points for lists, and **bold** text for important keywords or conditions. Extract the full details end-to-end.
+- "dosage": Recommended dosage summary. Format beautifully using Markdown with bullet points and bold text for crucial dosages or warnings.
+- "adverse_reactions": Most common adverse reactions. Format using Markdown bullet points.
+- "efficacy_data": Key efficacy endpoints (e.g. ORR, PFS, OS). Format using Markdown bullet points and bold headers.
+- "moa": Mechanism of action. Format using Markdown.
 - "biomarkers": Required or relevant biomarkers for use.
 - "line_of_therapy": First-line, second-line, etc.
-- "black_box_warnings": Any black box warnings. If none, say "None".
+- "black_box_warnings": Any black box warnings. If none, say "None". If present, format using Markdown with **bold text** to highlight severe risks.
 
 Document Context:
 {context_text}

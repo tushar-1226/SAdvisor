@@ -12,13 +12,15 @@ SAdvisor is a comprehensive Clinical Intelligence Tool designed to provide orche
 ## Tech Stack
 
 ### Frontend
+
 - **Framework**: React 19 + TypeScript + Vite
 - **Styling/Icons**: `lucide-react`
 - **Data Parsing**: `xlsx` for client-side Excel file processing
 
 ### Backend
+
 - **Framework**: FastAPI (Python)
-- **Data Sources / Integrations**: 
+- **Data Sources / Integrations**:
   - ClinicalTrials.gov
   - PubMed (NCBI)
   - PubChem
@@ -29,6 +31,7 @@ SAdvisor is a comprehensive Clinical Intelligence Tool designed to provide orche
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js
 - Python 3.x
 

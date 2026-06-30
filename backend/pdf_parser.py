@@ -10,11 +10,11 @@ def extract_pdf_text_from_bytes(file_bytes: bytes) -> str:
     return text
 
 def extract_section(text: str, start_marker: str, end_marker: str) -> str:
-    """Attempt to extract a section using regex."""
+    """Attempt to extract a section using regex. If multiple are found, returns the longest one."""
     pattern = rf"{start_marker}(.*?){end_marker}"
-    match = re.search(pattern, text, re.S | re.I)
-    if match:
-        return match.group(1).strip()
+    matches = re.findall(pattern, text, re.S | re.I)
+    if matches:
+        return max([m.strip() for m in matches], key=len)
     return ""
 
 def get_label_chunks(full_text: str) -> dict:
